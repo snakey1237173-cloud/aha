@@ -1275,7 +1275,7 @@ workspace.CurrentRooms.ChildAdded:Connect(function()
 		local co = coroutine.create(function()
 			while Running do
 
-				task.wait(0.25)
+				task.wait(1)
 				local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-HighlightPart.Position).Magnitude)
 				Studs.Text = "["..tostring(Distance).."]"
 			end
