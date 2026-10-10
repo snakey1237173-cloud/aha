@@ -1202,10 +1202,12 @@ local loadsucc, loaderr = pcall(function()
 				if InstaInteractEnabled == true then
 
 					des.HoldDuration = 0
+					des.RequiresLineOfSight = false
 
 				else
 
 					des.HoldDuration = oldDuration
+					des.RequiresLineOfSight = true
 
 				end
 
@@ -1386,6 +1388,74 @@ local loadsucc, loaderr = pcall(function()
 
 
 			elseif Thing.Name == "LeverForGate" then
+
+				if Thing:FindFirstChild("Highlight") then continue end
+
+				local Highlight = Instance.new("Highlight",Thing)
+				Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				Highlight.FillColor = Color3.fromRGB(0, 255, 0)
+				Highlight.FillTransparency = 0.75
+				Highlight.OutlineTransparency = 0.25
+				Highlight.OutlineColor = Color3.fromRGB(0, 111, 17)
+
+				local BillboardGui = Instance.new("BillboardGui")
+				BillboardGui.Parent = Thing
+				BillboardGui.Size = UDim2.fromScale(2,1)
+				BillboardGui.AlwaysOnTop = true
+				BillboardGui.ClipsDescendants = false
+
+				local Text = Instance.new("TextLabel")
+				Text.Parent = BillboardGui
+				Text.Size = UDim2.fromScale(1,0.75)
+				Text.BackgroundTransparency = 1
+				Text.BorderSizePixel = 0
+				Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Text.BorderColor3 = Color3.fromRGB(0, 113, 170)
+				Text.Text = "Lever"
+				Text.TextScaled = true
+				Text.Font = Enum.Font.Highway
+
+				local Studs = Instance.new("TextLabel")
+				Studs.Parent = BillboardGui
+				Studs.Size = UDim2.fromScale(1,0.5)
+				Studs.Position = UDim2.fromScale(0,0.75)
+				Studs.BackgroundTransparency = 1
+				Studs.BorderSizePixel = 0
+				Studs.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Studs.BorderColor3 = Color3.fromRGB(0, 113, 170)
+				Studs.Text = "30"
+				Studs.TextScaled = true
+				Studs.Font = Enum.Font.Highway
+
+				local Running = true
+				local co = coroutine.create(function()
+
+					while Running do
+
+						task.wait(1)
+						local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+						Studs.Text = "["..tostring(Distance).."]"
+					end
+
+				end)
+				coroutine.resume(co)
+
+				Thing.Destroying:Connect(function()
+
+					Running = false
+
+				end)
+
+				local SizeConstraint = Instance.new("UITextSizeConstraint")
+				SizeConstraint.Parent = Text
+				SizeConstraint.MaxTextSize = 1
+
+				local UiStroke = Instance.new("UIStroke")
+				UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+				UiStroke.Color = Color3.fromRGB(0, 0, 0)
+				UiStroke.Thickness = 1
+
+			elseif Thing.Name == "TimerLever" then
 
 				if Thing:FindFirstChild("Highlight") then continue end
 
