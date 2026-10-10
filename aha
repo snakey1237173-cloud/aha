@@ -930,6 +930,8 @@ ESP = function()
 		PlayNotificationGood("ESP enabled")
 
 	elseif ESPenabled == false then
+		
+		ESPMal()
 
 		PlayNotificationBad("ESP disabled")
 
@@ -1111,7 +1113,7 @@ for i = 1, 3  do
 
 	if i == 1 then
 
-		CreateInputTemplate("WalkSpeed","HumProp",20)
+		CreateInputTemplate("WalkSpeed","HumProp",100)
 
 	elseif i == 2 then
 
@@ -1206,10 +1208,17 @@ workspace.DescendantAdded:Connect(function(des)
 		end
 
 	end
+	if des.name == "Screech" then des:Destroy() end
 
 end)
 
 workspace.CurrentRooms.ChildAdded:Connect(function()
+	
+	ESPMal()
+	
+end)
+
+function ESPMal()
 
 	if not ESPenabled then return end
 
@@ -1275,7 +1284,7 @@ workspace.CurrentRooms.ChildAdded:Connect(function()
 		local co = coroutine.create(function()
 			while Running do
 
-				task.wait(1)
+				task.wait(0.25)
 				local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-HighlightPart.Position).Magnitude)
 				Studs.Text = "["..tostring(Distance).."]"
 			end
@@ -2444,4 +2453,26 @@ workspace.CurrentRooms.ChildAdded:Connect(function()
 
 	end
 
+end
+
+local Loop = coroutine.create(function()
+	
+	while task.wait(20) do
+	
+	for _, sound in game:GetDescendants() do
+
+		if sound:IsA("Sound") and sound.Name == "Jam" then
+
+			sound:Destroy()
+
+		elseif sound:IsA("EqualizerSoundEffect") and sound.Name == "Jamming" then
+
+			sound:Destroy()
+
+		end
+	end
+	
+	end
 end)
+
+coroutine.resume(Loop)
