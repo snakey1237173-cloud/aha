@@ -1519,6 +1519,12 @@ local loadsucc, loaderr = pcall(function()
 			Sound.Volume = 0
 			local Tween = game:GetService("TweenService"):Create(Sound,TweenInfo.new(15,Enum.EasingStyle.Circular),{Volume = 0.5})
 			Tween:Play()
+			
+			if math.sign(oldAttribute-character:GetAttribute("Oxygen")) == -1 then
+				
+				Sound:Destroy()
+				
+			end
 
 			Done = true
 
