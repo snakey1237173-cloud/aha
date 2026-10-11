@@ -1583,9 +1583,9 @@ local loadsucc, loaderr = pcall(function()
 			Input = TpDown,
 
 		},
-		["Q"] = {
+		["T"] = {
 
-			KeyCode = Enum.KeyCode.Q,
+			KeyCode = Enum.KeyCode.T,
 			Input = TpForward,
 
 		},
