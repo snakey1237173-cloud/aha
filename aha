@@ -785,11 +785,9 @@ local loadsucc, loaderr = pcall(function()
 
 	CreateInputTemplate = function(ChangerNameString :string, TemplateType :string, limit :number?, defaultKey)
 
-		if humanoid[ChangerNameString] == nil then return end
-
 		local newTemplate = InputTemplate:Clone()
 		newTemplate.ChangerName.Text = ChangerNameString
-		newTemplate.Input.PlaceholderText = `Input {typeof(humanoid[ChangerNameString])}`
+		newTemplate.Input.PlaceholderText = `Input`
 		newTemplate.Key.Text = defaultKey or ""
 		newTemplate.Parent = ScrollingHolderHumChanges
 
@@ -3195,6 +3193,6 @@ else
 	local LoadTime = LastTime - FirstTime
 
 	warn("keine exploits für dich")
-	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s! Reason: {loaderr}`)
+	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s!                                                   Reason: {loaderr}`)
 
 end  
