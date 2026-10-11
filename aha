@@ -2,7 +2,7 @@ local FirstTime = os.clock()
 
 local loadsucc, loaderr = pcall(function()
 
-	warn("// 🔄️ Trying to load ahaGUI... //")
+	warn("// 🔄️ Trying to load ahaGUI... //"
 
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local UserInputService = game:GetService("UserInputService")
