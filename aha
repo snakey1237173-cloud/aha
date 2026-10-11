@@ -1418,10 +1418,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 4 then
 
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
-			
+
 		elseif i == 5 then
-			
-			
+
+
 
 		end
 
@@ -1477,7 +1477,7 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end)
-	
+
 	local LastTime = nil
 	local LastTimes = {}
 	local count = 0
@@ -1505,7 +1505,7 @@ local loadsucc, loaderr = pcall(function()
 
 			local TimeBetweenOxygen = val/#LastTimes
 
-			start = 11.83 *(oldAttribute-char:GetAttribute("Oxygen"))/ TimeBetweenOxygen
+			start = 11.83 *(oldAttribute-character:GetAttribute("Oxygen"))/ TimeBetweenOxygen
 
 
 		elseif count >= 100-start and Done == false then
@@ -1522,7 +1522,7 @@ local loadsucc, loaderr = pcall(function()
 
 			Done = true
 
-		elseif char:GetAttribute("Oxygen") >= 100 then
+		elseif character:GetAttribute("Oxygen") >= 100 then
 
 			LastTime = nil
 			LastTimes = {}
@@ -1541,8 +1541,8 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
-		count += oldAttribute-char:GetAttribute("Oxygen")
-		oldAttribute = char:GetAttribute("Oxygen")
+		count += oldAttribute-character:GetAttribute("Oxygen")
+		oldAttribute = character:GetAttribute("Oxygen")
 
 	end)
 
