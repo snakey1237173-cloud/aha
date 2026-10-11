@@ -1272,7 +1272,7 @@ local loadsucc, loaderr = pcall(function()
 		game.Debris:AddItem(attachment, 0.1)
 
 	end
-	
+
 	ahhhhhhhhZERSTOERUNG = function(frame :Frame)
 
 		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
@@ -1280,12 +1280,24 @@ local loadsucc, loaderr = pcall(function()
 		char.Humanoid.HipHeight = -5
 
 	end
-	
+
 	tot = function()
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		char.Humanoid.Health = 0
+
+	end
+	
+	ehm = function()
 		
 		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 		
-		char.Humanoid.Health = 0
+		for _, child in char.HumanoidRootPart:GetChildren() do
+			
+			child:Destroy()			
+			
+		end
 		
 	end
 
@@ -1412,7 +1424,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 3 do
+	for i = 1, 5 do
 
 		if i == 1 then
 
@@ -1421,14 +1433,18 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 2 then
 
 			CreateTriggerTemplate("Fling", ScrollingHolderFunny, "", fling)
-			
+
 		elseif i == 3 then
-			
+
 			CreateTriggerTemplate("AHHHHHHHHZERSTÖRIMG", ScrollingHolderFunny, "", ahhhhhhhhZERSTOERUNG)
-			
+
 		elseif i == 4 then
-			
+
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
+			
+		elseif i == 5 then 
+			
+			CreateTriggerTemplate("ehm", ScrollingHolderFunny, "", ehm)
 
 		end
 
