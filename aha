@@ -74,14 +74,6 @@ local loadsucc, loaderr = pcall(function()
 	ScrollingHolderFunny.CanvasSize = UDim2.new(0,0,0,0)
 	ScrollingHolderFunny.ScrollBarImageTransparency = 1
 
-	local HotkeyScrolling = Instance.new("ScrollingFrame", HotkeysFrame)
-	HotkeyScrolling.BackgroundTransparency = 1
-	HotkeyScrolling.Size = UDim2.fromScale(1,1)
-	HotkeyScrolling.Position = UDim2.fromScale(0,0)
-	HotkeyScrolling.BorderSizePixel = 0
-	HotkeyScrolling.AutomaticCanvasSize = Enum.AutomaticSize.Y
-	HotkeyScrolling.CanvasSize = UDim2.new(0,0,0,0)
-
 	local UiListLayout1 = Instance.new("UIListLayout", ScrollingHolderHumChanges)
 
 	local UiListLayout2 = Instance.new("UIListLayout", ScrollingHolderDoorsCheats)
@@ -89,9 +81,6 @@ local loadsucc, loaderr = pcall(function()
 	local UiListLayout3 = Instance.new("UIListLayout", ScrollingHolderFunny)
 
 	local UiListLayout4 = Instance.new("UIListLayout", ScrollingHolderOtherHotkeys)
-
-	local UiListLayout5 = Instance.new("UIListLayout", HotkeyScrolling)
-	UiListLayout5.Padding = UDim.new(0.025, 0)
 
 	local newStroke = UIStroke:Clone()
 	newStroke.Parent = ScrollingHolderHumChanges
@@ -1289,39 +1278,6 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	ehm = function()
-
-		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
-
-		char.LeftUpperLeg.CanCollide = true
-		char.LeftUpperArm.CanCollide = true
-		char.RightUpperLeg.CanCollide = true
-		char.RightUpperArm.CanCollide = true
-		char.LeftLowerLeg.CanCollide = true
-		char.LeftLowerArm.CanCollide = true
-		char.RightLowerLeg.CanCollide = true
-		char.RightLowerArm.CanCollide = true
-		char.LeftHand.CanCollide = true
-		char.RightHand.CanCollide = true
-		char.RightFoot.CanCollide = true
-		char.LeftFoot.CanCollide = true
-
-		char.HumanoidRootPart:ClearAllChildren()
-		char.LeftUpperLeg:ClearAllChildren()
-		char.LeftUpperArm:ClearAllChildren()
-		char.RightUpperLeg:ClearAllChildren()
-		char.RightUpperArm:ClearAllChildren()
-		char.LeftLowerLeg:ClearAllChildren()
-		char.LeftLowerArm:ClearAllChildren()
-		char.RightLowerLeg:ClearAllChildren()
-		char.RightLowerArm:ClearAllChildren()
-		char.LeftHand:ClearAllChildren()
-		char.RightHand:ClearAllChildren()
-		char.RightFoot:ClearAllChildren()
-		char.LeftFoot:ClearAllChildren()
-
-	end
-
 	local defaultKeyCodes = {
 
 		["F"] = {
@@ -1462,10 +1418,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 4 then
 
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
-
-		elseif i == 5 then 
-
-			CreateTriggerTemplate("ehm", ScrollingHolderFunny, "", ehm)
+			
+		elseif i == 5 then
+			
+			
 
 		end
 
@@ -1521,7 +1477,74 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end)
+	
+	local LastTime = nil
+	local LastTimes = {}
+	local count = 0
+	local start = -1
+	local oldAttribute = 100
+	local Done = false
 
+	character.AttributeChanged:Connect(function(Attribute)
+
+		if Attribute ~= "Oxygen" then return end
+
+		if not LastTime then
+
+			LastTime = os.clock()
+
+		elseif count >= 10 and start == -1 then
+
+			local val = 0
+
+			for _, add in LastTimes do
+
+				val += add
+
+			end
+
+			local TimeBetweenOxygen = val/#LastTimes
+
+			start = 11.83 *(oldAttribute-char:GetAttribute("Oxygen"))/ TimeBetweenOxygen
+
+
+		elseif count >= 100-start and Done == false then
+
+			local Sound = Instance.new("Sound")
+			Sound.Parent = game.SoundService
+			Sound.PlaybackSpeed = 0.1
+			Sound.SoundId = "rbxassetid://126233403738041"
+			Sound:Play()
+
+			Sound.Volume = 0
+			local Tween = game:GetService("TweenService"):Create(Sound,TweenInfo.new(15,Enum.EasingStyle.Circular),{Volume = 0.5})
+			Tween:Play()
+
+			Done = true
+
+		elseif char:GetAttribute("Oxygen") >= 100 then
+
+			LastTime = nil
+			LastTimes = {}
+			count = 0
+			start = -1
+			oldAttribute = 100
+			Done = false
+
+			return
+
+		else
+
+			table.insert(LastTimes,os.clock()-LastTime)
+
+			LastTime = os.clock()
+
+		end
+
+		count += oldAttribute-char:GetAttribute("Oxygen")
+		oldAttribute = char:GetAttribute("Oxygen")
+
+	end)
 
 
 	function ESPMalRoom(Room :Model)
