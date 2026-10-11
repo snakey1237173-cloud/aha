@@ -1292,7 +1292,7 @@ local loadsucc, loaderr = pcall(function()
 	ehm = function()
 
 		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
-		
+
 		char.LeftUpperLeg.CanCollide = true
 		char.LeftUpperArm.CanCollide = true
 		char.RightUpperLeg.CanCollide = true
@@ -1305,8 +1305,7 @@ local loadsucc, loaderr = pcall(function()
 		char.RightHand.CanCollide = true
 		char.RightFoot.CanCollide = true
 		char.LeftFoot.CanCollide = true
-		char.LowerTorso.CanCollide = true
-	
+
 		char.HumanoidRootPart:ClearAllChildren()
 		char.LeftUpperLeg:ClearAllChildren()
 		char.LeftUpperArm:ClearAllChildren()
@@ -1320,9 +1319,6 @@ local loadsucc, loaderr = pcall(function()
 		char.RightHand:ClearAllChildren()
 		char.RightFoot:ClearAllChildren()
 		char.LeftFoot:ClearAllChildren()
-		char.LowerTorso:ClearAllChildren()
-		
-		
 
 	end
 
