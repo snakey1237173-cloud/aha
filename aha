@@ -165,7 +165,7 @@ local loadsucc, loaderr = pcall(function()
 	local InputTemplate = Instance.new("Frame", ReplicatedStorage)
 	InputTemplate.Size = UDim2.fromScale(0.9,0.21)
 	InputTemplate.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	InputTemplate.BackgroundTransparency = 0
+	InputTemplate.BackgroundTransparency = 1
 	InputTemplate.BorderSizePixel = 0
 	InputTemplate.Name = "InputTemplate"
 	local Trigger = Instance.new("ImageButton", InputTemplate)
@@ -215,7 +215,7 @@ local loadsucc, loaderr = pcall(function()
 	local TriggerTemplate = Instance.new("Frame", ReplicatedStorage)
 	TriggerTemplate.Size = UDim2.fromScale(0.9,0.21)
 	TriggerTemplate.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	TriggerTemplate.BackgroundTransparency = 0
+	TriggerTemplate.BackgroundTransparency = 1
 	TriggerTemplate.BorderSizePixel = 0
 	TriggerTemplate.Name = "TriggerTemplate"
 	local Trigger2 = Instance.new("ImageButton", TriggerTemplate)
@@ -253,7 +253,7 @@ local loadsucc, loaderr = pcall(function()
 	local KeyCodeTemplate = Instance.new("Frame", ReplicatedStorage)
 	KeyCodeTemplate.Size = UDim2.fromScale(0.9,0.21)
 	KeyCodeTemplate.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	KeyCodeTemplate.BackgroundTransparency = 0
+	KeyCodeTemplate.BackgroundTransparency = 1
 	KeyCodeTemplate.BorderSizePixel = 0
 	KeyCodeTemplate.Name = "KeyCodeTemplate"
 	local Key3 = Instance.new("TextBox", KeyCodeTemplate)
@@ -1272,6 +1272,22 @@ local loadsucc, loaderr = pcall(function()
 		game.Debris:AddItem(attachment, 0.1)
 
 	end
+	
+	ahhhhhhhhZERSTOERUNG = function(frame :Frame)
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		char.Humanoid.HipHeight = -5
+
+	end
+	
+	tot = function()
+		
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+		
+		char.Humanoid.Health = 0
+		
+	end
 
 	local defaultKeyCodes = {
 
@@ -1396,7 +1412,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 2 do
+	for i = 1, 3 do
 
 		if i == 1 then
 
@@ -1405,6 +1421,14 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 2 then
 
 			CreateTriggerTemplate("Fling", ScrollingHolderFunny, "", fling)
+			
+		elseif i == 3 then
+			
+			CreateTriggerTemplate("AHHHHHHHHZERSTÖRIMG", ScrollingHolderFunny, "", ahhhhhhhhZERSTOERUNG)
+			
+		elseif i == 4 then
+			
+			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
 
 		end
 
