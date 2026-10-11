@@ -36,6 +36,7 @@ local loadsucc, loaderr = pcall(function()
 	MainFrame.BorderSizePixel = 1
 	MainFrame.BorderColor3 = Color3.new(1, 1, 1)
 	MainFrame.Visible = false
+	MainFrame.ZIndex = -1000000000
 
 	local ScrollingHolderHumChanges = Instance.new("ScrollingFrame", MainFrame)
 	ScrollingHolderHumChanges.BackgroundTransparency = 1
@@ -55,30 +56,23 @@ local loadsucc, loaderr = pcall(function()
 	ScrollingHolderDoorsCheats.CanvasSize = UDim2.new(0,0,0,0)
 	ScrollingHolderDoorsCheats.ScrollBarImageTransparency = 1
 
-	local ScrollingHolderFunny = Instance.new("ScrollingFrame", MainFrame)
-	ScrollingHolderFunny.BackgroundTransparency = 1
-	ScrollingHolderFunny.Size = UDim2.fromScale(0.21,0.761)
-	ScrollingHolderFunny.Position = UDim2.fromScale(0.598,0.203)
-	ScrollingHolderFunny.BorderSizePixel = 0
-	ScrollingHolderFunny.AutomaticCanvasSize = Enum.AutomaticSize.Y
-	ScrollingHolderFunny.CanvasSize = UDim2.new(0,0,0,0)
-	ScrollingHolderFunny.ScrollBarImageTransparency = 1
-
 	local ScrollingHolderOtherHotkeys = Instance.new("ScrollingFrame", MainFrame)
 	ScrollingHolderOtherHotkeys.BackgroundTransparency = 1
-	ScrollingHolderOtherHotkeys.Size = UDim2.fromScale(0.143,0.761)
-	ScrollingHolderOtherHotkeys.Position = UDim2.fromScale(0.842,0.203)
+	ScrollingHolderOtherHotkeys.Size = UDim2.fromScale(0.21,0.761) -- 0.143,0.761
+	ScrollingHolderOtherHotkeys.Position = UDim2.fromScale(0.598,0.203) -- 0.842,0.203
 	ScrollingHolderOtherHotkeys.BorderSizePixel = 0
 	ScrollingHolderOtherHotkeys.AutomaticCanvasSize = Enum.AutomaticSize.Y
 	ScrollingHolderOtherHotkeys.CanvasSize = UDim2.new(0,0,0,0)
 	ScrollingHolderOtherHotkeys.ScrollBarImageTransparency = 1
 
-	local HotkeysFrame = Instance.new("Frame", MainFrame)
-	HotkeysFrame.Size = UDim2.fromScale(0.127,1)
-	HotkeysFrame.BorderSizePixel = 1
-	HotkeysFrame.Position = UDim2.fromScale(-0.141,0)
-	HotkeysFrame.BorderColor3 = Color3.new(1, 1, 1)
-	HotkeysFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+	local ScrollingHolderFunny = Instance.new("ScrollingFrame", MainFrame)
+	ScrollingHolderFunny.BackgroundTransparency = 1
+	ScrollingHolderFunny.Size = UDim2.fromScale(0.143,0.761) -- 0.21,0.761
+	ScrollingHolderFunny.Position = UDim2.fromScale(0.842,0.203) -- 0.598,0.203
+	ScrollingHolderFunny.BorderSizePixel = 0
+	ScrollingHolderFunny.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	ScrollingHolderFunny.CanvasSize = UDim2.new(0,0,0,0)
+	ScrollingHolderFunny.ScrollBarImageTransparency = 1
 
 	local HotkeyScrolling = Instance.new("ScrollingFrame", HotkeysFrame)
 	HotkeyScrolling.BackgroundTransparency = 1
@@ -126,6 +120,15 @@ local loadsucc, loaderr = pcall(function()
 	TextLabelHum.TextXAlignment = Enum.TextXAlignment.Left
 	TextLabelHum.Font = Enum.Font.Montserrat
 
+	local FunnyImage = Instance.new("ImageLabel", MainFrame)	
+	FunnyImage.Size = UDim2.fromScale(1,1)
+	FunnyImage.BackgroundTransparency = 1
+	FunnyImage.ImageTransparency = 0.7
+	FunnyImage.AnchorPoint = Vector2.new(0.5,0.5)
+	FunnyImage.Position = UDim2.fromScale(0.5,0.5)
+	FunnyImage.ZIndex = -12
+	FunnyImage.ScaleType = Enum.ScaleType.Fit
+
 	local TextLabelDoorsCheats = Instance.new("TextLabel", MainFrame)
 	TextLabelDoorsCheats.BorderSizePixel = 0
 	TextLabelDoorsCheats.BackgroundTransparency = 1
@@ -137,27 +140,27 @@ local loadsucc, loaderr = pcall(function()
 	TextLabelDoorsCheats.TextXAlignment = Enum.TextXAlignment.Left
 	TextLabelDoorsCheats.Font = Enum.Font.Montserrat
 
-	local TextLabelFunny = Instance.new("TextLabel", MainFrame)
-	TextLabelFunny.BorderSizePixel = 0
-	TextLabelFunny.BackgroundTransparency = 1
-	TextLabelFunny.Size = UDim2.fromScale(0.21,0.042)
-	TextLabelFunny.Position = UDim2.fromScale(0.598,0.143)
-	TextLabelFunny.Text = "Funny"
-	TextLabelFunny.TextScaled = true
-	TextLabelFunny.TextColor3 = Color3.fromRGB(0, 255, 0)
-	TextLabelFunny.TextXAlignment = Enum.TextXAlignment.Left
-	TextLabelFunny.Font = Enum.Font.Montserrat
-
 	local TextLabelOther = Instance.new("TextLabel", MainFrame)
 	TextLabelOther.BorderSizePixel = 0
 	TextLabelOther.BackgroundTransparency = 1
-	TextLabelOther.Size = UDim2.fromScale(0.143,0.042)
-	TextLabelOther.Position = UDim2.fromScale(0.84,0.143)
+	TextLabelOther.Size = UDim2.fromScale(0.21,0.042) -- 0.143,0.042
+	TextLabelOther.Position = UDim2.fromScale(0.598,0.143) -- 0.84,0.143
 	TextLabelOther.Text = "Other Hotkeys"
 	TextLabelOther.TextScaled = true
 	TextLabelOther.TextColor3 = Color3.fromRGB(0, 85, 255)
 	TextLabelOther.TextXAlignment = Enum.TextXAlignment.Left
 	TextLabelOther.Font = Enum.Font.Montserrat
+
+	local TextLabelFunny = Instance.new("TextLabel", MainFrame)
+	TextLabelFunny.BorderSizePixel = 0
+	TextLabelFunny.BackgroundTransparency = 1
+	TextLabelFunny.Size = UDim2.fromScale(0.143,0.042) -- 0.21,0.042
+	TextLabelFunny.Position = UDim2.fromScale(0.84,0.143) -- 0.598,0.143
+	TextLabelFunny.Text = "Funny"
+	TextLabelFunny.TextScaled = true
+	TextLabelFunny.TextColor3 = Color3.fromRGB(0, 255, 0)
+	TextLabelFunny.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabelFunny.Font = Enum.Font.Montserrat
 
 	local InputTemplate = Instance.new("Frame", ReplicatedStorage)
 	InputTemplate.Size = UDim2.fromScale(0.9,0.21)
@@ -550,10 +553,12 @@ local loadsucc, loaderr = pcall(function()
 	if player.UserId == 5037267735 or player.UserId == 3259425964 then
 
 		OpenButton.Image = "rbxassetid://298633257"
+		FunnyImage.Image = "rbxassetid://6280332777"
 
 	else
 
 		OpenButton.Image = "rbxassetid://8073107221"
+		FunnyImage.Image = "rbxassetid://8073107221"
 
 	end
 
@@ -760,53 +765,6 @@ local loadsucc, loaderr = pcall(function()
 
 	local currentSpeedSetFunc = nil
 
-	HumanoidSetFunction = function(propertyName :string, value :any, limit :number)
-
-		if not humanoid then return end
-		if humanoid[propertyName] == nil then return end
-		if not value then return end
-
-		value = tonumber(value)
-
-		if limit then
-
-			if value > limit then
-
-				value = limit
-
-			end
-
-		end
-
-		if currentSpeedSetFunc ~= nil then
-
-			coroutine.close(currentSpeedSetFunc)
-			currentSpeedSetFunc = nil
-
-		end
-
-		if propertyName == "WalkSpeed" then
-
-			currentSpeedSetFunc = coroutine.create(function()
-
-				while task.wait() do
-
-					humanoid[propertyName] = value
-
-				end
-
-			end)
-
-			coroutine.resume(currentSpeedSetFunc)
-
-		else
-
-			humanoid[propertyName] = value
-
-		end
-
-	end
-
 	SetupKeyCodes = function()
 
 		for _, gottenKey in Enum.KeyCode:GetEnumItems() do
@@ -822,17 +780,6 @@ local loadsucc, loaderr = pcall(function()
 				}
 
 			end
-
-		end
-
-		for name, key in keyCodes do
-
-			local label = Instance.new("TextLabel", HotkeyScrolling)
-			label.Text = name
-			label.Size = UDim2.fromScale(0.9,0.058)
-			label.TextColor3 = Color3.new(1, 1, 1)
-			label.TextScaled = true
-			label.BackgroundTransparency = 1
 
 		end
 
@@ -909,14 +856,16 @@ local loadsucc, loaderr = pcall(function()
 
 				keyCodes[setKey].Input = function()
 
-					if TemplateType == "HumProp" then
+					if ChangerNameString == "Speed" then
+						
+						local charr = player.Character or player.CharacterAdded:Wait()
 
-						HumanoidSetFunction(ChangerNameString, newTemplate.Input.Text, limit)
+						if charr:GetAttribute("SpeedBoost") then
 
-					else
+							charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
-
-
+						end
+						
 					end
 
 				end
@@ -941,14 +890,16 @@ local loadsucc, loaderr = pcall(function()
 					if typeof(humanoid[ChangerNameString]) ~= typeof(tonumber(newTemplate.Input.Text)) then return end
 
 				end
-				if TemplateType == "HumProp" then
+				if ChangerNameString == "Speed" then
+					
+					local charr = player.Character or player.CharacterAdded:Wait()
 
-					HumanoidSetFunction(ChangerNameString, newTemplate.Input.Text, limit)
+					if charr:GetAttribute("SpeedBoost") then
 
-				else
+						charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
-
-
+					end
+					
 				end
 
 			end)
@@ -1309,14 +1260,26 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
-		illegalOPText.Text = "Now you will die."
+		illegalOPText.Text = "Now you are in hell."
 		illegalOPText.Font = Enum.Font.Creepster
 		illegalOPText.TextColor3 = Color3.new(1, 0, 0)
 
-		task.wait(3)
+	end
+	
+	fling = function()
+		
+		local rootPart = character:FindFirstChild("HumanoidRootPart") :: BasePart
+		if not rootPart then return end
 
-		player.Character.Humanoid.Health = 0
+		local attachment = Instance.new("Attachment", rootPart)
+		local linearVelocity = Instance.new("LinearVelocity", attachment)
 
+		linearVelocity.MaxForce = 999999
+		linearVelocity.VectorVelocity = Vector3.new(math.random(-100,100), math.random(-100,100), math.random(-100,100))
+		linearVelocity.Attachment0 = attachment
+
+		game.Debris:AddItem(attachment, 0.1)
+		
 	end
 
 	local defaultKeyCodes = {
@@ -1406,15 +1369,7 @@ local loadsucc, loaderr = pcall(function()
 
 		if i == 1 then
 
-			CreateInputTemplate("WalkSpeed","HumProp",100)
-
-		elseif i == 2 then
-
-			CreateInputTemplate("JumpPower","HumProp",100)
-
-		elseif i == 3 then
-
-			CreateInputTemplate("HipHeight","HumProp",26)
+			CreateInputTemplate("Speed","HumProp",100)
 
 		end
 
