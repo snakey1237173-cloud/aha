@@ -1484,6 +1484,7 @@ local loadsucc, loaderr = pcall(function()
 	local start = -1
 	local oldAttribute = 100
 	local Done = false
+	local SSound
 
 	character.AttributeChanged:Connect(function(Attribute)
 
@@ -1515,16 +1516,11 @@ local loadsucc, loaderr = pcall(function()
 			Sound.PlaybackSpeed = 0.1
 			Sound.SoundId = "rbxassetid://126233403738041"
 			Sound:Play()
+			SSound = Sound
 
 			Sound.Volume = 0
 			local Tween = game:GetService("TweenService"):Create(Sound,TweenInfo.new(15,Enum.EasingStyle.Circular),{Volume = 0.5})
 			Tween:Play()
-			
-			if math.sign(oldAttribute-character:GetAttribute("Oxygen")) == -1 then
-				
-				Sound:Destroy()
-				
-			end
 
 			Done = true
 
@@ -1536,8 +1532,19 @@ local loadsucc, loaderr = pcall(function()
 			start = -1
 			oldAttribute = 100
 			Done = false
+			SSound = nil
 
 			return
+				
+		elseif math.sign(oldAttribute-character:GetAttribute("Oxygen")) == -1 and SSound then
+			
+			local Tween = game:GetService("TweenService"):Create(SSound,TweenInfo.new(1,Enum.EasingStyle.Linear),{Volume = 0})
+			Tween:Play()
+			Tween.Completed:Connect(function()
+			if SSound then
+			SSound:Destroy()
+			end
+			end)
 
 		else
 
