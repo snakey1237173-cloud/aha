@@ -1404,7 +1404,7 @@ local loadsucc, loaderr = pcall(function()
 
 		elseif i == 2 then
 
-			CreateKeyCodeTemplate("Fling", ScrollingHolderFunny, "", fling)
+			CreateTriggerTemplate("Fling", ScrollingHolderFunny, "", fling)
 
 		end
 
