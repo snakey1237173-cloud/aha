@@ -1499,7 +1499,7 @@ local loadsucc, loaderr = pcall(function()
 			while task.wait(0.5) do
 
 				if InLunge <= 10 then
-					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 2)
+					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 3)
 				end
 				
 				if InLunge > 30 then	
