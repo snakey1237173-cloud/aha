@@ -3195,6 +3195,6 @@ else
 	local LoadTime = LastTime - FirstTime
 
 	warn("keine exploits für dich")
-	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s`)
+	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s! Reason: {loaderr}`)
 
 end  
