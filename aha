@@ -1277,7 +1277,7 @@ local loadsucc, loaderr = pcall(function()
 
 		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 
-		char.Humanoid.HipHeight = -5
+		char.Humanoid.HipHeight = -10000000000
 
 	end
 
@@ -1288,17 +1288,17 @@ local loadsucc, loaderr = pcall(function()
 		char.Humanoid.Health = 0
 
 	end
-	
+
 	ehm = function()
-		
+
 		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
-		
-		for _, child in char.HumanoidRootPart:GetChildren() do
-			
-			child:Destroy()			
-			
-		end
-		
+
+		char.HumanoidRootPart:ClearAllChildren()
+		char.LeftUpperLeg:ClearAllChildren()
+		char.LeftUpperArm:ClearAllChildren()
+		char.RightUpperLeg:ClearAllChildren()
+		char.RightUpperArm:ClearAllChildren()
+
 	end
 
 	local defaultKeyCodes = {
@@ -1441,9 +1441,9 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 4 then
 
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
-			
+
 		elseif i == 5 then 
-			
+
 			CreateTriggerTemplate("ehm", ScrollingHolderFunny, "", ehm)
 
 		end
