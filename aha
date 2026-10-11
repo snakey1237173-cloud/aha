@@ -763,8 +763,6 @@ local loadsucc, loaderr = pcall(function()
 
 	end)
 
-	local currentSpeedSetFunc = nil
-
 	SetupKeyCodes = function()
 
 		for _, gottenKey in Enum.KeyCode:GetEnumItems() do
@@ -885,11 +883,6 @@ local loadsucc, loaderr = pcall(function()
 			local success, err = pcall(function()
 
 				if newTemplate.Input.Text == "" then return end
-				if limit then
-
-					if typeof(humanoid[ChangerNameString]) ~= typeof(tonumber(newTemplate.Input.Text)) then return end
-
-				end
 				if ChangerNameString == "Speed" then
 
 					local charr = player.Character or player.CharacterAdded:Wait()
@@ -1369,7 +1362,7 @@ local loadsucc, loaderr = pcall(function()
 
 		if i == 1 then
 
-			CreateInputTemplate("Speed","HumProp",100)
+			CreateInputTemplate("Speed","",100)
 
 		end
 
@@ -1410,9 +1403,9 @@ local loadsucc, loaderr = pcall(function()
 		if i == 1 then
 
 			CreateTriggerTemplate("Haleluhahaihahaaiaihai", ScrollingHolderFunny, "", haleluhahaahahaaiaiaahaha)
-			
+
 		elseif i == 2 then
-			
+
 			CreateKeyCodeTemplate("Fling", ScrollingHolderFunny, "", fling)
 
 		end
