@@ -18,6 +18,7 @@ local loadsucc, loaderr = pcall(function()
 	local playerGui = player.PlayerGui
 
 	local MainGui = Instance.new("ScreenGui", playerGui)
+	MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	MainGui.Name = "ahaGUI"
 	MainGui.IgnoreGuiInset = true
 	MainGui.ResetOnSpawn = false
@@ -1277,6 +1278,286 @@ local loadsucc, loaderr = pcall(function()
 		char.Humanoid.Health = 0
 
 	end
+	
+	clonearmy = function()
+		
+		local clonedChars = workspace:FindFirstChild("ClonedChars") or Instance.new("Folder", workspace)
+		clonedChars.Name = "ClonedChars"
+		
+		local function createClone(char)
+			
+			char.Archivable = true
+			local clone = char:Clone()
+			char.Archivable = false
+			
+			return clone
+			
+		end
+		
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+		
+		local takenPositions = {}
+		
+		local function getRandomPositionAroundThePlayer()
+			
+			local radius = 10
+			
+			local winkel = 15 * math.random(1,24)
+			
+			local XAdd = math.cos(math.rad(winkel))*radius
+			local ZAdd = math.sin(math.rad(winkel))*radius
+			
+			local charPos = char:GetPivot().Position
+			local Position = Vector3.new(charPos.X+XAdd,charPos.Y,charPos.Z+ZAdd)
+			
+			return Position
+			
+		end
+		
+		local function clonePlayer()
+			
+			if #clonedChars:GetChildren() >= 100 then
+				
+				PlayNotificationBad("Max Clones reached!")
+				return
+				
+			end
+			
+			local clone = createClone(char)
+			local hum = clone:FindFirstChild("Humanoid")
+			hum.HealthDisplayDistance = 0
+			hum.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+			for _, v in clone:GetDescendants() do
+
+				if v:IsA("BasePart") then
+
+					v.CanCollide = false
+					v.Anchored = true
+					v.Massless = true
+
+				end
+
+			end
+			
+			local pos = getRandomPositionAroundThePlayer()
+			
+			if table.find(takenPositions, pos) then
+				
+				clonePlayer()
+				return
+				
+			end
+			
+			if not table.find(takenPositions, pos) then
+
+				table.insert(takenPositions, pos)
+
+			end
+			
+			clone:PivotTo(CFrame.lookAt(pos,char:GetPivot().Position))
+			clone.Parent = clonedChars
+			
+			task.delay(30, function()
+				
+				for _, part in clone:GetDescendants() do
+					
+					if part:IsA("BasePart") then
+						
+						local fade = game.TweenService:Create(part, TweenInfo.new(0.5), {Transparency = 1})
+						fade:Play()
+						fade.Completed:Wait()
+						part:Destroy()
+						
+					end
+					
+				end
+				
+				table.remove(takenPositions, table.find(takenPositions, pos))
+				
+				clone:Destroy()
+				
+			end)
+			
+		end
+		
+		for i = 1, math.random(5, 15) do
+			
+			clonePlayer()
+			task.wait(0.25)
+
+		end
+		
+	end
+
+    local musicEnabled = false
+
+	music = function()
+		
+		local music = workspace:FindFirstChild("RAVE") or Instance.new("Sound",workspace)
+		music.Volume = 0.05
+		music.Name = "RAVE"
+		if player.UserId == 5037267735 or player.UserId == 3259425964 then
+
+			music.SoundId = "rbxassetid://5410086218"
+			
+		else
+			
+			music.SoundId = "rbxassetid://75852725594939"
+			
+		end
+		
+		music.Looped = true
+		
+		if musicEnabled then
+			
+			musicEnabled = false
+			music:Pause()
+			PlayNotificationBad("Music stopped")
+			
+		else
+			
+			musicEnabled = true
+			music:Resume()	
+			PlayNotificationGood("Music started")
+					
+			
+		end
+
+	end
+	
+	local AtmenEnabled = false
+	
+	atmenAn = function()
+		
+		if AtmenEnabled then return end
+		
+		AtmenEnabled = true
+
+		local NewFrame = Instance.new("Frame",MainGui)
+		NewFrame.Size = UDim2.fromScale(0.2,0.04)
+		NewFrame.AnchorPoint = Vector2.new(0,1)
+		NewFrame.Position = UDim2.fromScale(0.03,0.85)
+		NewFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+		NewFrame.BackgroundTransparency = 1
+		NewFrame.Name = "atme"
+		
+		local TextLabel = Instance.new("TextLabel",NewFrame)
+		TextLabel.AnchorPoint = Vector2.new(0.5,0.5)
+		TextLabel.Size = UDim2.fromScale(0.5,0.5)
+		TextLabel.Position = UDim2.fromScale(0.5,-0.5)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Text = "ATMEN: R"
+		TextLabel.TextColor3 = Color3.new(1, 1, 1)
+		TextLabel.TextScaled = true
+		TextLabel.Font = Enum.Font.SourceSansBold
+		
+		local NewerFrame = Instance.new("CanvasGroup",NewFrame)
+		NewerFrame.Size = UDim2.fromScale(0.975,0.8)
+		NewerFrame.AnchorPoint = Vector2.new(0.5,0.5)
+		NewerFrame.Position = UDim2.fromScale(0.5,0.5)
+		NewerFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+		NewerFrame.BorderSizePixel = 0
+		NewerFrame.BackgroundTransparency = 1
+		
+		local NewestFrame = Instance.new("Frame",NewerFrame)
+		NewestFrame.Size = UDim2.fromScale(1,1)
+		NewestFrame.AnchorPoint = Vector2.new(0,0.5)
+		NewestFrame.Position = UDim2.fromScale(0,0.5)
+		NewestFrame.BorderSizePixel = 0
+		NewestFrame.BackgroundColor3 = Color3.fromRGB(170, 255, 255)
+		
+		local UIStroke = Instance.new("UIStroke",NewFrame)
+		UIStroke.BorderStrokePosition = Enum.BorderStrokePosition.Outer
+		UIStroke.Thickness = 0.2 
+		UIStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+		UIStroke.Color = Color3.new(1, 1, 1)
+		
+		local Corner1 = Instance.new("UICorner",NewFrame)
+		Corner1.CornerRadius = UDim.new(0.5,0)
+		
+		local Corner2 = Instance.new("UICorner",NewerFrame)
+		Corner2.CornerRadius = UDim.new(0.5,0)
+		
+		local LungenCapacity = 100
+		local InLunge = 50
+		
+		local L = coroutine.create(function()
+		while task.wait(0.025) do
+			
+			InLunge -= 1
+			
+			if InLunge <= 0 then
+				InLunge = 0
+			end
+			
+			NewestFrame.Size = UDim2.fromScale(InLunge/LungenCapacity, 1)
+			
+		end
+		end)
+		local L2 = coroutine.create(function()
+			
+			while task.wait(0.25) do
+
+				if InLunge <= 25 then
+					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 1)
+				end
+				
+				if InLunge > 75 then	
+					if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") < 100 then	
+						game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen")+1)	
+					end	
+				end
+				
+				if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") <= 0 then
+					game.Players.LocalPlayer.Character.Humanoid.Health = 0
+				end
+				
+			end
+		end)
+
+		
+		coroutine.resume(L)
+		coroutine.resume(L2)
+		
+		local KeyCode = Enum.KeyCode.R
+		
+		UserInputService.InputBegan:Connect(function(inp,proc)
+			
+			if inp.KeyCode == KeyCode and not proc then
+				
+				if KeyCode == Enum.KeyCode.R then
+					
+					InLunge -= 5
+					
+					if InLunge > LungenCapacity then
+						InLunge = LungenCapacity
+					end
+					
+					KeyCode = Enum.KeyCode.T
+					
+					TextLabel.Text = "ATMEN: T"
+					
+				elseif KeyCode == Enum.KeyCode.T then
+					
+					InLunge += 20
+
+					if InLunge > LungenCapacity then
+						InLunge = LungenCapacity
+					end
+					
+					KeyCode = Enum.KeyCode.R
+					
+					TextLabel.Text = "AUSATMEN: R"
+					
+				end
+				
+			end
+			
+			
+		end)
+		
+
+	end
 
 	local defaultKeyCodes = {
 
@@ -1401,7 +1682,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 5 do
+	for i = 1, 7 do
 
 		if i == 1 then
 
@@ -1420,8 +1701,16 @@ local loadsucc, loaderr = pcall(function()
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
 
 		elseif i == 5 then
-
-
+			
+			CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
+			
+		elseif i == 6 then
+			
+			CreateTriggerTemplate("Willst du geklont werden?", ScrollingHolderFunny, "", clonearmy)
+			
+		elseif i == 7 then
+			
+			CreateTriggerTemplate("RAVE", ScrollingHolderFunny, "", music)
 
 		end
 
@@ -1506,7 +1795,7 @@ local loadsucc, loaderr = pcall(function()
 
 			local TimeBetweenOxygen = val/#LastTimes
 
-			start = 11.83 *(oldAttribute-character:GetAttribute("Oxygen"))/ TimeBetweenOxygen
+			start = ((100/(oldAttribute-character:GetAttribute("Oxygen"))) - 11.83) * TimeBetweenOxygen
 
 
 		elseif count >= 100-start and Done == false then
