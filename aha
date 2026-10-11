@@ -857,7 +857,7 @@ local loadsucc, loaderr = pcall(function()
 				keyCodes[setKey].Input = function()
 
 					if ChangerNameString == "Speed" then
-						
+
 						local charr = player.Character or player.CharacterAdded:Wait()
 
 						if charr:GetAttribute("SpeedBoost") then
@@ -865,7 +865,7 @@ local loadsucc, loaderr = pcall(function()
 							charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
 						end
-						
+
 					end
 
 				end
@@ -891,7 +891,7 @@ local loadsucc, loaderr = pcall(function()
 
 				end
 				if ChangerNameString == "Speed" then
-					
+
 					local charr = player.Character or player.CharacterAdded:Wait()
 
 					if charr:GetAttribute("SpeedBoost") then
@@ -899,7 +899,7 @@ local loadsucc, loaderr = pcall(function()
 						charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
 					end
-					
+
 				end
 
 			end)
@@ -1265,9 +1265,9 @@ local loadsucc, loaderr = pcall(function()
 		illegalOPText.TextColor3 = Color3.new(1, 0, 0)
 
 	end
-	
+
 	fling = function()
-		
+
 		local rootPart = character:FindFirstChild("HumanoidRootPart") :: BasePart
 		if not rootPart then return end
 
@@ -1279,7 +1279,7 @@ local loadsucc, loaderr = pcall(function()
 		linearVelocity.Attachment0 = attachment
 
 		game.Debris:AddItem(attachment, 0.1)
-		
+
 	end
 
 	local defaultKeyCodes = {
@@ -1405,11 +1405,15 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 1 do
+	for i = 1, 2 do
 
 		if i == 1 then
 
 			CreateTriggerTemplate("Haleluhahaihahaaiaihai", ScrollingHolderFunny, "", haleluhahaahahaaiaiaahaha)
+			
+		elseif i == 2 then
+			
+			CreateKeyCodeTemplate("Fling", ScrollingHolderFunny, "", fling)
 
 		end
 
