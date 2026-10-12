@@ -1433,7 +1433,7 @@ local loadsucc, loaderr = pcall(function()
 		
 		AtmenEnabled = true
 
-		local NewFrame = Instance.new("Frame",MainGui)
+		local NewFrame = Instance.new("CanvasGroup",MainGui)
 		NewFrame.Size = UDim2.fromScale(0.2,0.04)
 		NewFrame.AnchorPoint = Vector2.new(0,1)
 		NewFrame.Position = UDim2.fromScale(0.03,0.85)
@@ -1472,6 +1472,33 @@ local loadsucc, loaderr = pcall(function()
 		UIStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 		UIStroke.Color = Color3.new(1, 1, 1)
 		
+		local GoodFrame = Instance.new("Frame",NewFrame)
+		GoodFrame.Size = UDim2.fromScale(0.2*0.975,1)
+		GoodFrame.Position = UDim2.fromScale(0.5,0.5)
+		GoodFrame.AnchorPoint = Vector2.new(0.5,0.5)
+		GoodFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		GoodFrame.ZIndex = -1
+		GoodFrame.BackgroundTransparency = 0.5
+		GoodFrame.BorderSizePixel = 0
+		
+		local BadFrame1 = Instance.new("Frame",NewFrame)
+		BadFrame1.Size = UDim2.fromScale((0.025/2)+0.05,1)
+		BadFrame1.Position = UDim2.fromScale(0,0.5)
+		BadFrame1.AnchorPoint = Vector2.new(0,0.5)
+		BadFrame1.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		BadFrame1.ZIndex = -1
+		BadFrame1.BackgroundTransparency = 0.5
+		BadFrame1.BorderSizePixel = 0
+		
+		local BadFrame2 = Instance.new("Frame",NewFrame)
+		BadFrame2.Size = UDim2.fromScale((0.025/2)+0.2,1)
+		BadFrame2.Position = UDim2.fromScale(1,0.5)
+		BadFrame2.AnchorPoint = Vector2.new(1,0.5)
+		BadFrame2.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		BadFrame2.ZIndex = -1
+		BadFrame2.BackgroundTransparency = 0.5
+		BadFrame2.BorderSizePixel = 0
+		
 		local Corner1 = Instance.new("UICorner",NewFrame)
 		Corner1.CornerRadius = UDim.new(0.5,0)
 		
@@ -1482,7 +1509,7 @@ local loadsucc, loaderr = pcall(function()
 		local InLunge = 50
 		
 		local L = coroutine.create(function()
-		while task.wait(0.1) do
+		while task.wait(0.2) do
 			
 			InLunge -= 1
 			
@@ -1498,12 +1525,17 @@ local loadsucc, loaderr = pcall(function()
 			
 			while task.wait(0.5) do
 
-				if InLunge <= 20 then
+				if InLunge <= 5 then
 					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 4)
 				elseif InLunge > 80 then	
 					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 2)	
-				else
-					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") + 2)
+				elseif InLunge >= 40 and InLunge <= 60 then	
+					if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") < 100 then
+						game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") + 2)
+						if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") > 100 then
+							game.Players.LocalPlayer.Character:SetAttribute("Oxygen",100)
+						end
+					end
 				end
 				
 				if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") <= 0 then
@@ -1520,12 +1552,13 @@ local loadsucc, loaderr = pcall(function()
 		local KeyCode = Enum.KeyCode.E
 		
 		local gehustet = 0
+		local Husten = false
 		
 		UserInputService.InputBegan:Connect(function(inp,proc)
 			
 			if inp.KeyCode == KeyCode and not proc then
 				
-				if KeyCode == Enum.KeyCode.Q then
+				if KeyCode == Enum.KeyCode.Q and Husten == false then
 					
 					InLunge -= 5
 					
@@ -1539,7 +1572,7 @@ local loadsucc, loaderr = pcall(function()
 					
 				elseif KeyCode == Enum.KeyCode.E then
 					
-					InLunge += 15
+					InLunge += 10
 
 					if InLunge > LungenCapacity then
 						InLunge = LungenCapacity
@@ -1549,9 +1582,9 @@ local loadsucc, loaderr = pcall(function()
 					
 					TextLabel.Text = "AUSATMEN: Q"
 					
-				elseif  KeyCode == Enum.KeyCode.H then
+				elseif  KeyCode == Enum.KeyCode.Q and Husten == true then
 					
-					InLunge -= 5
+					InLunge -= 2.5
 					
 					local sound = Instance.new("Sound",game.SoundService)
 					sound.SoundId = "rbxassetid://116385785266010"
@@ -1560,11 +1593,12 @@ local loadsucc, loaderr = pcall(function()
 						sound:Destroy()
 					end)
 					
-					if gehustet >= 5 then
+					if gehustet >= 10 then
 						
 						gehustet = 0
 						KeyCode = Enum.KeyCode.E
 						TextLabel.Text = "ATMEN: E"
+						Husten = false
 						
 						return
 						
@@ -1573,13 +1607,13 @@ local loadsucc, loaderr = pcall(function()
 					gehustet += 1
 					
 				end
-				if math.random(1,250-(LungenCapacity-InLunge)-character:GetAttribute("Oxygen")) <= 5 and gehustet == 0 then
+				if math.random(1,250-(LungenCapacity-InLunge)-character:GetAttribute("Oxygen")) <= 3 and gehustet == 0 then
 					
-					print("Husten")
+					Husten = true
 					
-					KeyCode = Enum.KeyCode.H
+					KeyCode = Enum.KeyCode.Q
 					
-					TextLabel.Text = "Husten: H"
+					TextLabel.Text = "Husten: Q"
 					
 				end
 				
