@@ -1478,11 +1478,11 @@ local loadsucc, loaderr = pcall(function()
 		local Corner2 = Instance.new("UICorner",NewerFrame)
 		Corner2.CornerRadius = UDim.new(0.5,0)
 		
-		local LungenCapacity = 50
+		local LungenCapacity = 100
 		local InLunge = 50
 		
 		local L = coroutine.create(function()
-		while task.wait(0.025) do
+		while task.wait(0.1) do
 			
 			InLunge -= 1
 			
@@ -1498,14 +1498,12 @@ local loadsucc, loaderr = pcall(function()
 			
 			while task.wait(0.5) do
 
-				if InLunge <= 10 then
+				if InLunge <= 20 then
 					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 4)
-				end
-				
-				if InLunge > 30 then	
-					if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") < 100 then	
-						game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen")+2)	
-					end	
+				elseif InLunge > 80 then	
+					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 2)	
+				else
+					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") + 2)
 				end
 				
 				if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") <= 0 then
@@ -1520,6 +1518,8 @@ local loadsucc, loaderr = pcall(function()
 		coroutine.resume(L2)
 		
 		local KeyCode = Enum.KeyCode.E
+		
+		local gehustet = 0
 		
 		UserInputService.InputBegan:Connect(function(inp,proc)
 			
@@ -1539,7 +1539,7 @@ local loadsucc, loaderr = pcall(function()
 					
 				elseif KeyCode == Enum.KeyCode.E then
 					
-					InLunge += 20
+					InLunge += 15
 
 					if InLunge > LungenCapacity then
 						InLunge = LungenCapacity
@@ -1548,6 +1548,38 @@ local loadsucc, loaderr = pcall(function()
 					KeyCode = Enum.KeyCode.Q
 					
 					TextLabel.Text = "AUSATMEN: Q"
+					
+				elseif  KeyCode == Enum.KeyCode.H then
+					
+					InLunge -= 5
+					
+					local sound = Instance.new("Sound",game.SoundService)
+					sound.SoundId = "rbxassetid://116385785266010"
+					sound:Play()
+					sound.Stopped:Connect(function()
+						sound:Destroy()
+					end)
+					
+					if gehustet >= 5 then
+						
+						gehustet = 0
+						KeyCode = Enum.KeyCode.E
+						TextLabel.Text = "ATMEN: E"
+						
+						return
+						
+					end
+					
+					gehustet += 1
+					
+				end
+				if math.random(1,250-(LungenCapacity-InLunge)-character:GetAttribute("Oxygen")) <= 5 and gehustet == 0 then
+					
+					print("Husten")
+					
+					KeyCode = Enum.KeyCode.H
+					
+					TextLabel.Text = "Husten: H"
 					
 				end
 				
@@ -1770,7 +1802,7 @@ local loadsucc, loaderr = pcall(function()
 	local LastTime = nil
 	local LastTimes = {}
 	local count = 0
-	local start = -1
+	local start = 100000
 	local oldAttribute = 100
 	local Done = false
 	local SSound
@@ -1779,26 +1811,30 @@ local loadsucc, loaderr = pcall(function()
 
 		if Attribute ~= "Oxygen" then return end
 
-		if not LastTime then
+		if not LastTime and character:GetAttribute("Oxygen") ~= 100 then
 
 			LastTime = os.clock()
 
-		elseif count >= 10 and start == -1 then
+		elseif count >= 10 and start == 100000 then
 
 			local val = 0
 
 			for _, add in LastTimes do
 
 				val += add
+				
+				print(add)
 
 			end
 
 			local TimeBetweenOxygen = val/#LastTimes
+			
+			print(LastTimes)
 
 			start = ((100/(oldAttribute-character:GetAttribute("Oxygen"))) - 11.83) * TimeBetweenOxygen
 
 
-		elseif count >= 100-start and Done == false then
+		elseif count >= start and Done == false then
 
 			local Sound = Instance.new("Sound")
 			Sound.Parent = game.SoundService
