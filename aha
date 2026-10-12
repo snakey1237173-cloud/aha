@@ -1279,6 +1279,8 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 	
+	local notifyPlaying = false
+	
 	clonearmy = function()
 		
 		local clonedChars = workspace:FindFirstChild("ClonedChars") or Instance.new("Folder", workspace)
@@ -1316,9 +1318,16 @@ local loadsucc, loaderr = pcall(function()
 		
 		local function clonePlayer()
 			
-			if #clonedChars:GetChildren() >= 100 then
+			if #clonedChars:GetChildren() >= 35 then
 				
-				PlayNotificationBad("Max Clones reached!")
+				if not notifyPlaying then
+					
+					notifyPlaying = true
+					PlayNotificationBad("Max Clones reached!")
+					notifyPlaying = false
+					
+				end
+				
 				return
 				
 			end
@@ -1359,21 +1368,45 @@ local loadsucc, loaderr = pcall(function()
 			
 			task.delay(30, function()
 				
+				local allClonePartstbl = {}
+				
 				for _, part in clone:GetDescendants() do
 					
 					if part:IsA("BasePart") then
 						
+						if not table.find(allClonePartstbl, part) then
+							
+							table.insert(allClonePartstbl, part)
+							
+						end
+						
 						local fade = game.TweenService:Create(part, TweenInfo.new(0.5), {Transparency = 1})
 						fade:Play()
-						fade.Completed:Wait()
-						part:Destroy()
+						fade.Completed:Connect(function()
+							
+							part:Destroy()
+							
+						end)
 						
 					end
 					
 				end
 				
+				coroutine.wrap(function()
+					
+					task.wait(1)
+
+					clone:ClearAllChildren()
+
+				end)()
+				
+				local WaitTime = #allClonePartstbl * 0.1
+
+				task.wait(WaitTime)
+				
 				table.remove(takenPositions, table.find(takenPositions, pos))
 				
+				allClonePartstbl = nil
 				clone:Destroy()
 				
 			end)
@@ -1613,7 +1646,7 @@ local loadsucc, loaderr = pcall(function()
 					
 					KeyCode = Enum.KeyCode.Q
 					
-					TextLabel.Text = "Husten: Q"
+					TextLabel.Text = "HUSTEN: Q"
 					
 				end
 				
