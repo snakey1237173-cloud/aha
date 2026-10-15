@@ -1180,6 +1180,13 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	local AutoInteractEnabled = true
+	AutoInteract = function()
+		
+		
+		
+	end
 
 	haleluhahaahahaaiaiaahaha = function()
 
@@ -1688,6 +1695,12 @@ local loadsucc, loaderr = pcall(function()
 			Input = InstantInteract,
 
 		},
+		["N"] = {
+			
+			KeyCode = Enum.KeyCode.N,
+			Input = AutoInteract,
+			
+		}
 
 	}
 
@@ -1727,7 +1740,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 6 do
+	for i = 1, 7 do
 
 		if i == 1 then
 
@@ -1752,6 +1765,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 6 then
 
 			CreateTriggerTemplate("Insta Interact", ScrollingHolderDoorsCheats, "I", InstantInteract)
+			
+		elseif i == 7 then
+
+			CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
 
 		end
 
@@ -1814,18 +1831,32 @@ local loadsucc, loaderr = pcall(function()
 		if des:IsA("ProximityPrompt") and des.Parent then
 
 			local oldDuration = des.HoldDuration
+			local oldExclusivity = des.Exclusivity
 
 			while task.wait() do
 
 				if not des.Parent then break end
 
-				if InstaInteractEnabled == true then
+				if InstaInteractEnabled == true or AutoInteractEnabled == true then
 
 					des.HoldDuration = 0
 
 				else
 
 					des.HoldDuration = oldDuration
+
+				end
+				
+				if AutoInteractEnabled == true and not des:HasTag("AutoInteractDisabled") then
+
+					des.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
+					
+					des:InputHoldBegin()
+					des:InputHoldEnd()
+
+				else
+
+					des.Exclusivity = oldExclusivity
 
 				end
 
@@ -2705,9 +2736,17 @@ local loadsucc, loaderr = pcall(function()
 			UiStroke.Color = Color3.fromRGB(0, 0, 0)
 			UiStroke.Thickness = 1
 
-		elseif Thing.Name == "Locker_Large" or Thing.Name == "Wardrobe" or 	Thing.Name == "Backdoor_Wardrobe" or Thing.Name == "Toolshed" or string.find(Thing.Name,"HidingSpot%d") then
+		elseif Thing.Name == "Locker_Large" or Thing.Name == "Wardrobe" or 	Thing.Name == "Backdoor_Wardrobe" or Thing.Name == "Toolshed" or string.find(Thing.Name,"HidingSpot%d") or Thing.Name == "Bed" then
 
 			if Thing:FindFirstChild("Highlight") then return end
+			
+			local prox = Thing:FindFirstChildWhichIsA("ProximityPrompt")
+			
+			if prox then
+				
+				prox:AddTag("AutoInteractDisabled")
+				
+			end
 
 			local Highlight = Instance.new("Highlight",Thing)
 			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -3660,4 +3699,4 @@ else
 	warn("keine exploits für dich")
 	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s!                                                   Reason: {loaderr}`)
 
-end  
+end
