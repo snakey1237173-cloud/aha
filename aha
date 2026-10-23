@@ -1450,7 +1450,7 @@ local loadsucc, loaderr = pcall(function()
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "LSPLASH"
 
-		playerChar.Humanoid.WalkSpeed = 0
+		playerChar.HumanoidRootPart.Anchored = true
 
 		local Sound = Instance.new("Sound")
 		Sound.SoundId = "rbxassetid://129496339606661"
@@ -1540,7 +1540,7 @@ local loadsucc, loaderr = pcall(function()
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "LSPLASH"
 
-		playerChar.Humanoid.WalkSpeed = 0
+		playerChar.HumanoidRootPart.Anchored = true
 
 		local Sound = Instance.new("Sound")
 		Sound.SoundId = "rbxassetid://129496339606661"
@@ -1581,7 +1581,7 @@ local loadsucc, loaderr = pcall(function()
 
 		Chat:Chat(OWNER.Head, "HEY!")
 		task.wait(3)
-		Chat:Chat(OWNER.Head, "I detected progress!")
+		Chat:Chat(OWNER.Head, "I detected progress again!")
 		task.wait(2)
 		Chat:Chat(OWNER.Head, "Now you will die.")
 		task.wait(2)
