@@ -3819,7 +3819,7 @@ local loadsucc, loaderr = pcall(function()
 
 			if Thing:FindFirstChild("Highlight") then return end
 
-			local Highlight = Instance.new("Highlight",Thing)
+			local Highlight = Instance.new("Highlight",Item)
 			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 			Highlight.FillColor = Color3.fromRGB(255, 0, 251)
 			Highlight.FillTransparency = 0.75
@@ -3827,7 +3827,7 @@ local loadsucc, loaderr = pcall(function()
 			Highlight.OutlineColor = Color3.fromRGB(217, 0, 255)
 
 			local BillboardGui = Instance.new("BillboardGui")
-			BillboardGui.Parent = Thing
+			BillboardGui.Parent = Item
 			BillboardGui.Size = UDim2.fromScale(2,1)
 			BillboardGui.AlwaysOnTop = true
 			BillboardGui.ClipsDescendants = false
@@ -3861,14 +3861,14 @@ local loadsucc, loaderr = pcall(function()
 				while Running do
 
 					task.wait(1)
-					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Item:GetPivot().Position).Magnitude)
 					Studs.Text = "["..tostring(Distance).."]"
 				end
 
 			end)
 			coroutine.resume(co)
 
-			Thing.Destroying:Connect(function()
+			Item.Destroying:Connect(function()
 
 				Running = false
 
