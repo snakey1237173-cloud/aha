@@ -17,6 +17,8 @@ local loadsucc, loaderr = pcall(function()
 
 	local playerGui = player.PlayerGui
 
+	local LDB = false
+
 	local MainGui = Instance.new("ScreenGui", playerGui)
 	MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	MainGui.Name = "ahaGUI"
@@ -533,6 +535,22 @@ local loadsucc, loaderr = pcall(function()
 
 			end
 
+		end
+		
+		local rand = math.random(1,1)
+		
+		if rand == 1 then
+			
+			if LDB == false then
+			
+				LDB = true
+			
+				task.spawn(randomprogress)
+				task.wait(10)
+				LDB = false
+			
+			end
+			
 		end
 
 	end)
@@ -1271,8 +1289,10 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	fling = function()
+		
+		local plrChar = player.Character or player.CharacterAdded:Wait()
 
-		local rootPart = character:FindFirstChild("HumanoidRootPart") :: BasePart
+		local rootPart = plrChar:FindFirstChild("HumanoidRootPart") :: BasePart
 		if not rootPart then return end
 
 		local attachment = Instance.new("Attachment", rootPart)
@@ -1420,30 +1440,53 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	progress = function()
 		
 		local Chat = game:GetService("Chat")
 		
+		local playerChar = player.Character or player.CharacterAdded:Wait()
+
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "LSPLASH"
 
-		character.Humanoid.WalkSpeed = 0
+		playerChar.Humanoid.WalkSpeed = 0
+		
+		local Sound = Instance.new("Sound")
+		Sound.SoundId = "rbxassetid://129496339606661"
+		Sound.Parent = game.SoundService
+		Sound.Looped = true
+		Sound:Play()
 
-		task.wait(2)
+		local t = 0
 
-		local rootPart = character:WaitForChild("HumanoidRootPart")
+		Sound.DidLoop:Connect(function()
+			t+=1
+			if t > 15 then
+				Sound:Stop()
+			end
+		end)
+
+		while t <5 do
+			task.wait()
+		end
+
+		local rootPart = playerChar:WaitForChild("HumanoidRootPart")
 
 		local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
-		
+
 		local distance = 5
 
 		local x = -distance * math.sin(Yrot) 
 		local z = -distance * math.cos(Yrot)
-
+		
+		local charpivot = playerChar:GetPivot()
+		local Pos = charpivot.Position
+		
+		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+		
 		OWNER.Parent = workspace
-		OWNER:PivotTo(character:GetPivot()+Vector3.new(x,0,z))
-
+		OWNER:PivotTo(CF)
 		task.wait(1)
 
 		Chat:Chat(OWNER.Head, "HEY!")
@@ -1451,18 +1494,138 @@ local loadsucc, loaderr = pcall(function()
 		Chat:Chat(OWNER.Head, "I detected progress!")
 		task.wait(2)
 		Chat:Chat(OWNER.Head, "Now you will die.")
-		task.wait(0.25)
-		
-		for i = 1, math.random(1, 100) do
-			
-			fling()
-			task.wait(0.1)
-			
-		end
-		
+		task.wait(2)
+
+		Chat:Chat(OWNER.Head, "/kill "..OWNER.Humanoid.DisplayName)
+		OWNER.Humanoid.Health = 0
+		task.wait(2)
+		Chat:Chat(OWNER.Head, "Oops wrong command.")
+		task.wait(2)
 		OWNER:Destroy()
-		character.Humanoid.Health = 0
+
+		OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "LSPLASH"
+		OWNER.Parent = workspace
+		OWNER:PivotTo(CF)
+
+		local ff = Instance.new("ForceField")
+		ff.Parent = OWNER
+
+		Chat:Chat(OWNER.Head, "Let me try that again!")
+
+		task.wait(2)
+
+		Chat:Chat(OWNER.Head, "/kill "..player.Name)
+
+		task.delay(2, function()
+
+			ff:Destroy()
+
+		end)
+
+		game.Debris:AddItem(OWNER, 3)
+
+		playerChar.Humanoid.Health = 0
+		task.wait(1)
+		Chat:Chat(OWNER.Head, "Now its right!")
+
+	end
+
+	randomprogress = function()
+
+		local Chat = game:GetService("Chat")
+
+		local playerChar = player.Character or player.CharacterAdded:Wait()
+
+		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "LSPLASH"
+
+		playerChar.Humanoid.WalkSpeed = 0
+
+		local Sound = Instance.new("Sound")
+		Sound.SoundId = "rbxassetid://129496339606661"
+		Sound.Parent = game.SoundService
+		Sound.Looped = true
+		Sound:Play()
+
+		local t = 0
+
+		Sound.DidLoop:Connect(function()
+			t+=1
+			if t > 15 then
+				Sound:Stop()
+			end
+		end)
+
+		while t <5 do
+			task.wait()
+		end
+
+		local rootPart = playerChar:WaitForChild("HumanoidRootPart")
+
+		local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
+
+		local distance = 5
+
+		local x = -distance * math.sin(Yrot) 
+		local z = -distance * math.cos(Yrot)
+
+		local charpivot = playerChar:GetPivot()
+		local Pos = charpivot.Position
+
+		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+
+		OWNER.Parent = workspace
+		OWNER:PivotTo(CF)
+		task.wait(1)
+
+		Chat:Chat(OWNER.Head, "HEY!")
+		task.wait(3)
+		Chat:Chat(OWNER.Head, "I detected progress!")
+		task.wait(2)
+		Chat:Chat(OWNER.Head, "Now you will die.")
+		task.wait(2)
+
+		Chat:Chat(OWNER.Head, "/kill "..OWNER.Humanoid.DisplayName)
+		OWNER.Humanoid.Health = 0
+		task.wait(2)
+		Chat:Chat(OWNER.Head, "Oops wrong command.")
+		task.wait(2)
+		OWNER:Destroy()
+
+		OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "LSPLASH"
+		OWNER.Parent = workspace
+		OWNER:PivotTo(CF)
+
+		local ff = Instance.new("ForceField")
+		ff.Parent = OWNER
+
+		Chat:Chat(OWNER.Head, "Let me try that again!")
+
+		task.wait(2)
+
+		Chat:Chat(OWNER.Head, "/kill "..player.Name)
 		
+		task.wait(2)
+		
+		Chat:Chat(OWNER.Head, "Wait....")
+		
+		task.delay(1, function()
+
+			ff:Destroy()
+
+		end)
+		
+		task.wait(1)
+		Chat:Chat(OWNER.Head, "Why wont it work")
+		task.wait(1)
+		Chat:Chat(OWNER.Head, "I think you are too strong")
+		task.wait(1)
+		Chat:Chat(OWNER.Head, "I'm out!")
+		task.wait(1)
+		OWNER:Destroy()
+
 	end
 
 	local musicEnabled = false
@@ -1834,7 +1997,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 7 do
+	for i = 1, 8 do
 
 		if i == 1 then
 
@@ -1853,9 +2016,9 @@ local loadsucc, loaderr = pcall(function()
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
 
 		elseif i == 5 then
-
-			CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
-
+			
+			CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
+			
 		elseif i == 6 then
 
 			CreateTriggerTemplate("Willst du geklont werden?", ScrollingHolderFunny, "", clonearmy)
@@ -1863,10 +2026,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 7 then
 
 			CreateTriggerTemplate("RAVE", ScrollingHolderFunny, "", music)
-			
+
 		elseif i == 8 then
-			
-			CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
+
+			CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
 
 		end
 
