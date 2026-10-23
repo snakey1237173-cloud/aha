@@ -1420,6 +1420,50 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	progress = function()
+		
+		local Chat = game:GetService("Chat")
+		
+		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "LSPLASH"
+
+		character.Humanoid.WalkSpeed = 0
+
+		task.wait(2)
+
+		local rootPart = character:WaitForChild("HumanoidRootPart")
+
+		local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
+		
+		local distance = 5
+
+		local x = -distance * math.sin(Yrot) 
+		local z = -distance * math.cos(Yrot)
+
+		OWNER.Parent = workspace
+		OWNER:PivotTo(character:GetPivot()+Vector3.new(x,0,z))
+
+		task.wait(1)
+
+		Chat:Chat(OWNER.Head, "HEY!")
+		task.wait(3)
+		Chat:Chat(OWNER.Head, "I detected progress!")
+		task.wait(2)
+		Chat:Chat(OWNER.Head, "Now you will die.")
+		task.wait(0.25)
+		
+		for i = 1, math.random(1, 100) do
+			
+			fling()
+			task.wait(0.1)
+			
+		end
+		
+		OWNER:Destroy()
+		character.Humanoid.Health = 0
+		
+	end
 
 	local musicEnabled = false
 
@@ -1819,6 +1863,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 7 then
 
 			CreateTriggerTemplate("RAVE", ScrollingHolderFunny, "", music)
+			
+		elseif i == 8 then
+			
+			CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
 
 		end
 
