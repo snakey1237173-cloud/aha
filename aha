@@ -536,21 +536,21 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 		end
-		
-		local rand = math.random(1,1)
-		
+
+		local rand = math.random(1,10000)
+
 		if rand == 1 then
-			
+
 			if LDB == false then
-			
+
 				LDB = true
-			
+
 				task.spawn(randomprogress)
 				task.wait(10)
 				LDB = false
-			
+
 			end
-			
+
 		end
 
 	end)
@@ -1289,7 +1289,7 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	fling = function()
-		
+
 		local plrChar = player.Character or player.CharacterAdded:Wait()
 
 		local rootPart = plrChar:FindFirstChild("HumanoidRootPart") :: BasePart
@@ -1442,16 +1442,16 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	progress = function()
-		
+
 		local Chat = game:GetService("Chat")
-		
+
 		local playerChar = player.Character or player.CharacterAdded:Wait()
 
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "LSPLASH"
 
 		playerChar.Humanoid.WalkSpeed = 0
-		
+
 		local Sound = Instance.new("Sound")
 		Sound.SoundId = "rbxassetid://129496339606661"
 		Sound.Parent = game.SoundService
@@ -1479,12 +1479,12 @@ local loadsucc, loaderr = pcall(function()
 
 		local x = -distance * math.sin(Yrot) 
 		local z = -distance * math.cos(Yrot)
-		
+
 		local charpivot = playerChar:GetPivot()
 		local Pos = charpivot.Position
-		
+
 		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
-		
+
 		OWNER.Parent = workspace
 		OWNER:PivotTo(CF)
 		task.wait(1)
@@ -1606,17 +1606,17 @@ local loadsucc, loaderr = pcall(function()
 		task.wait(2)
 
 		Chat:Chat(OWNER.Head, "/kill "..player.Name)
-		
+
 		task.wait(2)
-		
+
 		Chat:Chat(OWNER.Head, "Wait....")
-		
+
 		task.delay(1, function()
 
 			ff:Destroy()
 
 		end)
-		
+
 		task.wait(1)
 		Chat:Chat(OWNER.Head, "Why wont it work")
 		task.wait(1)
@@ -2016,9 +2016,9 @@ local loadsucc, loaderr = pcall(function()
 			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
 
 		elseif i == 5 then
-			
+
 			CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
-			
+
 		elseif i == 6 then
 
 			CreateTriggerTemplate("Willst du geklont werden?", ScrollingHolderFunny, "", clonearmy)
