@@ -537,22 +537,6 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
-		local rand = math.random(1,10000)
-
-		if rand == 1 then
-
-			if LDB == false then
-
-				LDB = true
-
-				task.spawn(randomprogress)
-				task.wait(10)
-				LDB = false
-
-			end
-
-		end
-
 	end)
 
 	local isOpen = false
@@ -4280,6 +4264,22 @@ local loadsucc, loaderr = pcall(function()
 		if Room:FindFirstChild("ArchivesPackageDeposit",true) then
 
 			ESPMalHoncho(Room)
+
+		end
+		
+		local rand = math.random(1,25)
+
+		if rand == 1 then
+
+			if LDB == false then
+
+				LDB = true
+
+				task.spawn(randomprogress)
+				task.wait(10)
+				LDB = false
+
+			end
 
 		end
 
