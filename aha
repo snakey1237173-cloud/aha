@@ -545,6 +545,8 @@ local loadsucc, loaderr = pcall(function()
 		OpenButton.Image = "rbxassetid://298633257"
 		FunnyImage.Image = "rbxassetid://6280332777"
 
+
+
 	else
 
 		OpenButton.Image = "rbxassetid://8073107221"
@@ -569,16 +571,20 @@ local loadsucc, loaderr = pcall(function()
 	if player.UserId == 5037267735 then
 
 		local co = coroutine.create(function() 
-			PlayNotificationBad("Nur für dich:")
-			PlayNotificationBad("MIKU MODE ACTIVATED.", "Miku")
+
+			PlayNotificationBad("Injecting miku...")
+			PlayNotificationBad("Successfully injected miku.", "Miku")
+
 		end)
 		coroutine.resume(co)
 
 	elseif player.UserId == 3259425964 then
 
 		local co = coroutine.create(function() 
-			PlayNotificationBad("Auch für dich:")
-			PlayNotificationBad("MIKU MODE ACTIVATED.", "Miku")
+
+			PlayNotificationBad("Injecting miku....")
+			PlayNotificationBad("Successfully injected miku.", "Miku")
+
 		end)
 		coroutine.resume(co)
 
@@ -731,8 +737,6 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
-
-
 	end)
 	workspace.ChildRemoved:Connect(function(chil)
 
@@ -763,8 +767,10 @@ local loadsucc, loaderr = pcall(function()
 			if not keyCodes[gottenKey.Name] then
 
 				keyCodes[gottenKey.Name] = {
+
 					KeyCode = Enum.KeyCode[gottenKey.Name],
 					Input = function() end,
+
 				}
 
 			end
@@ -1180,10 +1186,10 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	local AutoInteractEnabled = false
 	AutoInteract = function()
-		
+
 		AutoInteractEnabled = not AutoInteractEnabled
 
 		if AutoInteractEnabled == true then
@@ -1195,7 +1201,7 @@ local loadsucc, loaderr = pcall(function()
 			PlayNotificationBad("Auto Interact disabled")
 
 		end
-		
+
 	end
 
 	haleluhahaahahaaiaiaahaha = function()
@@ -1706,10 +1712,10 @@ local loadsucc, loaderr = pcall(function()
 
 		},
 		["N"] = {
-			
+
 			KeyCode = Enum.KeyCode.N,
 			Input = AutoInteract,
-			
+
 		}
 
 	}
@@ -1775,7 +1781,7 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 6 then
 
 			CreateTriggerTemplate("Insta Interact", ScrollingHolderDoorsCheats, "I", InstantInteract)
-			
+
 		elseif i == 7 then
 
 			CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
@@ -1856,11 +1862,11 @@ local loadsucc, loaderr = pcall(function()
 					des.HoldDuration = oldDuration
 
 				end
-				
+
 				if AutoInteractEnabled == true and not des:HasTag("AutoInteractDisabled") then
 
 					des.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
-					
+
 					des:InputHoldBegin()
 					des:InputHoldEnd()
 
@@ -1880,32 +1886,32 @@ local loadsucc, loaderr = pcall(function()
 		elseif des.Name == "Alma" then des:Destroy()
 		elseif des.Name == "Dread" then des:Destroy()
 		elseif des.Name == "ArchivesOfficeChair" then
-			
-			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
-			
-			if prox then
-			prox:AddTag("AutoInteractDisabled")
-			end
-			
-		elseif des.Name == "Regal_Chair" then
-			
+
 			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
 
 			if prox then
 				prox:AddTag("AutoInteractDisabled")
 			end
-			
-		--[[TBA: Sofa, Die blauen stühle Archives, Einkaufswagen Stairwell]]
+
+		elseif des.Name == "Regal_Chair" then
+
+			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
+
+			if prox then
+				prox:AddTag("AutoInteractDisabled")
+			end
+
+			--[[TBA: Sofa, Die blauen stühle Archives, Einkaufswagen Stairwell]]
 		end
 
 		if des:FindFirstAncestor("Drops") then
-			
+
 			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
-			
+
 			if prox then
 				prox:AddTag("AutoInteractDisabled")
 			end
-			
+
 		end
 
 	end)
@@ -2776,13 +2782,13 @@ local loadsucc, loaderr = pcall(function()
 		elseif Thing.Name == "Locker_Large" or Thing.Name == "Wardrobe" or 	Thing.Name == "Backdoor_Wardrobe" or Thing.Name == "Toolshed" or string.find(Thing.Name,"HidingSpot%d") or Thing.Name == "Bed" or Thing.Name == "CircularVent" or Thing.Name == "Dumpster" then
 
 			if Thing:FindFirstChild("Highlight") then return end
-			
+
 			local prox = Thing:FindFirstChildWhichIsA("ProximityPrompt")
-			
+
 			if prox then
-				
+
 				prox:AddTag("AutoInteractDisabled")
-				
+
 			end
 
 			local Highlight = Instance.new("Highlight",Thing)
@@ -3586,6 +3592,367 @@ local loadsucc, loaderr = pcall(function()
 			BlockPart.CFrame = Collision.CFrame
 			BlockPart.Transparency = 1
 			BlockPart.Anchored = true
+
+		elseif Thing.Name == "Candy" then
+
+			if Thing:FindFirstChild("Highlight") then return end
+
+			local Highlight = Instance.new("Highlight",Thing)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(255, 0, 251)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(217, 0, 255)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = Thing
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Text.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Text.Text = "Candy"
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Studs.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait(1)
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			Thing.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
+
+		elseif Thing.Name == "JewelryCase" then
+			task.wait(0.2)
+
+			if Thing:FindFirstChild("Highlight") then return end
+
+			local Item = Thing:FindFirstChildWhichIsA("Model")
+
+			if not Item then return end
+
+			local Highlight = Instance.new("Highlight",Thing)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(255, 0, 251)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(217, 0, 255)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = Thing
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Text.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Text.Text = Item.Name .. " in jewelry case"
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local ItemHigh = Highlight:Clone()
+			ItemHigh.Parent = Item
+			ItemHigh.FillColor = Color3.fromRGB(255, 204, 0)
+			ItemHigh.OutlineColor = Color3.fromRGB(255, 149, 0)
+			ItemHigh.Parent = Item
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Studs.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait(1)
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			Thing.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
+
+		elseif Thing.Name == "DepotHalloween" then
+
+			if Thing:FindFirstChild("Highlight") then return end
+
+			local Highlight = Instance.new("Highlight",Thing)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(255, 0, 251)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(0, 255, 127)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = Thing
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Text.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Text.Text = "Depot"
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Studs.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait(1)
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			Thing.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
+
+
+		elseif Thing.Name == "FloorLootItem" then
+			task.wait(0.2)
+
+			local Item = Thing:FindFirstChildWhichIsA("Model")
+
+			if not Item then return end
+			if Item.Name == "GoldPile" then return end
+
+			if Thing:FindFirstChild("Highlight") then return end
+
+			local Highlight = Instance.new("Highlight",Thing)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(255, 0, 251)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(217, 0, 255)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = Thing
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Text.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Text.Text = Item.Name
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Studs.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait(1)
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			Thing.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
+
+
+		end
+
+		if Thing.Parent and Thing.Parent.Name == "SalvageItems" then
+
+			if Thing:FindFirstChild("Highlight") then return end
+
+			local Highlight = Instance.new("Highlight",Thing)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(119, 0, 255)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(72, 0, 255)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = Thing
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Text.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Text.Text = Thing.Name
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Studs.BorderColor3 = Color3.fromRGB(0, 113, 170)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait(1)
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-Thing:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			Thing.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
 
 		end
 
