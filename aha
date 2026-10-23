@@ -3672,10 +3672,10 @@ local loadsucc, loaderr = pcall(function()
 
 			local Highlight = Instance.new("Highlight",Thing)
 			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-			Highlight.FillColor = Color3.fromRGB(255, 0, 251)
+			Highlight.FillColor = Color3.fromRGB(255, 85, 127)
 			Highlight.FillTransparency = 0.75
 			Highlight.OutlineTransparency = 0.25
-			Highlight.OutlineColor = Color3.fromRGB(217, 0, 255)
+			Highlight.OutlineColor = Color3.fromRGB(85, 85, 127)
 
 			local BillboardGui = Instance.new("BillboardGui")
 			BillboardGui.Parent = Thing
