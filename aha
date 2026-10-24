@@ -60,6 +60,8 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	while InputFrame.Text ~= tostring(Key) and RunService:IsStudio() == false do
+		
+		task.wait()
 
 	end
 
