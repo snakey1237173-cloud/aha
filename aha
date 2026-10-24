@@ -1589,22 +1589,31 @@ local loadsucc, loaderr = pcall(function()
 
 		task.wait(2)
 
-		Chat:Chat(OWNER.Head, "/kill "..player.Name)
+		Chat:Chat(OWNER.Head, "/fling "..player.Name)
 
 		task.wait(2)
 
 		Chat:Chat(OWNER.Head, "Wait....")
+		
+		playerChar.HumanoidRootPart.Anchored = false
 
 		task.delay(1, function()
 
 			ff:Destroy()
 
 		end)
+		
+		for i = 5,math.random(10,20) do
+			
+			fling()
+			task.wait(0.1)
+			
+		end
 
 		task.wait(1)
-		Chat:Chat(OWNER.Head, "Why wont it work")
+		Chat:Chat(OWNER.Head, "That was also the wrong command")
 		task.wait(1)
-		Chat:Chat(OWNER.Head, "I think you are too strong")
+		Chat:Chat(OWNER.Head, "Welp too bad I guess")
 		task.wait(1)
 		Chat:Chat(OWNER.Head, "I'm out!")
 		task.wait(1)
@@ -4266,7 +4275,7 @@ local loadsucc, loaderr = pcall(function()
 			ESPMalHoncho(Room)
 
 		end
-		
+
 		local rand = math.random(1,25)
 
 		if rand == 1 then
