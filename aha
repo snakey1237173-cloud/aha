@@ -3178,7 +3178,7 @@ local loadsucc, loaderr = pcall(function()
 			UiStroke.Color = Color3.fromRGB(0, 0, 0)
 			UiStroke.Thickness = 1
 
-		elseif Thing.Name == "GrumbleRig" then
+		elseif Thing.Name == "Grumbo" then -- TODO: Fix the grumbles
 
 			local Queen = false
 
