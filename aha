@@ -1524,9 +1524,9 @@ local loadsucc, loaderr = pcall(function()
 
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "LSPLASH"
-		
+
 		if player.UserId == 7359241522 then
-			
+
 			local rootPart = playerChar:WaitForChild("HumanoidRootPart")
 
 			local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
@@ -1551,14 +1551,14 @@ local loadsucc, loaderr = pcall(function()
 			task.wait(2)
 			Chat:Chat(OWNER.Head, "Wait....")
 			task.wait(1)
-			Chat:Chat(OWNER.Head, "YOU ARE LOLDOGE OH NO")
+			Chat:Chat(OWNER.Head, "YOU ARE LOLDOGE OH HELL NAH")
 			task.wait(1)
 			Chat:Chat(OWNER.Head, "I'M OUT!")
 			task.wait(1)
 			OWNER:Destroy()
-			
+
 		else
-			
+
 			playerChar.HumanoidRootPart.Anchored = true
 
 			local Sound = Instance.new("Sound")
@@ -1653,7 +1653,7 @@ local loadsucc, loaderr = pcall(function()
 			Chat:Chat(OWNER.Head, "I'm out!")
 			task.wait(1)
 			OWNER:Destroy()
-			
+
 		end
 
 	end
@@ -4312,10 +4312,10 @@ local loadsucc, loaderr = pcall(function()
 			ESPMalHoncho(Room)
 
 		end
-		
+
 		local GUID1 = HttpService:GenerateGUID(false)
 		local GUID2 = HttpService:GenerateGUID(false)
-		
+
 		local WomboCombo = GUID1 .. GUID2
 
 		local Seed = 2166136261
