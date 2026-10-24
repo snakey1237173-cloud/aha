@@ -8,6 +8,7 @@ local loadsucc, loaderr = pcall(function()
 	local UserInputService = game:GetService("UserInputService")
 	local RunService = game:GetService("RunService")
 	local Players = game:GetService("Players")
+	local HttpService = game:GetService("HttpService")
 
 	local player = Players.LocalPlayer
 
@@ -4275,8 +4276,19 @@ local loadsucc, loaderr = pcall(function()
 			ESPMalHoncho(Room)
 
 		end
+		
+		local GUID1 = HttpService:GenerateGUID(false)
+		local GUID2 = HttpService:GenerateGUID(false)
+		
+		local WomboCombo = GUID1 .. GUID2
 
-		local rand = math.random(1,25)
+		local Seed = 2166136261
+		for i = 1, #WomboCombo do
+			Seed = bit32.bxor(Seed,string.byte(WomboCombo,i))
+			Seed = bit32.band(Seed * 16777619, 0xFFFFFFFF)
+		end
+
+		local rand = Random.new(Seed):NextInteger(1,25)
 
 		if rand == 1 then
 
