@@ -59,9 +59,13 @@ local loadsucc, loaderr = pcall(function()
 		Key = bit32.band(Key * 16777619, 0xFFFFFFFF)
 	end
 
-	while InputFrame.Text ~= tostring(Key) and RunService:IsStudio() == false do
+	while InputFrame.Text ~= tostring(Key) do
 		
 		task.wait()
+
+		if RunService:IsStudio() do
+			break
+		end
 
 	end
 
