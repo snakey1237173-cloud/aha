@@ -1524,101 +1524,137 @@ local loadsucc, loaderr = pcall(function()
 
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "LSPLASH"
+		
+		if player.UserId == 7359241522 then
+			
+			local rootPart = playerChar:WaitForChild("HumanoidRootPart")
 
-		playerChar.HumanoidRootPart.Anchored = true
+			local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
 
-		local Sound = Instance.new("Sound")
-		Sound.SoundId = "rbxassetid://129496339606661"
-		Sound.Parent = game.SoundService
-		Sound.Looped = true
-		Sound:Play()
+			local distance = 5
 
-		local t = 0
+			local x = -distance * math.sin(Yrot) 
+			local z = -distance * math.cos(Yrot)
 
-		Sound.DidLoop:Connect(function()
-			t+=1
-			if t > 15 then
-				Sound:Stop()
+			local charpivot = playerChar:GetPivot()
+			local Pos = charpivot.Position
+
+			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+
+			OWNER.Parent = workspace
+			OWNER:PivotTo(CF)
+			task.wait(1)
+
+			Chat:Chat(OWNER.Head, "HEY!")
+			task.wait(3)
+			Chat:Chat(OWNER.Head, "I detected progress again!")
+			task.wait(2)
+			Chat:Chat(OWNER.Head, "Wait....")
+			task.wait(1)
+			Chat:Chat(OWNER.Head, "YOU ARE LOLDOGE OH NO")
+			task.wait(1)
+			Chat:Chat(OWNER.Head, "I'M OUT!")
+			task.wait(1)
+			OWNER:Destroy()
+			
+		else
+			
+			playerChar.HumanoidRootPart.Anchored = true
+
+			local Sound = Instance.new("Sound")
+			Sound.SoundId = "rbxassetid://129496339606661"
+			Sound.Parent = game.SoundService
+			Sound.Looped = true
+			Sound:Play()
+
+			local t = 0
+
+			Sound.DidLoop:Connect(function()
+				t+=1
+				if t > 15 then
+					Sound:Stop()
+				end
+			end)
+
+			while t <5 do
+				task.wait()
 			end
-		end)
 
-		while t <5 do
-			task.wait()
-		end
+			local rootPart = playerChar:WaitForChild("HumanoidRootPart")
 
-		local rootPart = playerChar:WaitForChild("HumanoidRootPart")
+			local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
 
-		local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
+			local distance = 5
 
-		local distance = 5
+			local x = -distance * math.sin(Yrot) 
+			local z = -distance * math.cos(Yrot)
 
-		local x = -distance * math.sin(Yrot) 
-		local z = -distance * math.cos(Yrot)
+			local charpivot = playerChar:GetPivot()
+			local Pos = charpivot.Position
 
-		local charpivot = playerChar:GetPivot()
-		local Pos = charpivot.Position
+			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
 
-		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+			OWNER.Parent = workspace
+			OWNER:PivotTo(CF)
+			task.wait(1)
 
-		OWNER.Parent = workspace
-		OWNER:PivotTo(CF)
-		task.wait(1)
+			Chat:Chat(OWNER.Head, "HEY!")
+			task.wait(3)
+			Chat:Chat(OWNER.Head, "I detected progress again!")
+			task.wait(2)
+			Chat:Chat(OWNER.Head, "Now you will die.")
+			task.wait(2)
 
-		Chat:Chat(OWNER.Head, "HEY!")
-		task.wait(3)
-		Chat:Chat(OWNER.Head, "I detected progress again!")
-		task.wait(2)
-		Chat:Chat(OWNER.Head, "Now you will die.")
-		task.wait(2)
+			Chat:Chat(OWNER.Head, "/kill "..OWNER.Humanoid.DisplayName)
+			OWNER.Humanoid.Health = 0
+			task.wait(2)
+			Chat:Chat(OWNER.Head, "Oops wrong command.")
+			task.wait(2)
+			OWNER:Destroy()
 
-		Chat:Chat(OWNER.Head, "/kill "..OWNER.Humanoid.DisplayName)
-		OWNER.Humanoid.Health = 0
-		task.wait(2)
-		Chat:Chat(OWNER.Head, "Oops wrong command.")
-		task.wait(2)
-		OWNER:Destroy()
+			OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+			OWNER.Humanoid.DisplayName = "LSPLASH"
+			OWNER.Parent = workspace
+			OWNER:PivotTo(CF)
 
-		OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
-		OWNER.Humanoid.DisplayName = "LSPLASH"
-		OWNER.Parent = workspace
-		OWNER:PivotTo(CF)
+			local ff = Instance.new("ForceField")
+			ff.Parent = OWNER
 
-		local ff = Instance.new("ForceField")
-		ff.Parent = OWNER
+			Chat:Chat(OWNER.Head, "Let me try that again!")
 
-		Chat:Chat(OWNER.Head, "Let me try that again!")
+			task.wait(2)
 
-		task.wait(2)
+			Chat:Chat(OWNER.Head, "/fling "..player.Name)
 
-		Chat:Chat(OWNER.Head, "/fling "..player.Name)
+			task.wait(2)
 
-		task.wait(2)
+			Chat:Chat(OWNER.Head, "Wait....")
 
-		Chat:Chat(OWNER.Head, "Wait....")
-		
-		playerChar.HumanoidRootPart.Anchored = false
+			playerChar.HumanoidRootPart.Anchored = false
 
-		task.delay(1, function()
+			task.delay(1, function()
 
-			ff:Destroy()
+				ff:Destroy()
 
-		end)
-		
-		for i = 5,math.random(10,20) do
+			end)
+
+			for i = 5,math.random(10,20) do
+
+				fling()
+				task.wait(0.1)
+
+			end
+
+			task.wait(1)
+			Chat:Chat(OWNER.Head, "That was also the wrong command")
+			task.wait(1)
+			Chat:Chat(OWNER.Head, "Welp too bad I guess")
+			task.wait(1)
+			Chat:Chat(OWNER.Head, "I'm out!")
+			task.wait(1)
+			OWNER:Destroy()
 			
-			fling()
-			task.wait(0.1)
-			
 		end
-
-		task.wait(1)
-		Chat:Chat(OWNER.Head, "That was also the wrong command")
-		task.wait(1)
-		Chat:Chat(OWNER.Head, "Welp too bad I guess")
-		task.wait(1)
-		Chat:Chat(OWNER.Head, "I'm out!")
-		task.wait(1)
-		OWNER:Destroy()
 
 	end
 
