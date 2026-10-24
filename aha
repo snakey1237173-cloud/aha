@@ -25,6 +25,45 @@ local loadsucc, loaderr = pcall(function()
 	MainGui.Name = "ahaGUI"
 	MainGui.IgnoreGuiInset = true
 	MainGui.ResetOnSpawn = false
+	
+	local KeyGui = Instance.new("Frame", MainGui)
+	KeyGui.Size = UDim2.fromScale(0.4,0.4)
+	KeyGui.Position = UDim2.fromScale(0.5,0.5)
+	KeyGui.AnchorPoint = Vector2.new(0.5,0.5)
+	KeyGui.BackgroundColor3 = Color3.new(0.0627451, 0.0627451, 0.0627451)
+	KeyGui.BorderColor3 = Color3.new(0,0,0)
+
+	local Text = Instance.new("TextLabel",KeyGui)
+	Text.AnchorPoint = Vector2.new(0.5,0)
+	Text.Position = UDim2.fromScale(0.5,0.05)
+	Text.Size = UDim2.fromScale(1,0.1)
+	Text.BorderSizePixel = 0
+	Text.BackgroundTransparency = 1
+	Text.TextScaled = true
+	Text.TextColor3 = Color3.new(1,1,1)
+	Text.Text = "AhaGui: Please enter Key"
+
+	local InputFrame = Instance.new("TextBox",KeyGui)
+	InputFrame.AnchorPoint = Vector2.new(0.5,0)
+	InputFrame.Position = UDim2.fromScale(0.5,0.5)
+	InputFrame.Size = UDim2.fromScale(0.5,0.15)
+	InputFrame.BorderSizePixel = 0
+	InputFrame.PlaceholderText = "Key"
+	InputFrame.Text = ""
+
+	local KeyComponment = "6cec01a0-e884-4dbe-bf80-af41d1286ab9"
+
+	local Key = player.UserId
+	for i = 1, #KeyComponment do
+		Key = bit32.bxor(Key,string.byte(KeyComponment,i))
+		Key = bit32.band(Key * 16777619, 0xFFFFFFFF)
+	end
+
+	while InputFrame.Text ~= tostring(Key) and RunService:IsStudio() == false do
+
+	end
+
+	KeyGui:Destroy()
 
 	local UIStroke = Instance.new("UIStroke", MainGui)
 	UIStroke.Thickness = 1
@@ -759,6 +798,22 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end)
+	
+	DisableAutoInteractforModel = function(TargetModel)
+		
+		if not TargetModel then return end
+		
+		for _, prox in TargetModel:GetDescendants() do
+			
+			if prox:IsA("ProximityPrompt") then
+				
+				prox:AddTag("AutoInteractDisabled")
+				
+			end
+			
+		end
+		
+	end
 
 	SetupKeyCodes = function()
 
@@ -2082,6 +2137,8 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	DisableAutoInteractforModel()
 
 	workspace.DescendantAdded:Connect(function(des)
 
@@ -2128,30 +2185,23 @@ local loadsucc, loaderr = pcall(function()
 		elseif des.Name == "Dread" then des:Destroy()
 		elseif des.Name == "ArchivesOfficeChair" then
 
-			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
-
-			if prox then
-				prox:AddTag("AutoInteractDisabled")
-			end
+			DisableAutoInteractforModel(des)
 
 		elseif des.Name == "Regal_Chair" then
 
-			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
-
-			if prox then
-				prox:AddTag("AutoInteractDisabled")
-			end
+			DisableAutoInteractforModel(des)
 
 			--[[TBA: Sofa, Die blauen stühle Archives, Einkaufswagen Stairwell]]
+			--
+		elseif des.Name == "Locker_Large" or des.Name == "Wardrobe" or 	des.Name == "Backdoor_Wardrobe" or des.Name == "Toolshed" or string.find(des.Name,"HidingSpot%d") or des.Name == "Bed" or des.Name == "CircularVent" then
+
+			DisableAutoInteractforModel(des)
+
 		end
 
 		if des:FindFirstAncestor("Drops") then
 
-			local prox = des:FindFirstChildWhichIsA("ProximityPrompt")
-
-			if prox then
-				prox:AddTag("AutoInteractDisabled")
-			end
+			DisableAutoInteractforModel(des)
 
 		end
 
@@ -3020,17 +3070,9 @@ local loadsucc, loaderr = pcall(function()
 			UiStroke.Color = Color3.fromRGB(0, 0, 0)
 			UiStroke.Thickness = 1
 
-		elseif Thing.Name == "Locker_Large" or Thing.Name == "Wardrobe" or 	Thing.Name == "Backdoor_Wardrobe" or Thing.Name == "Toolshed" or string.find(Thing.Name,"HidingSpot%d") or Thing.Name == "Bed" or Thing.Name == "CircularVent" or Thing.Name == "Dumpster" then
+		elseif Thing.Name == "Locker_Large" or Thing.Name == "Wardrobe" or 	Thing.Name == "Backdoor_Wardrobe" or Thing.Name == "Toolshed" or string.find(Thing.Name,"HidingSpot%d") or Thing.Name == "Bed" or Thing.Name == "CircularVent" then
 
 			if Thing:FindFirstChild("Highlight") then return end
-
-			local prox = Thing:FindFirstChildWhichIsA("ProximityPrompt")
-
-			if prox then
-
-				prox:AddTag("AutoInteractDisabled")
-
-			end
 
 			local Highlight = Instance.new("Highlight",Thing)
 			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
