@@ -63,7 +63,7 @@ local loadsucc, loaderr = pcall(function()
 		
 		task.wait()
 
-		if RunService:IsStudio() do
+		if RunService:IsStudio() then
 			break
 		end
 
