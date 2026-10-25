@@ -1299,7 +1299,7 @@ local loadsucc, loaderr = pcall(function()
 
 		local floods = {}
 
-		local plr = Players.LocalPlayer
+		local plr = game.Players.LocalPlayer
 		local char = plr.Character or plr.CharacterAdded:Wait()
 		local root = char:WaitForChild("HumanoidRootPart")
 
@@ -1335,7 +1335,7 @@ local loadsucc, loaderr = pcall(function()
 
 			for _, waterPump in ipairs(waterPumps) do
 				local wheel = waterPump:WaitForChild("Wheel")
-				local prompt = wheel:WaitForChild("ValvePromt")
+				local prompt = wheel:FindFirstChildOfClass("ProximityPrompt")
 
 				if not prompt:IsA("ProximityPrompt") then
 					continue
