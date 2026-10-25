@@ -1295,20 +1295,76 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	local AutoDoPipes = false
-
 	tpToAllPipes = function()
 
-		AutoDoPipes = not AutoDoPipes
+		local plr = game.Players.LocalPlayer
+		local char = plr.Character or plr.CharacterAdded:Wait()
 
-		if AutoDoPipes == true then
+		local floods = {}
 
-			PlayNotificationGood("Auto doing pipes enabled")
+		local root = char:WaitForChild("HumanoidRootPart")
 
-		elseif AutoDoPipes == false then
+		local currentRooms = workspace:WaitForChild("CurrentRooms")
+		local room100 = currentRooms:WaitForChild("100")
+		local DamHandler = room100:WaitForChild("_DamHandler")
 
-			PlayNotificationBad("Auto doing pipes disabled")
+		for _, flood in ipairs(DamHandler:GetChildren()) do
+			if flood:IsA("BasePart") and string.find(flood.Name, "Flood") then
+				local number = tonumber(flood.Name:match("%d+"))
 
+				if number then
+					table.insert(floods, {
+						Name = flood.Name,
+						Number = number,
+						Part = flood
+					})
+				end
+			end
+		end
+
+		table.sort(floods, function(a, b)
+			return a.Number < b.Number
+		end)
+
+		for _, flood in ipairs(floods) do
+			local pumps = flood.Part:WaitForChild("Pumps")
+			local waterPumps = pumps:GetChildren()
+
+			table.sort(waterPumps, function(a, b)
+				return a.Name < b.Name
+			end)
+
+			for _, waterPump in ipairs(waterPumps) do
+				local wheel = waterPump:WaitForChild("Wheel")
+				local prompt = wheel:FindFirstChildOfClass("ProximityPrompt")
+
+				if not prompt:IsA("ProximityPrompt") then
+					continue
+				end
+
+				if not prompt.Enabled then
+					continue
+				end
+
+				char.PrimaryPart.Anchored = true
+				char:PivotTo(wheel.CFrame * CFrame.new(0, 0, -2))
+				char.PrimaryPart.Anchored = false
+
+				coroutine.wrap(function()
+
+					while task.wait() do
+
+						prompt.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
+
+						prompt:InputHoldBegin()
+						prompt:InputHoldEnd()
+
+					end
+
+				end)()
+
+				task.wait(1)
+			end
 		end
 
 	end
@@ -2279,7 +2335,7 @@ local loadsucc, loaderr = pcall(function()
 
 		elseif i == 8 then
 
-			CreateTriggerTemplate("Auto do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
+			CreateTriggerTemplate("Do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
 
 		end
 
@@ -2340,92 +2396,6 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-
-	coroutine.wrap(function()
-
-		while task.wait() do
-
-			local plr = game.Players.LocalPlayer
-			local char = plr.Character or plr.CharacterAdded:Wait()
-
-			if AutoDoPipes == true then
-
-				local floods = {}
-
-				local root = char:WaitForChild("HumanoidRootPart")
-
-				local currentRooms = workspace:WaitForChild("CurrentRooms")
-				local room100 = currentRooms:WaitForChild("100")
-				local DamHandler = room100:WaitForChild("_DamHandler")
-
-				for _, flood in ipairs(DamHandler:GetChildren()) do
-					if flood:IsA("BasePart") and string.find(flood.Name, "Flood") then
-						local number = tonumber(flood.Name:match("%d+"))
-
-						if number then
-							table.insert(floods, {
-								Name = flood.Name,
-								Number = number,
-								Part = flood
-							})
-						end
-					end
-				end
-
-				table.sort(floods, function(a, b)
-					return a.Number < b.Number
-				end)
-
-				for _, flood in ipairs(floods) do
-					local pumps = flood.Part:WaitForChild("Pumps")
-					local waterPumps = pumps:GetChildren()
-
-					table.sort(waterPumps, function(a, b)
-						return a.Name < b.Name
-					end)
-
-					for _, waterPump in ipairs(waterPumps) do
-						local wheel = waterPump:WaitForChild("Wheel")
-						local prompt = wheel:FindFirstChildOfClass("ProximityPrompt")
-
-						if not prompt:IsA("ProximityPrompt") then
-							continue
-						end
-
-						if not prompt.Enabled then
-							continue
-						end
-
-						char.PrimaryPart.Anchored = true
-						char:PivotTo(wheel.CFrame * CFrame.new(0, 0, -2))
-						char.PrimaryPart.Anchored = false
-
-						coroutine.wrap(function()
-
-							while task.wait() do
-
-								prompt.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
-
-								prompt:InputHoldBegin()
-								prompt:InputHoldEnd()
-
-							end
-
-						end)()
-
-						task.wait(1)
-					end
-				end
-
-			else
-
-				char.PrimaryPart.Anchored = false
-
-			end
-
-		end
-
-	end)()
 
 	workspace.DescendantAdded:Connect(function(des)
 
