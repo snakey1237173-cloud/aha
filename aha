@@ -2342,7 +2342,7 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	coroutine.wrap(function()
-		
+
 		while task.wait() do
 
 			local plr = game.Players.LocalPlayer
@@ -2387,10 +2387,6 @@ local loadsucc, loaderr = pcall(function()
 					for _, waterPump in ipairs(waterPumps) do
 						local wheel = waterPump:WaitForChild("Wheel")
 						local prompt = wheel:FindFirstChildOfClass("ProximityPrompt")
-						
-						if waterPump:HasTag("PipeDone") then
-							continue
-						end
 
 						if not prompt:IsA("ProximityPrompt") then
 							continue
@@ -2416,14 +2412,8 @@ local loadsucc, loaderr = pcall(function()
 							end
 
 						end)()
-						
-						prompt.Triggered:Once(function()
-							
-							waterPump:AddTag("PipeDone")
-							
-						end)
 
-						task.wait(0.5)
+						task.wait(1)
 					end
 				end
 
