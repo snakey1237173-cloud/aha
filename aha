@@ -1294,21 +1294,21 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	local AutoDoPipes = false
 
 	tpToAllPipes = function()
 
 		AutoDoPipes = not AutoDoPipes
-		
+
 		if AutoDoPipes == true then
-			
+
 			PlayNotificationGood("Auto doing pipes enabled")
-			
+
 		elseif AutoDoPipes == false then
-			
+
 			PlayNotificationBad("Auto doing pipes disabled")
-			
+
 		end
 
 	end
@@ -2340,16 +2340,14 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	coroutine.wrap(function()
 		
-
-		
 		while task.wait() do
-			
+
 			local plr = game.Players.LocalPlayer
 			local char = plr.Character or plr.CharacterAdded:Wait()
-			
+
 			if AutoDoPipes == true then
 
 				local floods = {}
@@ -2389,7 +2387,10 @@ local loadsucc, loaderr = pcall(function()
 					for _, waterPump in ipairs(waterPumps) do
 						local wheel = waterPump:WaitForChild("Wheel")
 						local prompt = wheel:FindFirstChildOfClass("ProximityPrompt")
-						local oldEx = prompt.Exclusivity
+						
+						if waterPump:HasTag("PipeDone") then
+							continue
+						end
 
 						if not prompt:IsA("ProximityPrompt") then
 							continue
@@ -2401,6 +2402,7 @@ local loadsucc, loaderr = pcall(function()
 
 						char.PrimaryPart.Anchored = true
 						char:PivotTo(wheel.CFrame * CFrame.new(0, 0, -2))
+						char.PrimaryPart.Anchored = false
 
 						coroutine.wrap(function()
 
@@ -2414,6 +2416,12 @@ local loadsucc, loaderr = pcall(function()
 							end
 
 						end)()
+						
+						prompt.Triggered:Once(function()
+							
+							waterPump:AddTag("PipeDone")
+							
+						end)
 
 						task.wait(0.5)
 					end
@@ -2424,9 +2432,9 @@ local loadsucc, loaderr = pcall(function()
 				char.PrimaryPart.Anchored = false
 
 			end
-			
+
 		end
-		
+
 	end)()
 
 	workspace.DescendantAdded:Connect(function(des)
@@ -4656,11 +4664,9 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 		local rand = Random.new(Seed):NextInteger(1, 25)
-		local alreadyHappend = false -- lass es so bei dem meme macht LSPLASH das auch nur einmal
+		local alreadyHappend = false
 
 		if rand == 1 then
-
-			if alreadyHappend then return end
 
 			if LDB == false then
 
