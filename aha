@@ -4612,6 +4612,8 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
+		--[[
+		
 		local GUID1 = HttpService:GenerateGUID(false)
 		local GUID2 = HttpService:GenerateGUID(false)
 
@@ -4641,6 +4643,8 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 		end
+		
+		]]
 
 	end)
 
@@ -4653,7 +4657,7 @@ local loadsucc, loaderr = pcall(function()
 	if useMikuGui then
 
 		coroutine.wrap(function()
-			
+
 			while task.wait() do
 
 				for _, des :GuiService in MainGui:GetDescendants() do
@@ -4667,7 +4671,7 @@ local loadsucc, loaderr = pcall(function()
 				end
 
 			end
-			
+
 		end)()
 
 	end
