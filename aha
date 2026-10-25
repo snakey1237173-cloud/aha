@@ -1,4 +1,7 @@
-local FirstTime = os.clock()
+local TextChatService = game:GetService("TextChatService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+FirstTime = os.clock()
 
 local loadsucc, loaderr = pcall(function()
 
@@ -2010,6 +2013,107 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
+	randomAhhMessages = function()
+
+		coroutine.wrap(function()
+
+			while task.wait() do
+
+				local Texts = {
+
+					"Hello! I'm LSPLASH!";
+					" abcdefghijklmnopqrstuvwzyx ",
+					"Hallo Leute ich bin's Mickey Maus, wollt ihr mit mir in mein Keko Haus?";
+					"Hlo, i bims dr kevlord3000",
+					'print("Hello world!")',
+					"Benutzerdefinierter Samen",
+					"FNF IS NOT FNAF BROOOOOOOOOOOOOO",
+					"My Keyboard broke bro",
+					"RagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRag",
+					"gUGugAgaaGAuGu",
+					"Launch, Pautsch, Couch, Mouch",
+					"I think LSPLASH detected progress!",
+					"LSPLASH when Floor 3?",
+					"I can taste the Rainbow",
+					"Raid Shadow Legends",
+					"me lik blu ap",
+					"jejejejjejejejejhohohohohoho",
+					"SUGAR APPLE SEED IS IN STOCK!!!!!",
+					"Do you do you brick and brick and flee and Candy and Woof",
+					"Im Thinking Miku Miku OO EE OO";
+					"Try pressing ALT + F4 for free revives!",
+					"Der Dread wurde nicht gelöscht!!!!!!!!!!!!!!",
+					"Loading Braincells...",
+					"Text here.",
+					"Guys Guys Guys, i found nothing",
+					"PLS FREE wait ich brauch ja nix",
+					"Cheese Cheese Cheese",
+					"ITS RAINING TACOS🌮🌮",
+					"SOMEBODY SCREAM",
+					"ES WIRD SUPPE JEJESSEN!!!",
+					"gafga32",
+					"FRANZOSEN GRRRRR",
+					"fansjhjkhjhihyuioyhhjwql;efw",
+					"asdasdassdadasadssadadsadaddas",
+					"1234567890",
+					"Toilet Annanas Nastas",
+					"I wanna calling you",
+					"Wait mir schreibt grad jemand.",
+					"MEINE CHICKEN NUGGETS VEBRENNEN!!!",
+					"Warum läufst du so zick zack?",
+					"Ach bro dann spiel ich halt gegen die wenn die nicht will.",
+					"ICH LASS MIR NICHT MEIN SCHNITZEL WEG NEHMEN!",
+					"Ich muss grad spielen moment.",
+					"JUST PRESS THE KEYS",
+					"Ja sekunde",
+					"mir egal",
+					"ndoch",
+					"milz",
+					"mil",
+					"loda",
+					"JUMPSCARE HERE",
+					"Spiel mal legit doors",
+					"Chicken banana",
+					"Attempt to index nil with CFrame",
+					"Die kommt im nächsten raum! Jetzt kommt sie aber im nächsten raum! Ne ich mein JETZT kommt sie!",
+					"Mein liebes moster",
+					"R2D2",
+					"Den style natürlich",
+					"ehmmmmmmmm",
+					"Ich bin der kleister meister!",
+					"Hast du lack gesoffen",
+					"Der Psychopath mit dem weißen Mantel",
+					"OIIIA IAOIIIAI",
+					"Das Manische Herrenhaus oder der Bescheidene Hauptsitz",
+					"Bist du besoffen?",
+					"Ich bin ein chicken nugget!",
+					"RENNN BRO RENNNN",
+					"Fisch",
+					"Ich kenn dich doch!",
+					"WAS HAT DIE KI SCHON WIEDER GEMACHT????",
+					"I hate Handstreams",
+					"Say something for the camera!",
+
+				}
+
+				local randomText = Texts[math.random(1,#Texts)]
+
+				local txt = randomText
+
+				local Folder = ReplicatedStorage:FindFirstChild("DefaultChatSystemEvents") or Instance.new("Folder")
+				local Event = Folder:FindFirstChild("SayMessageRequest") or Instance.new("RemoteEvent")
+				Event:FireServer(txt, "All")
+				local Channel = (TextChatService:FindFirstChild("TextChannels") and TextChatService:WaitForChild("TextChannels"):FindFirstChild("RBXGeneral")) or Instance.new("TextChannel")
+				Channel:SendAsync(txt)
+
+				task.wait(120)
+
+			end
+
+		end)()
+
+	end
+
 	local AtmenEnabled = false
 
 	atmenAn = function()
@@ -2347,7 +2451,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 8 do
+	for i = 1, 9 do
 
 		if i == 1 then
 
@@ -2380,6 +2484,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 8 then
 
 			CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
+			
+		elseif i == 9 then
+			
+			CreateTriggerTemplate("random ahh messages", ScrollingHolderOtherHotkeys, "", randomAhhMessages)
 
 		end
 
@@ -4692,8 +4800,6 @@ if loadsucc then
 
 	print(`// ✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s for {game:GetService("Players").LocalPlayer.DisplayName}({game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 	PlayNotificationGood(`✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s`,true)
-
-print("UPD SUCCESS")
 
 else
 
