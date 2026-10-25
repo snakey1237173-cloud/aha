@@ -4652,15 +4652,23 @@ local loadsucc, loaderr = pcall(function()
 
 	if useMikuGui then
 
-		for _, des :GuiService in MainGui:GetDescendants() do
+		coroutine.wrap(function()
+			
+			while task.wait() do
 
-			if des:IsA("TextLabel") or des:IsA("TextButton") then
+				for _, des :GuiService in MainGui:GetDescendants() do
 
-				des.Font = Enum.Font.Michroma
+					if des:IsA("TextLabel") or des:IsA("TextButton") then
+
+						des.Font = Enum.Font.Michroma
+
+					end
+
+				end
 
 			end
-
-		end
+			
+		end)()
 
 	end
 
