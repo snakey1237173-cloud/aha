@@ -19,12 +19,32 @@ local loadsucc, loaderr = pcall(function()
 	local playerGui = player.PlayerGui
 
 	local LDB = false
+	local useMikuGui = false
+	local mikuUsers = {
+		
+		[1] = 5037267735,
+		[2] = 3259425964,
+		--[3] = 3048261775
+		
+	}
+	
+	if table.find(mikuUsers, player.UserId) then
+		
+		useMikuGui = true
+		
+	end
 
 	local MainGui = Instance.new("ScreenGui", playerGui)
 	MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	MainGui.Name = "ahaGUI"
+	MainGui.Name = "aha Gui"
 	MainGui.IgnoreGuiInset = true
 	MainGui.ResetOnSpawn = false
+	
+	if useMikuGui then
+		
+		MainGui.Name = "Miku Gui"
+		
+	end
 	
 	local KeyGui = Instance.new("Frame", MainGui)
 	KeyGui.Size = UDim2.fromScale(0.4,0.4)
@@ -32,23 +52,28 @@ local loadsucc, loaderr = pcall(function()
 	KeyGui.AnchorPoint = Vector2.new(0.5,0.5)
 	KeyGui.BackgroundColor3 = Color3.new(0.0627451, 0.0627451, 0.0627451)
 	KeyGui.BorderColor3 = Color3.new(0,0,0)
+	KeyGui.BorderSizePixel = 1
+	KeyGui.BorderColor3 = Color3.new(1,1,1)
 
 	local Text = Instance.new("TextLabel",KeyGui)
 	Text.AnchorPoint = Vector2.new(0.5,0)
 	Text.Position = UDim2.fromScale(0.5,0.05)
-	Text.Size = UDim2.fromScale(1,0.1)
+	Text.Size = UDim2.fromScale(.75,0.1)
 	Text.BorderSizePixel = 0
 	Text.BackgroundTransparency = 1
 	Text.TextScaled = true
 	Text.TextColor3 = Color3.new(1,1,1)
-	Text.Text = "AhaGui: Please enter Key"
+	Text.Text = `Welcome to {MainGui.Name} {player.Name}, please enter your key.`
+	Text.TextColor3 = useMikuGui and Color3.new(0, 1, 1) or Color3.new(1, 0.333333, 0)
 
 	local InputFrame = Instance.new("TextBox",KeyGui)
 	InputFrame.AnchorPoint = Vector2.new(0.5,0)
 	InputFrame.Position = UDim2.fromScale(0.5,0.5)
 	InputFrame.Size = UDim2.fromScale(0.5,0.15)
 	InputFrame.BorderSizePixel = 0
-	InputFrame.PlaceholderText = "Key"
+	InputFrame.TextColor3 = Color3.new(1,1,1)
+	InputFrame.TextScaled = true
+	InputFrame.PlaceholderText = "Enter Key"
 	InputFrame.Text = ""
 
 	local KeyComponment = "6cec01a0-e884-4dbe-bf80-af41d1286ab9"
@@ -86,6 +111,20 @@ local loadsucc, loaderr = pcall(function()
 	MainFrame.BorderColor3 = Color3.new(1, 1, 1)
 	MainFrame.Visible = false
 	MainFrame.ZIndex = -1000000000
+	
+	local TitleHolder = Instance.new("Frame", MainFrame)
+	TitleHolder.BackgroundTransparency = 1
+	TitleHolder.Size = UDim2.fromScale(1,0.127)
+	TitleHolder.BorderSizePixel = 0
+	
+	local TitleText = Instance.new("TextLabel", TitleHolder)
+	TitleText.Size = UDim2.fromScale(1,0.673)
+	TitleText.Position = UDim2.fromScale(-0,0.163)
+	TitleText.BackgroundTransparency = 1
+	TitleText.TextScaled = true
+	TitleText.TextColor3 = useMikuGui and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(255, 85, 0)
+	TitleText.Text = MainGui.Name
+	TitleText.Font = Enum.Font.Montserrat
 
 	local ScrollingHolderHumChanges = Instance.new("ScrollingFrame", MainFrame)
 	ScrollingHolderHumChanges.BackgroundTransparency = 1
@@ -338,12 +377,12 @@ local loadsucc, loaderr = pcall(function()
 	WelcomeText.BackgroundTransparency = 1
 	WelcomeText.BorderSizePixel = 0
 	WelcomeText.TextScaled = true
-	WelcomeText.TextColor3 = Color3.new(1, 1, 1)
+	WelcomeText.TextColor3 = useMikuGui and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(255, 255, 255)
 	WelcomeText.Font = Enum.Font.Montserrat
-	WelcomeText.Text = `Welcome, {player.DisplayName}(@{player.Name})`
+	WelcomeText.Text = useMikuGui and `Welcome, {player.DisplayName}(@{player.Name}) (Miku)` or `Welcome, @{player.DisplayName}(@{player.Name})`
 	if player.DisplayName == player.Name then
 
-		WelcomeText.Text = `Welcome, @{player.DisplayName}`
+		WelcomeText.Text = useMikuGui and `Welcome, @{player.DisplayName} (Miku)` or `Welcome, @{player.DisplayName}`
 
 	end
 
@@ -588,13 +627,11 @@ local loadsucc, loaderr = pcall(function()
 	local isOpen = false
 	local keyCodes = {}
 
-	if player.UserId == 5037267735 or player.UserId == 3259425964 then
+	if useMikuGui then
 
 		OpenButton.Image = "rbxassetid://298633257"
 		FunnyImage.Image = "rbxassetid://6280332777"
-
-
-
+		
 	else
 
 		OpenButton.Image = "rbxassetid://8073107221"
@@ -616,7 +653,7 @@ local loadsucc, loaderr = pcall(function()
 
 	}
 
-	if player.UserId == 5037267735 then
+	if useMikuGui then
 
 		local co = coroutine.create(function() 
 
@@ -625,18 +662,8 @@ local loadsucc, loaderr = pcall(function()
 
 		end)
 		coroutine.resume(co)
-
-	elseif player.UserId == 3259425964 then
-
-		local co = coroutine.create(function() 
-
-			PlayNotificationBad("Injecting miku....")
-			PlayNotificationBad("Successfully injected miku.", "Miku")
-
-		end)
-		coroutine.resume(co)
-
-	end
+		
+    end
 
 	workspace.ChildAdded:Connect(function(chil)
 
@@ -1486,16 +1513,59 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	local NAME_COLORS =
+		{
+			Color3.new(253/255, 41/255, 67/255),
+			Color3.new(1/255, 162/255, 255/255),
+			Color3.new(2/255, 184/255, 87/255),
+			BrickColor.new("Bright violet").Color,
+			BrickColor.new("Bright orange").Color,
+			BrickColor.new("Bright yellow").Color,
+			BrickColor.new("Bright reddish violet").Color,
+			BrickColor.new("Light brick yellow").Color,
+		}
+
+	local function GetNameValue(pName)
+		local value = 0
+		for index = 1, #pName do
+			local cValue = string.byte(string.sub(pName, index, index))
+			local reverseIndex = #pName - index + 1
+			if #pName%2 == 1 then
+				reverseIndex = reverseIndex - 1
+			end
+			if reverseIndex%4 >= 2 then
+				cValue = -cValue
+			end
+			value = value + cValue
+		end
+		return value
+	end
+
+	local color_offset = 0
+	local function ComputeNameColor(pName)
+		return NAME_COLORS[((GetNameValue(pName) + color_offset) % #NAME_COLORS) + 1]
+	end
+	
+	local function getRGBNameColor(pName)
+		
+		local predictedColor = ComputeNameColor(pName)
+		
+		local r, g, b = predictedColor.R*255, predictedColor.G*255, predictedColor.B*255
+		return string.format("%d, %d, %d", r, g, b)
+		
+	end
 
 	progress = function()
 
 		local Chat = game:GetService("Chat")
+		local TextChatService = game:GetService("TextChatService")
 
 		local playerChar = player.Character or player.CharacterAdded:Wait()
 
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
-		OWNER.Humanoid.DisplayName = "LSPLASH"
-
+		OWNER.Humanoid.DisplayName = "Lightning_Splash"
+		
 		playerChar.HumanoidRootPart.Anchored = true
 
 		local Sound = Instance.new("Sound")
@@ -1530,38 +1600,67 @@ local loadsucc, loaderr = pcall(function()
 		local Pos = charpivot.Position
 
 		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
-
+		
+		local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
+		local currentText
+		
 		OWNER.Parent = workspace
 		OWNER:PivotTo(CF)
 		task.wait(1)
+		
+		currentText = "HEY!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
-		Chat:Chat(OWNER.Head, "HEY!")
 		task.wait(3)
-		Chat:Chat(OWNER.Head, "I detected progress!")
+		currentText = "I detected progress!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 		task.wait(2)
-		Chat:Chat(OWNER.Head, "Now you will die.")
+		currentText = "Now you will die."
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		--Now you will die.
+
 		task.wait(2)
 
-		Chat:Chat(OWNER.Head, "/kill "..OWNER.Humanoid.DisplayName)
+		--/kill .. OWNER.Humanoid.DisplayName
+
+		currentText = "/kill ".. OWNER.Humanoid.DisplayName
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
 		OWNER.Humanoid.Health = 0
 		task.wait(2)
-		Chat:Chat(OWNER.Head, "Oops wrong command.")
+
+		currentText = "Oops wrong command."
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 		task.wait(2)
 		OWNER:Destroy()
 
 		OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
-		OWNER.Humanoid.DisplayName = "LSPLASH"
+		OWNER.Humanoid.DisplayName = "Lightning_Splash"
 		OWNER.Parent = workspace
 		OWNER:PivotTo(CF)
+		currentText = "/revive "..OWNER.Humanoid.DisplayName
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 		local ff = Instance.new("ForceField")
 		ff.Parent = OWNER
 
-		Chat:Chat(OWNER.Head, "Let me try that again!")
+		task.wait(1)
+
+		currentText = "Let me try that again!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 		task.wait(2)
 
-		Chat:Chat(OWNER.Head, "/kill "..player.Name)
+		currentText = "/kill "..player.Name
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 		task.delay(2, function()
 
@@ -1573,18 +1672,22 @@ local loadsucc, loaderr = pcall(function()
 
 		playerChar.Humanoid.Health = 0
 		task.wait(1)
-		Chat:Chat(OWNER.Head, "Now its right!")
+
+		currentText = "Now its right!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 	end
 
 	randomprogress = function()
 
 		local Chat = game:GetService("Chat")
+		local TextChatService = game:GetService("TextChatService")
 
 		local playerChar = player.Character or player.CharacterAdded:Wait()
 
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
-		OWNER.Humanoid.DisplayName = "LSPLASH"
+		OWNER.Humanoid.DisplayName = "Lightning_Splash"
 
 		if player.UserId == 7359241522 then
 
@@ -1601,20 +1704,46 @@ local loadsucc, loaderr = pcall(function()
 			local Pos = charpivot.Position
 
 			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+			
+			local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
+			local currentText 
 
 			OWNER.Parent = workspace
 			OWNER:PivotTo(CF)
 			task.wait(1)
-
-			Chat:Chat(OWNER.Head, "HEY!")
+			
+			currentText = "HEY!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(3)
-			Chat:Chat(OWNER.Head, "I detected progress again!")
+			
+			currentText = "I detected progress!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(2)
-			Chat:Chat(OWNER.Head, "Wait....")
+			
+			currentText = "Wait...."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(1)
-			Chat:Chat(OWNER.Head, "YOU ARE LOLDOGE OH HELL NAH")
+			
+			currentText = "YOU ARE LOLDOGE OH HELL NAH"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(1)
-			Chat:Chat(OWNER.Head, "I'M OUT!")
+			
+			currentText = "I'M OUT!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
+			currentText = "/kick "..OWNER.Humanoid.DisplayName
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(1)
 			OWNER:Destroy()
 
@@ -1654,42 +1783,76 @@ local loadsucc, loaderr = pcall(function()
 			local Pos = charpivot.Position
 
 			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+			
+			local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
+			local currentText 
 
 			OWNER.Parent = workspace
 			OWNER:PivotTo(CF)
 			task.wait(1)
+			
+			currentText = "HEY!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
-			Chat:Chat(OWNER.Head, "HEY!")
 			task.wait(3)
-			Chat:Chat(OWNER.Head, "I detected progress again!")
+			
+			currentText = "I detected progress!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(2)
-			Chat:Chat(OWNER.Head, "Now you will die.")
+			
+			currentText = "Now you will die."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			task.wait(2)
 
-			Chat:Chat(OWNER.Head, "/kill "..OWNER.Humanoid.DisplayName)
+			currentText = "/kill "..OWNER.Humanoid.DisplayName
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
 			OWNER.Humanoid.Health = 0
 			task.wait(2)
-			Chat:Chat(OWNER.Head, "Oops wrong command.")
+			
+			currentText = "Oops wrong command."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+			
+			Chat:Chat(OWNER.Head, "")
 			task.wait(2)
 			OWNER:Destroy()
 
 			OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
-			OWNER.Humanoid.DisplayName = "LSPLASH"
+			OWNER.Humanoid.DisplayName = "Lightning_Splash"
 			OWNER.Parent = workspace
 			OWNER:PivotTo(CF)
+
+			currentText = "/revive "..OWNER.Humanoid.DisplayName
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			local ff = Instance.new("ForceField")
 			ff.Parent = OWNER
 
-			Chat:Chat(OWNER.Head, "Let me try that again!")
+			task.wait(1)
+			
+			currentText = "Let me try that again!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			task.wait(2)
-
-			Chat:Chat(OWNER.Head, "/fling "..player.Name)
+			
+			currentText = "/fling "..player.Name
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			task.wait(2)
-
-			Chat:Chat(OWNER.Head, "Wait....")
+			
+			currentText = "Wait...."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			playerChar.HumanoidRootPart.Anchored = false
 
@@ -1707,11 +1870,23 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 			task.wait(1)
-			Chat:Chat(OWNER.Head, "That was also the wrong command")
+			
+			currentText = "That was also the wrong command!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		
 			task.wait(1)
-			Chat:Chat(OWNER.Head, "Welp too bad I guess")
+			
+			currentText = "Welp too bad I guess"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		
 			task.wait(1)
-			Chat:Chat(OWNER.Head, "I'm out!")
+			
+			currentText = "I'm out!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		
 			task.wait(1)
 			OWNER:Destroy()
 
