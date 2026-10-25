@@ -1296,9 +1296,9 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	tpToAllPipes = function()
-		
+
 		coroutine.wrap(function()
-			
+
 			local plr = game.Players.LocalPlayer
 			local char = plr.Character or plr.CharacterAdded:Wait()
 
@@ -1349,7 +1349,7 @@ local loadsucc, loaderr = pcall(function()
 					end
 
 					char.PrimaryPart.Anchored = true
-					char:PivotTo(wheel.CFrame * CFrame.new(0, 0, -2))
+					char:PivotTo(CFrame.lookAt(wheel.CFrame * CFrame.new(0, 0, -2).Position,wheel.CFrame.Position))
 					char.PrimaryPart.Anchored = false
 
 					coroutine.wrap(function()
@@ -1367,8 +1367,10 @@ local loadsucc, loaderr = pcall(function()
 
 					task.wait(1)
 				end
+
+				task.wait(8.25)
 			end
-			
+
 		end)()
 
 	end
@@ -4690,6 +4692,8 @@ if loadsucc then
 
 	print(`// ✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s for {game:GetService("Players").LocalPlayer.DisplayName}({game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 	PlayNotificationGood(`✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s`,true)
+
+print("UPD SUCCESS")
 
 else
 
