@@ -24,7 +24,7 @@ local loadsucc, loaderr = pcall(function()
 
 		[1] = 5037267735,
 		[2] = 3259425964,
-	--	[3] = 3048261775
+		--	[3] = 3048261775
 
 	}
 
@@ -1294,21 +1294,21 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	tpToAllPipes = function()
-		
+
 		local floods = {}
-		
+
 		local plr = Players.LocalPlayer
 		local char = plr.Character or plr.CharacterAdded:Wait()
 		local root = char:WaitForChild("HumanoidRootPart")
-		
+
 		local currentRooms = workspace:WaitForChild("CurrentRooms")
 		local room100 = currentRooms:WaitForChild("100")
 		local DamHandler = room100:WaitForChild("_DamHandler")
-		
+
 		for _, flood in ipairs(DamHandler:GetChildren()) do
-			if flood:IsA("BasePart") then
+			if flood:IsA("BasePart") and string.find(flood.Name, "Flood") then
 				local number = tonumber(flood.Name:match("%d+"))
 
 				if number then
@@ -1361,9 +1361,9 @@ local loadsucc, loaderr = pcall(function()
 				task.wait(0.5)
 			end
 		end
-		
+
 		char.PrimaryPart.Anchored = false
-		
+
 	end
 
 	haleluhahaahahaaiaiaahaha = function()
@@ -2329,7 +2329,7 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 7 then
 
 			CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
-			
+
 		elseif i == 8 then
 
 			CreateTriggerTemplate("Auto do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
@@ -4621,18 +4621,18 @@ local loadsucc, loaderr = pcall(function()
 			Seed = bit32.bxor(Seed,string.byte(WomboCombo,i))
 			Seed = bit32.band(Seed * 16777619, 0xFFFFFFFF)
 		end
-		
+
 		local rand = Random.new(Seed):NextInteger(1, 25)
 		local alreadyHappend = false -- lass es so bei dem meme macht LSPLASH das auch nur einmal
-		
+
 		if rand == 1 then
-			
+
 			if alreadyHappend then return end
 
 			if LDB == false then
 
 				LDB = true
-				
+
 				alreadyHappend = true
 
 				task.spawn(randomprogress)
@@ -4650,19 +4650,19 @@ local loadsucc, loaderr = pcall(function()
 		ESPMalThing(Thing)
 
 	end)
-	
+
 	if useMikuGui then
-		
+
 		for _, des :GuiService in game:GetDescendants() do
 
 			if des:IsA("TextLabel") or des:IsA("TextButton") then
-				
+
 				des.Font = Enum.Font.Michroma
-				
+
 			end
 
 		end
-		
+
 	end
 
 end)
@@ -4672,7 +4672,7 @@ if loadsucc then
 	local LastTime = os.clock()
 
 	local LoadTime = LastTime - FirstTime
-	
+
 	print(`// ✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s for {game:GetService("Players").LocalPlayer.DisplayName}({game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 	PlayNotificationGood(`✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s`,true)
 
