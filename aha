@@ -4652,7 +4652,7 @@ local loadsucc, loaderr = pcall(function()
 
 	if useMikuGui then
 
-		for _, des :GuiService in game:GetDescendants() do
+		for _, des :GuiService in MainGui:GetDescendants() do
 
 			if des:IsA("TextLabel") or des:IsA("TextButton") then
 
