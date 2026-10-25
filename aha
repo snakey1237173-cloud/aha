@@ -2093,6 +2093,7 @@ local loadsucc, loaderr = pcall(function()
 					"WAS HAT DIE KI SCHON WIEDER GEMACHT????",
 					"I hate Handstreams",
 					"Say something for the camera!",
+					"Baka Baka",
 
 				}
 
@@ -2484,10 +2485,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 8 then
 
 			CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
-			
+
 		elseif i == 9 then
-			
-			CreateTriggerTemplate("random ahh messages", ScrollingHolderOtherHotkeys, "", randomAhhMessages)
+
+			CreateTriggerTemplate("random ahh messages", ScrollingHolderFunny, "", randomAhhMessages)
 
 		end
 
