@@ -24,7 +24,7 @@ local loadsucc, loaderr = pcall(function()
 
 		[1] = 5037267735,
 		[2] = 3259425964,
-		--[3] = 3048261775
+	--	[3] = 3048261775
 
 	}
 
@@ -1294,6 +1294,77 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	tpToAllPipes = function()
+		
+		local floods = {}
+		
+		local plr = Players.LocalPlayer
+		local char = plr.Character or plr.CharacterAdded:Wait()
+		local root = char:WaitForChild("HumanoidRootPart")
+		
+		local currentRooms = workspace:WaitForChild("CurrentRooms")
+		local room100 = currentRooms:WaitForChild("100")
+		local DamHandler = room100:WaitForChild("_DamHandler")
+		
+		for _, flood in ipairs(DamHandler:GetChildren()) do
+			if flood:IsA("BasePart") then
+				local number = tonumber(flood.Name:match("%d+"))
+
+				if number then
+					table.insert(floods, {
+						Name = flood.Name,
+						Number = number,
+						Part = flood
+					})
+				end
+			end
+		end
+
+		table.sort(floods, function(a, b)
+			return a.Number < b.Number
+		end)
+
+		for _, flood in ipairs(floods) do
+			local pumps = flood.Part:WaitForChild("Pumps")
+			local waterPumps = pumps:GetChildren()
+
+			table.sort(waterPumps, function(a, b)
+				return a.Name < b.Name
+			end)
+
+			for _, waterPump in ipairs(waterPumps) do
+				local wheel = waterPump:WaitForChild("Wheel")
+				local prompt = wheel:WaitForChild("ValvePromt")
+
+				if not prompt:IsA("ProximityPrompt") then
+					continue
+				end
+
+				if not prompt.Enabled then
+					continue
+				end
+
+				char.PrimaryPart.Anchored = true
+				char:PivotTo(wheel.CFrame * CFrame.new(0, 0, -2))
+
+				task.wait(0.25)
+
+				if (root.Position - prompt.Parent.Position).Magnitude
+					<= prompt.MaxActivationDistance then
+
+					prompt:InputHoldBegin()
+					task.wait(math.max(prompt.HoldDuration, 0.1))
+					prompt:InputHoldEnd()
+				end
+
+				task.wait(0.5)
+			end
+		end
+		
+		char.PrimaryPart.Anchored = false
+		
+	end
 
 	haleluhahaahahaaiaiaahaha = function()
 
@@ -2229,7 +2300,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 7 do
+	for i = 1, 8 do
 
 		if i == 1 then
 
@@ -2258,6 +2329,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 7 then
 
 			CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
+			
+		elseif i == 8 then
+
+			CreateTriggerTemplate("Auto do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
 
 		end
 
@@ -4546,14 +4621,19 @@ local loadsucc, loaderr = pcall(function()
 			Seed = bit32.bxor(Seed,string.byte(WomboCombo,i))
 			Seed = bit32.band(Seed * 16777619, 0xFFFFFFFF)
 		end
-
-		local rand = Random.new(Seed):NextInteger(1,25)
-
+		
+		local rand = Random.new(Seed):NextInteger(1, 25)
+		local alreadyHappend = false -- lass es so bei dem meme macht LSPLASH das auch nur einmal
+		
 		if rand == 1 then
+			
+			if alreadyHappend then return end
 
 			if LDB == false then
 
 				LDB = true
+				
+				alreadyHappend = true
 
 				task.spawn(randomprogress)
 				task.wait(10)
@@ -4570,6 +4650,20 @@ local loadsucc, loaderr = pcall(function()
 		ESPMalThing(Thing)
 
 	end)
+	
+	if useMikuGui then
+		
+		for _, des :GuiService in game:GetDescendants() do
+
+			if des:IsA("TextLabel") or des:IsA("TextButton") then
+				
+				des.Font = Enum.Font.Michroma
+				
+			end
+
+		end
+		
+	end
 
 end)
 
@@ -4578,7 +4672,7 @@ if loadsucc then
 	local LastTime = os.clock()
 
 	local LoadTime = LastTime - FirstTime
-
+	
 	print(`// ✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s for {game:GetService("Players").LocalPlayer.DisplayName}({game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 	PlayNotificationGood(`✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s`,true)
 
