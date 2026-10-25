@@ -2,7 +2,7 @@ local FirstTime = os.clock()
 
 local loadsucc, loaderr = pcall(function()
 
-	warn("// 🔄️ Trying to load ahaGUI... //")
+	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local UserInputService = game:GetService("UserInputService")
@@ -21,17 +21,17 @@ local loadsucc, loaderr = pcall(function()
 	local LDB = false
 	local useMikuGui = false
 	local mikuUsers = {
-		
+
 		[1] = 5037267735,
 		[2] = 3259425964,
 		--[3] = 3048261775
-		
+
 	}
-	
+
 	if table.find(mikuUsers, player.UserId) then
-		
+
 		useMikuGui = true
-		
+
 	end
 
 	local MainGui = Instance.new("ScreenGui", playerGui)
@@ -39,13 +39,13 @@ local loadsucc, loaderr = pcall(function()
 	MainGui.Name = "aha Gui"
 	MainGui.IgnoreGuiInset = true
 	MainGui.ResetOnSpawn = false
-	
+
 	if useMikuGui then
-		
+
 		MainGui.Name = "Miku Gui"
-		
+
 	end
-	
+
 	local KeyGui = Instance.new("Frame", MainGui)
 	KeyGui.Size = UDim2.fromScale(0.4,0.4)
 	KeyGui.Position = UDim2.fromScale(0.5,0.5)
@@ -85,7 +85,7 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	while InputFrame.Text ~= tostring(Key) do
-		
+
 		task.wait()
 
 		if RunService:IsStudio() then
@@ -111,12 +111,12 @@ local loadsucc, loaderr = pcall(function()
 	MainFrame.BorderColor3 = Color3.new(1, 1, 1)
 	MainFrame.Visible = false
 	MainFrame.ZIndex = -1000000000
-	
+
 	local TitleHolder = Instance.new("Frame", MainFrame)
 	TitleHolder.BackgroundTransparency = 1
 	TitleHolder.Size = UDim2.fromScale(1,0.127)
 	TitleHolder.BorderSizePixel = 0
-	
+
 	local TitleText = Instance.new("TextLabel", TitleHolder)
 	TitleText.Size = UDim2.fromScale(1,0.673)
 	TitleText.Position = UDim2.fromScale(-0,0.163)
@@ -631,7 +631,7 @@ local loadsucc, loaderr = pcall(function()
 
 		OpenButton.Image = "rbxassetid://298633257"
 		FunnyImage.Image = "rbxassetid://6280332777"
-		
+
 	else
 
 		OpenButton.Image = "rbxassetid://8073107221"
@@ -662,8 +662,8 @@ local loadsucc, loaderr = pcall(function()
 
 		end)
 		coroutine.resume(co)
-		
-    end
+
+	end
 
 	workspace.ChildAdded:Connect(function(chil)
 
@@ -831,21 +831,21 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end)
-	
+
 	DisableAutoInteractforModel = function(TargetModel)
-		
+
 		if not TargetModel then return end
-		
+
 		for _, prox in TargetModel:GetDescendants() do
-			
+
 			if prox:IsA("ProximityPrompt") then
-				
+
 				prox:AddTag("AutoInteractDisabled")
-				
+
 			end
-			
+
 		end
-		
+
 	end
 
 	SetupKeyCodes = function()
@@ -1513,7 +1513,7 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	local NAME_COLORS =
 		{
 			Color3.new(253/255, 41/255, 67/255),
@@ -1546,14 +1546,14 @@ local loadsucc, loaderr = pcall(function()
 	local function ComputeNameColor(pName)
 		return NAME_COLORS[((GetNameValue(pName) + color_offset) % #NAME_COLORS) + 1]
 	end
-	
+
 	local function getRGBNameColor(pName)
-		
+
 		local predictedColor = ComputeNameColor(pName)
-		
+
 		local r, g, b = predictedColor.R*255, predictedColor.G*255, predictedColor.B*255
 		return string.format("%d, %d, %d", r, g, b)
-		
+
 	end
 
 	progress = function()
@@ -1565,7 +1565,7 @@ local loadsucc, loaderr = pcall(function()
 
 		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
 		OWNER.Humanoid.DisplayName = "Lightning_Splash"
-		
+
 		playerChar.HumanoidRootPart.Anchored = true
 
 		local Sound = Instance.new("Sound")
@@ -1600,14 +1600,14 @@ local loadsucc, loaderr = pcall(function()
 		local Pos = charpivot.Position
 
 		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
-		
+
 		local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
 		local currentText
-		
+
 		OWNER.Parent = workspace
 		OWNER:PivotTo(CF)
 		task.wait(1)
-		
+
 		currentText = "HEY!"
 		Chat:Chat(OWNER.Head, currentText)
 		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
@@ -1704,46 +1704,46 @@ local loadsucc, loaderr = pcall(function()
 			local Pos = charpivot.Position
 
 			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
-			
+
 			local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
 			local currentText 
 
 			OWNER.Parent = workspace
 			OWNER:PivotTo(CF)
 			task.wait(1)
-			
+
 			currentText = "HEY!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(3)
-			
+
 			currentText = "I detected progress!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(2)
-			
+
 			currentText = "Wait...."
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(1)
-			
+
 			currentText = "YOU ARE LOLDOGE OH HELL NAH"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(1)
-			
+
 			currentText = "I'M OUT!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			currentText = "/kick "..OWNER.Humanoid.DisplayName
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(1)
 			OWNER:Destroy()
 
@@ -1783,43 +1783,43 @@ local loadsucc, loaderr = pcall(function()
 			local Pos = charpivot.Position
 
 			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
-			
+
 			local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
 			local currentText 
 
 			OWNER.Parent = workspace
 			OWNER:PivotTo(CF)
 			task.wait(1)
-			
+
 			currentText = "HEY!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			task.wait(3)
-			
+
 			currentText = "I detected progress!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(2)
-			
+
 			currentText = "Now you will die."
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			task.wait(2)
 
 			currentText = "/kill "..OWNER.Humanoid.DisplayName
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			OWNER.Humanoid.Health = 0
 			task.wait(2)
-			
+
 			currentText = "Oops wrong command."
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-			
+
 			Chat:Chat(OWNER.Head, "")
 			task.wait(2)
 			OWNER:Destroy()
@@ -1837,19 +1837,19 @@ local loadsucc, loaderr = pcall(function()
 			ff.Parent = OWNER
 
 			task.wait(1)
-			
+
 			currentText = "Let me try that again!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			task.wait(2)
-			
+
 			currentText = "/fling "..player.Name
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 			task.wait(2)
-			
+
 			currentText = "Wait...."
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
@@ -1870,23 +1870,23 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 			task.wait(1)
-			
+
 			currentText = "That was also the wrong command!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-		
+
 			task.wait(1)
-			
+
 			currentText = "Welp too bad I guess"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-		
+
 			task.wait(1)
-			
+
 			currentText = "I'm out!"
 			Chat:Chat(OWNER.Head, currentText)
 			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
-		
+
 			task.wait(1)
 			OWNER:Destroy()
 
@@ -2318,7 +2318,7 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	DisableAutoInteractforModel()
 
 	workspace.DescendantAdded:Connect(function(des)
@@ -4575,12 +4575,11 @@ end)
 
 if loadsucc then
 
-	print("// ✅ Successfully loaded ahaGUI //")
-
 	local LastTime = os.clock()
 
 	local LoadTime = LastTime - FirstTime
 
+	print(`// ✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s for {game:GetService("Players").LocalPlayer.DisplayName}({game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 	PlayNotificationGood(`✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s`,true)
 
 else
@@ -4591,7 +4590,7 @@ else
 
 	local LoadTime = LastTime - FirstTime
 
-	warn("keine exploits für dich")
+	warn("kein script für dich")
 	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s!                                                   Reason: {loaderr}`)
 
 end  
