@@ -1976,16 +1976,16 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	MEINEAUGEN = function()
-		
+
 		local colorCorrection = Instance.new("ColorCorrectionEffect",game.Lighting)
 		coroutine.wrap(function()
-			
+
 			for i = 1, math.random(1,20) do
-				
+
 				coroutine.wrap(function()
-					
+
 					while task.wait() do
 
 						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {TintColor = Color3.fromRGB(math.random(0,255),math.random(0,255),math.random(0,255))}):Play()
@@ -2000,15 +2000,15 @@ local loadsucc, loaderr = pcall(function()
 						task.wait(math.random(0.1, 1))
 
 					end
-					
+
 				end)()
-				
+
 				task.wait(math.random(0.1, 0.75))
-				
+
 			end
-			
+
 		end)()
-		
+
 	end
 
 	local musicEnabled = false
@@ -2130,7 +2130,7 @@ local loadsucc, loaderr = pcall(function()
 					"Baka Baka",
 
 				}
-				
+
 				TextChatService.OnIncomingMessage = function(msg :TextChatMessage)
 
 					if msg.TextSource then
@@ -2533,10 +2533,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 9 then
 
 			CreateTriggerTemplate("random ahh messages", ScrollingHolderFunny, "", randomAhhMessages)
-			
+
 		elseif i == 10 then
-			
-			CreateTriggerTemplate("MEINE AUGEN", ScrollingHolderFunny, "", MEINEAUGEN)
+
+			CreateTriggerTemplate("PARTY MODE 🪩🪩🪩", ScrollingHolderFunny, "", MEINEAUGEN)
 
 		end
 
@@ -4856,7 +4856,7 @@ else
 
 	local LastTime = os.clock()
 
-	local LoadTime = LastTime - FirstTime
+	local LoadTime = (LastTime - FirstTime)
 
 	warn("kein script für dich")
 	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s!                                                   Reason: {loaderr}`)
