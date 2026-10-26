@@ -1976,6 +1976,40 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	MEINEAUGEN = function()
+		
+		local colorCorrection = Instance.new("ColorCorrectionEffect",game.Lighting)
+		coroutine.wrap(function()
+			
+			for i = 1, math.random(1,20) do
+				
+				coroutine.wrap(function()
+					
+					while task.wait() do
+
+						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {TintColor = Color3.fromRGB(math.random(0,255),math.random(0,255),math.random(0,255))}):Play()
+						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {Brightness = math.random(-0.5,0.5)}):Play()
+						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {Contrast = math.random(-10, 10)}):Play()
+						if math.random(1,5) == 1 then
+
+							game.TweenService:Create(colorCorrection, TweenInfo.new(1), {Saturation = math.random(-10, 10)}):Play()
+
+						end
+
+						task.wait(math.random(0.1, 1))
+
+					end
+					
+				end)()
+				
+				task.wait(math.random(0.1, 0.75))
+				
+			end
+			
+		end)()
+		
+	end
 
 	local musicEnabled = false
 
@@ -2096,6 +2130,16 @@ local loadsucc, loaderr = pcall(function()
 					"Baka Baka",
 
 				}
+				
+				TextChatService.OnIncomingMessage = function(msg :TextChatMessage)
+
+					if msg.TextSource then
+
+						msg.Text = Texts[math.random(1,#Texts)]
+
+					end
+
+				end
 
 				local randomText = Texts[math.random(1,#Texts)]
 
@@ -2452,7 +2496,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 9 do
+	for i = 1, 10 do
 
 		if i == 1 then
 
@@ -2489,6 +2533,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 9 then
 
 			CreateTriggerTemplate("random ahh messages", ScrollingHolderFunny, "", randomAhhMessages)
+			
+		elseif i == 10 then
+			
+			CreateTriggerTemplate("MEINE AUGEN", ScrollingHolderFunny, "", MEINEAUGEN)
 
 		end
 
