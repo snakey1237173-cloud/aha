@@ -6,7 +6,8 @@ FirstTime = os.clock()
 local loadsucc, loaderr = pcall(function()
 
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
-
+	error("err")
+	
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local UserInputService = game:GetService("UserInputService")
 	local RunService = game:GetService("RunService")
@@ -2121,7 +2122,7 @@ local loadsucc, loaderr = pcall(function()
 					"Das Manische Herrenhaus oder der Bescheidene Hauptsitz",
 					"Bist du besoffen?",
 					"Ich bin ein chicken nugget!",
-					"RENNN BRO RENNNN",
+					"RENNN BRO REEEEEEEEEEENNNNNNNNNN",
 					"Fisch",
 					"Ich kenn dich doch!",
 					"WAS HAT DIE KI SCHON WIEDER GEMACHT????",
@@ -2561,6 +2562,77 @@ local loadsucc, loaderr = pcall(function()
 	end
 
 	workspace.DescendantAdded:Connect(function(des)
+
+		local Name = des.Name
+
+		if Name == "Snare" then
+
+			for _, Part in des:GetDescendants() do
+
+				if Part:IsA("BasePart") then
+
+					Part.CanTouch = false
+
+				end
+
+			end
+
+			des.DescendantAdded:Connect(function(Part :BasePart)
+
+				if Part:IsA("BasePart") then
+
+					Part.CanTouch = false
+
+				end
+
+			end)
+
+		elseif Name == "GiggleCeiling" then
+
+			des:WaitForChild("Hitbox").CanTouch = false
+
+		elseif Name == "GloomPile" then
+
+			for _, Part in des:GetDescendants() do
+
+				if Part:IsA("BasePart") then
+
+					Part.CanTouch = false
+
+				end
+
+			end
+
+			des.DescendantAdded:Connect(function(Part)
+
+				if Part:IsA("BasePart") then 
+
+					Part.CanTouch = false
+
+				end
+
+			end)
+
+		elseif Name == "DoorFake" or Name == "FakeDoor" then
+
+			if des.Parent and des:FindFirstChild("Hidden") then
+
+				des:WaitForChild("Hidden").CanTouch = false
+				local Lock = des:FindFirstChild("Lock")
+				if Lock and Lock:FindFirstChild("UnlockPrompt") then
+
+					Lock.UnlockPrompt.Enabled = false 
+
+				end
+
+			end
+
+		elseif Name == "SideroomSpace" then
+
+			des:WaitForChild("Collision").CanCollide = true
+			des:WaitForChild("Collision").CanTouch = false
+
+		end
 
 		if des:IsA("ProximityPrompt") and des.Parent then
 
@@ -4284,18 +4356,6 @@ local loadsucc, loaderr = pcall(function()
 			UiStroke.Color = Color3.fromRGB(0, 0, 0)
 			UiStroke.Thickness = 1
 
-
-		elseif Thing.Name == "SideroomSpace" then
-
-			local Collision = Thing:FindFirstChild("Collision")
-
-			local BlockPart = Instance.new("Part",Thing)
-			BlockPart.Name = "BlockPart"
-			BlockPart.Size = Collision.Size + Vector3.new(0.5,0.5,0.5)
-			BlockPart.CFrame = Collision.CFrame
-			BlockPart.Transparency = 1
-			BlockPart.Anchored = true
-
 		elseif Thing.Name == "Candy" then
 
 			if Thing:FindFirstChild("Highlight") then return end
@@ -4838,6 +4898,8 @@ local loadsucc, loaderr = pcall(function()
 		end)()
 
 	end
+	
+	
 
 end)
 
@@ -4859,6 +4921,5 @@ else
 	local LoadTime = (LastTime - FirstTime)
 
 	warn("kein script für dich")
-	game:GetService("Players").LocalPlayer:Kick(`❌ Failed to load ahaGUI after {math.round(LoadTime*1000)/1000}s!                                                   Reason: {loaderr}`)
 
 end  
