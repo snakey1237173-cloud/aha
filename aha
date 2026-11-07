@@ -6,8 +6,7 @@ FirstTime = os.clock()
 local loadsucc, loaderr = pcall(function()
 
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
-	error("err")
-	
+
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local UserInputService = game:GetService("UserInputService")
 	local RunService = game:GetService("RunService")
@@ -2613,20 +2612,6 @@ local loadsucc, loaderr = pcall(function()
 
 			end)
 
-		elseif Name == "DoorFake" or Name == "FakeDoor" then
-
-			if des.Parent and des:FindFirstChild("Hidden") then
-
-				des:WaitForChild("Hidden").CanTouch = false
-				local Lock = des:FindFirstChild("Lock")
-				if Lock and Lock:FindFirstChild("UnlockPrompt") then
-
-					Lock.UnlockPrompt.Enabled = false 
-
-				end
-
-			end
-
 		elseif Name == "SideroomSpace" then
 
 			des:WaitForChild("Collision").CanCollide = true
@@ -4898,8 +4883,8 @@ local loadsucc, loaderr = pcall(function()
 		end)()
 
 	end
-	
-	
+
+
 
 end)
 
