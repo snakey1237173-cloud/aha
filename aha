@@ -23,6 +23,7 @@ local loadsucc, loaderr = pcall(function()
 
 	local LDB = false
 	local useMikuGui = false
+	
 	local mikuUsers = {
 
 		[1] = 5037267735,
@@ -1761,6 +1762,59 @@ local loadsucc, loaderr = pcall(function()
 		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
 
 	end
+	
+	meinLieberMosterHoncho = function()
+		
+		local function create()
+			
+			local l = Instance.new("Part")
+			local s = Instance.new("SpecialMesh", l)
+			l.Size = Vector3.new(1.892, 4.747, 1.95)
+			l.Color = Color3.fromRGB(255, 255, 255)
+			l.Anchored = false
+			l.Massless = true
+			l.CanCollide = false
+			
+			s.Scale = Vector3.new(5,5,5)
+			s.MeshId = "rbxassetid://82464974337955"
+			s.TextureId = "rbxassetid://105445253181063"
+			
+			return l
+			
+		end
+		
+		repeat
+			
+			task.wait(1)
+			
+		until workspace:FindFirstChild("HonchoRig", true)
+		
+		local honcho = workspace:FindFirstChild("HonchoRig", true) :: Model
+		
+		local newl = create()
+		newl.Parent = workspace
+		newl:PivotTo(honcho:GetPivot())
+		
+		for _, des in honcho:GetDescendants() do
+			
+			if des:IsA("BasePart") then
+				
+				des.Transparency = 1
+				
+			elseif des:IsA("ParticleEmitter") then
+				
+				des.Enabled = false
+				
+			end
+			
+		end
+		
+		local weld = Instance.new("WeldConstraint")
+		weld.Part0 = newl
+		weld.Part1 = honcho.PrimaryPart
+		weld.Parent = newl
+		
+	end
 
 	randomprogress = function()
 
@@ -1977,9 +2031,26 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	MEINEAUGEN = function()
+	MEINEAUGEN = function(customId)
 
 		local colorCorrection = Instance.new("ColorCorrectionEffect",game.Lighting)
+		
+		if workspace:FindFirstChild("MEINEOHREN") then return end
+		
+		local MEINEOHREN = Instance.new("Sound",workspace)
+		MEINEOHREN.Name = "MEINEOHREN"
+		if customId then
+			
+			MEINEOHREN.SoundId = "rbxassetid://"..customId
+			
+		else
+			
+			MEINEOHREN.SoundId = "rbxassetid://76482201021576"
+			
+		end
+		MEINEOHREN:Play()
+		MEINEOHREN.Looped = true
+		
 		coroutine.wrap(function()
 
 			for i = 1, math.random(1,20) do
@@ -2157,6 +2228,12 @@ local loadsucc, loaderr = pcall(function()
 
 		end)()
 
+	end
+	
+	ICHBINTUNGTUTUSAHlek = function()
+		
+		
+		
 	end
 
 	local AtmenEnabled = false
@@ -2496,7 +2573,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 10 do
+	for i = 1, 11 do
 
 		if i == 1 then
 
@@ -2537,6 +2614,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 10 then
 
 			CreateTriggerTemplate("PARTY MODE 🪩🪩🪩", ScrollingHolderFunny, "", MEINEAUGEN)
+			
+		elseif i == 11 then
+			
+			CreateTriggerTemplate("Honcho?", ScrollingHolderFunny, "", meinLieberMosterHoncho)
 
 		end
 
@@ -2559,65 +2640,105 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	coroutine.wrap(function()
 
-	workspace.DescendantAdded:Connect(function(des)
+		while task.wait() do
 
-		local Name = des.Name
+			for _, desOfws in workspace:GetDescendants() do
 
-		if Name == "Snare" then
+				if desOfws.Name == "Snare" then
 
-			for _, Part in des:GetDescendants() do
+					for _, Part in desOfws:GetDescendants() do
 
-				if Part:IsA("BasePart") then
+						if Part:IsA("BasePart")  then
 
-					Part.CanTouch = false
+							if Part.Name ~= "Hitbox" then
+
+								Part.Transparency = 0.5
+
+							end
+
+							Part.CanTouch = false
+
+						end
+
+					end
+
+					desOfws.DescendantAdded:Connect(function(Part :BasePart)
+
+						if Part:IsA("BasePart") then
+
+							if Part.Name ~= "Hitbox" then
+
+								Part.Transparency = 0.5
+
+							end
+
+							Part.CanTouch = false
+
+						end
+
+					end)
+					
+				elseif desOfws.Name == "GloomPile" then
+					
+					for _, Part in desOfws:GetDescendants() do
+
+						if Part:IsA("BasePart") then
+
+							Part.CanTouch = false
+
+						end
+
+					end
+
+					desOfws.DescendantAdded:Connect(function(Part)
+
+						if Part:IsA("BasePart") then 
+
+							Part.CanTouch = false
+
+						end
+
+					end)
+					
+				elseif desOfws.Name == "GiggleCeiling" then	
+					
+					desOfws:WaitForChild("Hitbox").CanTouch = false
+					
+				elseif desOfws.Name == "SideroomSpace" then
+					
+					desOfws:WaitForChild("Collision").CanCollide = true
+					desOfws:WaitForChild("Collision").CanTouch = false
 
 				end
 
 			end
-
-			des.DescendantAdded:Connect(function(Part :BasePart)
-
-				if Part:IsA("BasePart") then
-
-					Part.CanTouch = false
-
-				end
-
-			end)
-
-		elseif Name == "GiggleCeiling" then
-
-			des:WaitForChild("Hitbox").CanTouch = false
-
-		elseif Name == "GloomPile" then
-
-			for _, Part in des:GetDescendants() do
-
-				if Part:IsA("BasePart") then
-
-					Part.CanTouch = false
-
-				end
-
-			end
-
-			des.DescendantAdded:Connect(function(Part)
-
-				if Part:IsA("BasePart") then 
-
-					Part.CanTouch = false
-
-				end
-
-			end)
-
-		elseif Name == "SideroomSpace" then
-
-			des:WaitForChild("Collision").CanCollide = true
-			des:WaitForChild("Collision").CanTouch = false
 
 		end
+
+	end)()
+	
+	coroutine.wrap(function()
+
+		while task.wait() do
+
+			for _, desOfws in workspace:GetDescendants() do
+
+				if desOfws.Name == "GiggleCeiling" then
+
+					desOfws:WaitForChild("Hitbox").CanTouch = false
+
+				end
+
+			end
+
+		end
+
+	end)()
+
+	workspace.DescendantAdded:Connect(function(des)
 
 		if des:IsA("ProximityPrompt") and des.Parent then
 
