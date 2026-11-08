@@ -1771,57 +1771,57 @@ local loadsucc, loaderr = pcall(function()
 
 		honch = true
 
-		local function create()
-
-			local l = Instance.new("Part")
-			local s = Instance.new("SpecialMesh", l)
-			l.Size = Vector3.new(1.892, 4.747, 1.95)
-			l.Color = Color3.fromRGB(255, 255, 255)
-			l.Anchored = false
-			l.Massless = true
-			l.CanCollide = false
-
-			s.Scale = Vector3.new(5,5,5)
-			s.MeshId = "rbxassetid://82464974337955"
-			s.TextureId = "rbxassetid://105445253181063"
-
-			return l
-
-		end
-
-		repeat
-
-			task.wait(0.1)
-
-		until workspace:FindFirstChild("HonchoRig", true)
-
-		local honcho = workspace:FindFirstChild("HonchoRig", true) :: Model
-
-		local newl = create()
-		newl.Parent = workspace
-
-		for _, des in honcho:GetDescendants() do
-
-			if des:IsA("BasePart") then
-
-				des.CanCollide = false
-				des.Transparency = 1
-
-			elseif des:IsA("ParticleEmitter") then
-
-				des.Enabled = false
-
-			end
-
-		end
-
 		coroutine.wrap(function()
 
-			while task.wait() do
+			local function create()
 
-				newl.CFrame = honcho:GetPivot()
+				local l = Instance.new("Part")
+				local s = Instance.new("SpecialMesh", l)
+				l.Size = Vector3.new(1.892, 4.747, 1.95)
+				l.Color = Color3.fromRGB(255, 255, 255)
+				l.Anchored = false
+				l.Massless = true
+				l.CanCollide = false
+
+				s.Scale = Vector3.new(5,5,5)
+				s.MeshId = "rbxassetid://82464974337955"
+				s.TextureId = "rbxassetid://105445253181063"
+
+				return l
 
 			end
+
+			repeat
+
+				task.wait(1)
+
+			until workspace:FindFirstChild("HonchoRig", true)
+
+			local honcho = workspace:FindFirstChild("HonchoRig", true) :: Model
+
+			local newl = create()
+			newl.Parent = workspace
+			newl:PivotTo(honcho.PrimaryPart.CFrame)
+
+			for _, des in honcho:GetDescendants() do
+
+				if des:IsA("BasePart") then
+
+					des.CanCollide = false
+					des.Transparency = 1
+
+				elseif des:IsA("ParticleEmitter") then
+
+					des.Enabled = false
+
+				end
+
+			end
+
+			local weld = Instance.new("WeldConstraint")
+			weld.Part0 = newl
+			weld.Part1 = honcho.PrimaryPart
+			weld.Parent = newl
 
 		end)()
 
@@ -2654,74 +2654,70 @@ local loadsucc, loaderr = pcall(function()
 
 	workspace.DescendantAdded:Connect(function(des)
 
-		for _, desOfws in workspace:GetDescendants() do
+		if des.Name == "Snare" then
 
-			if desOfws.Name == "Snare" then
+			for _, Part in des:GetDescendants() do
 
-				for _, Part in desOfws:GetDescendants() do
+				if Part:IsA("BasePart")  then
 
-					if Part:IsA("BasePart")  then
+					if Part.Name ~= "Hitbox" then
 
-						if Part.Name ~= "Hitbox" then
-
-							Part.Transparency = 0.5
-
-						end
-
-						Part.CanTouch = false
+						Part.Transparency = 0.5
 
 					end
+
+					Part.CanTouch = false
 
 				end
-
-				desOfws.DescendantAdded:Connect(function(Part :BasePart)
-
-					if Part:IsA("BasePart") then
-
-						if Part.Name ~= "Hitbox" then
-
-							Part.Transparency = 0.5
-
-						end
-
-						Part.CanTouch = false
-
-					end
-
-				end)
-
-			elseif desOfws.Name == "GloomPile" then
-
-				for _, Part in desOfws:GetDescendants() do
-
-					if Part:IsA("BasePart") then
-
-						Part.CanTouch = false
-
-					end
-
-				end
-
-				desOfws.DescendantAdded:Connect(function(Part)
-
-					if Part:IsA("BasePart") then 
-
-						Part.CanTouch = false
-
-					end
-
-				end)
-
-			elseif desOfws.Name == "GiggleCeiling" then	
-
-				desOfws:WaitForChild("Hitbox").CanTouch = false
-
-			elseif desOfws.Name == "SideroomSpace" then
-
-				desOfws:WaitForChild("Collision").CanCollide = true
-				desOfws:WaitForChild("Collision").CanTouch = false
 
 			end
+
+			des.DescendantAdded:Connect(function(Part :BasePart)
+
+				if Part:IsA("BasePart") then
+
+					if Part.Name ~= "Hitbox" then
+
+						Part.Transparency = 0.5
+
+					end
+
+					Part.CanTouch = false
+
+				end
+
+			end)
+
+		elseif des.Name == "GloomPile" then
+
+			for _, Part in des:GetDescendants() do
+
+				if Part:IsA("BasePart") then
+
+					Part.CanTouch = false
+
+				end
+
+			end
+
+			des.DescendantAdded:Connect(function(Part)
+
+				if Part:IsA("BasePart") then 
+
+					Part.CanTouch = false
+
+				end
+
+			end)
+
+		elseif des.Name == "GiggleCeiling" then	
+
+			des:WaitForChild("Hitbox").CanTouch = false
+
+		elseif des.Name == "SideroomSpace" then
+
+			des:WaitForChild("Collision").CanCollide = true
+			des:WaitForChild("Collision").CanTouch = false
 
 		end
 
