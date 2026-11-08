@@ -2452,6 +2452,62 @@ local loadsucc, loaderr = pcall(function()
 		)
 
 	end
+	
+	local jaom =  false
+	
+	HILFEMEINKOPFMACHTBUM = function()
+		
+		if jaom then return end
+		
+		jaom = true
+		
+		local SPEED = 10
+		
+		local spinmygame = function(part)
+			
+			while true do
+				
+				local dt = task.wait()
+				part.CFrame = part.CFrame * CFrame.Angles(
+					0,
+					math.rad(SPEED) * dt,
+					0
+				)
+				task.wait()
+				
+			end
+			
+		end
+		
+		for _, des in workspace:GetDescendants() do
+			
+			if des:IsA("BasePart") then
+
+				coroutine.wrap(function()
+
+					spinmygame(des)
+
+				end)()
+
+			end
+			
+		end
+		
+		workspace.DescendantAdded:Connect(function(des)
+			
+			if des:IsA("BasePart") then
+
+				coroutine.wrap(function()
+
+					spinmygame(des)
+
+				end)()
+
+			end
+			
+		end)
+		
+	end
 
 	local defaultKeyCodes = {
 
@@ -2590,7 +2646,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 13 do
+	for i = 1, 14 do
 
 		if i == 1 then
 
@@ -2643,6 +2699,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 13 then
 
 			CreateTriggerTemplate("Spin Screen", ScrollingHolderFunny, "", Spinner)
+			
+		elseif i == 14 then
+
+			CreateTriggerTemplate("MEIN KpF", ScrollingHolderFunny, "", HILFEMEINKOPFMACHTBUM)
 
 		end
 
