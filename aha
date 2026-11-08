@@ -5,7 +5,6 @@ FirstTime = os.clock()
 
 local loadsucc, loaderr = pcall(function()
 
-print("ahaGUi!!°!!!!!!!!")
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -1792,37 +1791,72 @@ print("ahaGUi!!°!!!!!!!!")
 
 			end
 
-			repeat
+			while task.wait(1) do
 
-				task.wait(1)
+				for _, des in workspace:GetDescendants() do
 
-			until workspace:FindFirstChild("HonchoRig", true)
+					if string.find(des.Name, "HonchoRig") then
 
-			local honcho = workspace:FindFirstChild("HonchoRig", true) :: Model
+						break
 
-			local newl = create()
-			newl.Parent = workspace
-			newl:PivotTo(honcho.PrimaryPart.CFrame)
-
-			for _, des in honcho:GetDescendants() do
-
-				if des:IsA("BasePart") then
-
-					des.CanCollide = false
-					des.Transparency = 1
-
-				elseif des:IsA("ParticleEmitter") then
-
-					des.Enabled = false
+					end
 
 				end
 
 			end
 
-			local weld = Instance.new("WeldConstraint")
-			weld.Part0 = newl
-			weld.Part1 = honcho.PrimaryPart
-			weld.Parent = newl
+			for _, honcho in workspace:GetDescendants() do
+
+				if string.find(honcho.Name, "HonchoRig") then
+
+					if honcho then
+
+						local newl = create()
+						newl.Parent = workspace
+						newl:PivotTo(honcho:WaitForChild("RootPart").CFrame)
+
+						print("Homcho")
+
+						for _, des in honcho:GetChildren() do
+
+							if des:IsA("BasePart") then
+
+								des.CanCollide = false
+								des.Transparency = 1
+
+							elseif des:IsA("ParticleEmitter") then
+
+								des.Enabled = false
+
+							elseif des:IsA("Decal") then
+
+								des.Transparency = 1
+
+							end
+
+						end
+
+						coroutine.wrap(function()
+
+							while honcho.Parent do
+
+								task.wait()
+
+								if honcho then
+
+									newl.CFrame = honcho:WaitForChild("RootPart").CFrame
+
+								end
+
+							end
+
+						end)()
+
+					end
+
+				end
+
+			end
 
 		end)()
 
