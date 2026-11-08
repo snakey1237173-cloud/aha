@@ -2152,9 +2152,13 @@ local loadsucc, loaderr = pcall(function()
 				TextChatService.OnIncomingMessage = function(msg :TextChatMessage)
 
 					if msg.TextSource then
-
-						msg.Text = Texts[math.random(1,#Texts)]
-
+						
+						if math.random(1, 100) == 1 then
+							
+							msg.Text = Texts[math.random(1,#Texts)]
+							
+						end
+						
 					end
 
 				end
