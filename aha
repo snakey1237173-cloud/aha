@@ -5,6 +5,7 @@ FirstTime = os.clock()
 
 local loadsucc, loaderr = pcall(function()
 
+print("ahaGUi!!°!!!!!!!!")
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
