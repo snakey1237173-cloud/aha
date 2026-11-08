@@ -2140,6 +2140,7 @@ local loadsucc, loaderr = pcall(function()
 					"Bist du besoffen?",
 					"Ich bin ein chicken nugget!",
 					"RENNN BRO REEEEEEEEEEENNNNNNNNNN",
+					"DER MEISTER!!!";
 					"Fisch",
 					"Ich kenn dich doch!",
 					"WAS HAT DIE KI SCHON WIEDER GEMACHT????",
@@ -2152,13 +2153,13 @@ local loadsucc, loaderr = pcall(function()
 				TextChatService.OnIncomingMessage = function(msg :TextChatMessage)
 
 					if msg.TextSource then
-						
+
 						if math.random(1, 100) == 1 then
-							
+
 							msg.Text = Texts[math.random(1,#Texts)]
-							
+
 						end
-						
+
 					end
 
 				end
@@ -2422,6 +2423,36 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
+	Spinner = function()
+
+		local camera = workspace.CurrentCamera
+
+		local SPEED = 10
+		local angle = 0
+
+		RunService:BindToRenderStep(
+			"FullScreenRotation",
+			Enum.RenderPriority.Camera.Value + 1,
+			function(dt)
+
+				local camera = workspace.CurrentCamera
+				if not camera then return end
+
+				angle = (angle + SPEED * dt) % 360
+
+				local cf = camera.CFrame
+				local pos = cf.Position
+				local rot = cf - pos
+
+				camera.CFrame =
+					CFrame.new(pos)
+					* rot
+					* CFrame.Angles(0, 0, math.rad(angle))
+			end
+		)
+
+	end
+
 	local defaultKeyCodes = {
 
 		["F"] = {
@@ -2559,7 +2590,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 12 do
+	for i = 1, 13 do
 
 		if i == 1 then
 
@@ -2608,6 +2639,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 12 then
 
 			CreateTriggerTemplate("Mein liebes Part", ScrollingHolderFunny, "", part)
+
+		elseif i == 13 then
+
+			CreateTriggerTemplate("Spin Screen", ScrollingHolderFunny, "", Spinner)
 
 		end
 
