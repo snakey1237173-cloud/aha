@@ -49,6 +49,23 @@ local loadsucc, loaderr = pcall(function()
 		MainGui.Name = "Miku Gui"
 
 	end
+	
+	local loadingFrame = Instance.new("Frame", MainGui)
+	loadingFrame.Size = UDim2.fromScale(0.2,0.3)
+	loadingFrame.Position = UDim2.fromScale(0.5,0.5)
+	loadingFrame.AnchorPoint = Vector2.new(0.5,0.5)
+	loadingFrame.BackgroundColor3 = Color3.new(0.0627451, 0.0627451, 0.0627451)
+	loadingFrame.BorderColor3 = Color3.new(0,0,0)
+	loadingFrame.BorderSizePixel = 1
+	loadingFrame.BorderColor3 = Color3.new(1,1,1)
+	
+	local allAssets = game:GetDescendants()
+	
+	for _
+	
+	task.wait(5)
+	
+	loadingFrame:Destroy()
 
 	local KeyGui = Instance.new("Frame", MainGui)
 	KeyGui.Size = UDim2.fromScale(0.4,0.4)
@@ -58,17 +75,39 @@ local loadsucc, loaderr = pcall(function()
 	KeyGui.BorderColor3 = Color3.new(0,0,0)
 	KeyGui.BorderSizePixel = 1
 	KeyGui.BorderColor3 = Color3.new(1,1,1)
+	
+	local imgKex = Instance.new("ImageLabel", KeyGui)	
+	imgKex.Size = UDim2.fromScale(1,1)
+	imgKex.BackgroundTransparency = 1
+	imgKex.ImageTransparency = 0.7
+	imgKex.AnchorPoint = Vector2.new(0.5,0.5)
+	imgKex.Position = UDim2.fromScale(0.5,0.5)
+	imgKex.ZIndex = -12
+	imgKex.ScaleType = Enum.ScaleType.Fit
+	imgKex.Image = "rbxassetid://16149081299"
+	imgKex.ImageColor3 = useMikuGui and Color3.new(0, 1, 1) or Color3.new(1, 0.333333, 0)
+	
+	local ttText = Instance.new("TextLabel",KeyGui)
+	ttText.AnchorPoint = Vector2.new(0.5,0)
+	ttText.Position = UDim2.fromScale(0.5,0.05)
+	ttText.Size = UDim2.fromScale(.75,0.1)
+	ttText.BorderSizePixel = 0
+	ttText.BackgroundTransparency = 1
+	ttText.TextScaled = true
+	ttText.TextColor3 = Color3.new(1,1,1)
+	ttText.Text = `{MainGui.Name}`
+	ttText.TextColor3 = useMikuGui and Color3.new(0, 1, 1) or Color3.new(1, 0.333333, 0)
 
 	local Text = Instance.new("TextLabel",KeyGui)
 	Text.AnchorPoint = Vector2.new(0.5,0)
-	Text.Position = UDim2.fromScale(0.5,0.05)
-	Text.Size = UDim2.fromScale(.75,0.1)
+	Text.Position = UDim2.fromScale(0.5,0.2)
+	Text.Size = UDim2.fromScale(.75,0.075)
 	Text.BorderSizePixel = 0
 	Text.BackgroundTransparency = 1
 	Text.TextScaled = true
 	Text.TextColor3 = Color3.new(1,1,1)
 	Text.Text = `Welcome to {MainGui.Name} {player.Name}, please enter your key.`
-	Text.TextColor3 = useMikuGui and Color3.new(0, 1, 1) or Color3.new(1, 0.333333, 0)
+	Text.TextColor3 = useMikuGui and Color3.fromRGB(170, 255, 255) or Color3.fromRGB(255, 190, 146)
 
 	local InputFrame = Instance.new("TextBox",KeyGui)
 	InputFrame.AnchorPoint = Vector2.new(0.5,0)
@@ -93,7 +132,7 @@ local loadsucc, loaderr = pcall(function()
 		task.wait()
 
 		if RunService:IsStudio() then
-			break
+			--break
 		end
 
 	end
@@ -2452,21 +2491,21 @@ local loadsucc, loaderr = pcall(function()
 		)
 
 	end
-	
+
 	local jaom =  false
-	
+
 	HILFEMEINKOPFMACHTBUM = function()
-		
+
 		if jaom then return end
-		
+
 		jaom = true
-		
+
 		local SPEED = 10
-		
+
 		local spinmygame = function(part)
-			
+
 			while true do
-				
+
 				local dt = task.wait()
 				part.CFrame = part.CFrame * CFrame.Angles(
 					0,
@@ -2474,13 +2513,13 @@ local loadsucc, loaderr = pcall(function()
 					0
 				)
 				task.wait()
-				
+
 			end
-			
+
 		end
-		
+
 		for _, des in workspace:GetDescendants() do
-			
+
 			if des:IsA("BasePart") then
 
 				coroutine.wrap(function()
@@ -2490,11 +2529,11 @@ local loadsucc, loaderr = pcall(function()
 				end)()
 
 			end
-			
+
 		end
-		
+
 		workspace.DescendantAdded:Connect(function(des)
-			
+
 			if des:IsA("BasePart") then
 
 				coroutine.wrap(function()
@@ -2504,9 +2543,17 @@ local loadsucc, loaderr = pcall(function()
 				end)()
 
 			end
-			
+
 		end)
-		
+
+	end
+
+	TinyMan = function()
+
+		local plrcharacter = player.Character or player.CharacterAdded:Wait()
+
+		plrcharacter:ScaleTo(0.5)
+
 	end
 
 	local defaultKeyCodes = {
@@ -2646,7 +2693,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 14 do
+	for i = 1, 15 do
 
 		if i == 1 then
 
@@ -2699,10 +2746,14 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 13 then
 
 			CreateTriggerTemplate("Spin Screen", ScrollingHolderFunny, "", Spinner)
-			
+
 		elseif i == 14 then
 
 			CreateTriggerTemplate("MEIN KpF", ScrollingHolderFunny, "", HILFEMEINKOPFMACHTBUM)
+
+		elseif i == 15 then
+
+			CreateTriggerTemplate("tiny man", ScrollingHolderFunny, "", TinyMan)
 
 		end
 
