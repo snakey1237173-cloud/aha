@@ -164,7 +164,7 @@ local loadsucc, loaderr = pcall(function()
 	TitleText.TextColor3 = useMikuGui and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(255, 85, 0)
 	TitleText.Text = MainGui.Name
 	TitleText.Font = Enum.Font.Montserrat
-	
+
 	local ResetKeysButton = Instance.new("TextButton", MainFrame)
 	ResetKeysButton.Position = UDim2.fromScale(0.839,0.034)
 	ResetKeysButton.Size = UDim2.fromScale(0.143,0.073)
@@ -241,7 +241,7 @@ local loadsucc, loaderr = pcall(function()
 	TextLabelHum.BackgroundTransparency = 1
 	TextLabelHum.Size = UDim2.fromScale(0.303,0.042)
 	TextLabelHum.Position = UDim2.fromScale(0.018,0.143)
-	TextLabelHum.Text = "Roblox Config"
+	TextLabelHum.Text = "Config"
 	TextLabelHum.TextScaled = true
 	TextLabelHum.TextColor3 = Color3.fromRGB(255, 170, 0)
 	TextLabelHum.TextXAlignment = Enum.TextXAlignment.Left
@@ -2699,9 +2699,9 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end)
-	
+
 	SetupTemplates = function()
-		
+
 		for i = 1, 3  do
 
 			if i == 1 then
@@ -2841,44 +2841,44 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 		end
-		
+
 	end
-	
+
 	ResetKeys = function()
-		
+
 		for _, scrollingFrame in MainGui:GetDescendants() do
-			
+
 			if scrollingFrame:IsA("ScrollingFrame") then
-				
+
 				for _, child in scrollingFrame:GetChildren() do
-					
+
 					if child:IsA("Frame") then
-						
+
 						child:Destroy()
-						
+
 					end
-					
+
 				end
-				
+
 			end
-			
+
 		end
-		
+
 		PlayNotificationGood("Resetting keys...", true)
-		
+
 		for name, _ in keyCodes do
-			
+
 			if keyCodes[name]  then
-				
+
 				keyCodes[name] = nil
-				
+
 			end
-			
+
 		end
-		
+
 		SetupKeyCodes()
 		task.wait(0.01)
-		
+
 		for i, gottenKey in defaultKeyCodes do
 
 			if keyCodes[i] then
@@ -2904,29 +2904,29 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 		end)
-		
+
 		SetupTemplates()
-		
+
 		task.wait(0.5)
 		coroutine.wrap(PlayNotificationGood)("Successfully reset keys!", true)
-		
+
 	end
-	
+
 	local ResetKeyDB = false
 	local ResetKeyBtnLoading = false
-	
+
 	coroutine.wrap(function()
-		
+
 		task.wait(5)
-		
+
 		ResetKeysButton.Visible = true
-		
+
 		ResetKeysButton.Activated:Connect(function()
 
 			if ResetKeyDB == false then
 
 				ResetKeyDB = true
-				
+
 				ResetKeys()
 
 				task.wait(1)
@@ -2936,7 +2936,7 @@ local loadsucc, loaderr = pcall(function()
 			end
 
 		end)
-		
+
 	end)()
 
 	SetupTemplates()
