@@ -5,7 +5,6 @@ local loadsucc, loaderr = pcall(function()
 
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
 
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local UserInputService = game:GetService("UserInputService")
 	local RunService = game:GetService("RunService")
 	local Players = game:GetService("Players")
@@ -41,8 +40,6 @@ local loadsucc, loaderr = pcall(function()
 	MainGui.Name = "aha Gui"
 	MainGui.IgnoreGuiInset = true
 	MainGui.ResetOnSpawn = false
-
-	MainGui:AddTag("ahaGui")
 
 	if useMikuGui then
 
@@ -120,7 +117,6 @@ local loadsucc, loaderr = pcall(function()
 
 				if ReplicatedStorage.GameData.FloorSpecific.Value == "Daily_Default" then
 
-					PlayNotificationGood("No key during daily run!", true)
 					break
 
 				end
@@ -130,7 +126,9 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 		if RunService:IsStudio() then
-			--break
+
+			break
+
 		end
 
 	end
@@ -989,6 +987,16 @@ local loadsucc, loaderr = pcall(function()
 							charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
 						end
+						
+					elseif ChangerNameString == "FOV" then
+
+						local cam = workspace:FindFirstChild("Camera")
+						if cam then
+
+							local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(0.25), {FieldOfView = tonumber(newTemplate.Input.Text)})
+							tween:Play()
+
+						end
 
 					end
 
@@ -1016,6 +1024,16 @@ local loadsucc, loaderr = pcall(function()
 					if charr:GetAttribute("SpeedBoost") then
 
 						charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
+
+					end
+					
+				elseif ChangerNameString == "FOV" then
+
+					local cam = workspace:FindFirstChild("Camera")
+					if cam then
+
+						local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(0.25), {FieldOfView = tonumber(newTemplate.Input.Text)})
+						tween:Play()
 
 					end
 
@@ -1515,6 +1533,34 @@ local loadsucc, loaderr = pcall(function()
 		char.Humanoid.Health = 0
 
 	end
+	
+	local fovpartyactive = false
+	
+	fovParty = function()
+		
+		if fovpartyactive then return end
+		
+		fovpartyactive = true
+		
+		local cam = workspace:FindFirstChild("Camera")
+		if cam then
+
+			coroutine.wrap(function()
+				
+				while task.wait() do
+					
+					local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(.1), {FieldOfView = math.random(10, 100)})
+					tween:Play()
+					tween.Completed:Wait()
+					
+				end
+				
+			end)()
+
+		end
+		
+	end
+
 
 	local notifyPlaying = false
 
@@ -2648,6 +2694,10 @@ local loadsucc, loaderr = pcall(function()
 		if i == 1 then
 
 			CreateInputTemplate("Speed","",100)
+			
+		elseif i == 2 then
+			
+			CreateInputTemplate("FOV","",120)
 
 		end
 
@@ -2691,7 +2741,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
-	for i = 1, 15 do
+	for i = 1, 17 do
 
 		if i == 1 then
 
@@ -2752,6 +2802,10 @@ local loadsucc, loaderr = pcall(function()
 		elseif i == 15 then
 
 			CreateTriggerTemplate("tiny man", ScrollingHolderFunny, "", TinyMan)
+			
+		elseif i == 16 then
+			
+			CreateTriggerTemplate("FOV PARTY", ScrollingHolderFunny, "", fovParty)
 
 		end
 
@@ -2773,6 +2827,26 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
+	end
+	
+	if ReplicatedStorage:FindFirstChild("GameData") then
+
+		if ReplicatedStorage.GameData:FindFirstChild("FloorSpecific") then
+
+			if ReplicatedStorage.GameData.FloorSpecific.Value == "Daily_Default" then
+
+				PlayNotificationBad("Daily run active.")
+
+			end
+
+		end
+
+	end
+
+	if RunService:IsStudio() then
+
+		PlayNotificationBad("Client running in studio.")
+		
 	end
 
 	workspace.DescendantAdded:Connect(function(des)
