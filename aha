@@ -1,8 +1,6 @@
 local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-FirstTime = os.clock()
-
 local loadsucc, loaderr = pcall(function()
 
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
@@ -44,12 +42,14 @@ local loadsucc, loaderr = pcall(function()
 	MainGui.IgnoreGuiInset = true
 	MainGui.ResetOnSpawn = false
 
+	MainGui:AddTag("ahaGui")
+
 	if useMikuGui then
 
 		MainGui.Name = "Miku Gui"
 
 	end
-	
+
 	local KeyGui = Instance.new("Frame", MainGui)
 	KeyGui.Size = UDim2.fromScale(0.4,0.4)
 	KeyGui.Position = UDim2.fromScale(0.5,0.5)
@@ -113,6 +113,21 @@ local loadsucc, loaderr = pcall(function()
 	while InputFrame.Text ~= tostring(Key) do
 
 		task.wait()
+
+		if ReplicatedStorage:FindFirstChild("GameData") then
+
+			if ReplicatedStorage.GameData:FindFirstChild("FloorSpecific") then
+
+				if ReplicatedStorage.GameData.FloorSpecific.Value == "Daily_Default" then
+
+					PlayNotificationGood("No key during daily run!", true)
+					break
+
+				end
+
+			end
+
+		end
 
 		if RunService:IsStudio() then
 			--break
@@ -217,7 +232,7 @@ local loadsucc, loaderr = pcall(function()
 	TextLabelHum.BackgroundTransparency = 1
 	TextLabelHum.Size = UDim2.fromScale(0.303,0.042)
 	TextLabelHum.Position = UDim2.fromScale(0.018,0.143)
-	TextLabelHum.Text = "Humanoid Config"
+	TextLabelHum.Text = "Roblox Config"
 	TextLabelHum.TextScaled = true
 	TextLabelHum.TextColor3 = Color3.fromRGB(255, 170, 0)
 	TextLabelHum.TextXAlignment = Enum.TextXAlignment.Left
@@ -5100,21 +5115,14 @@ end)
 
 if loadsucc then
 
-	local LastTime = os.clock()
+	local msg = "✅ Successfully loaded the gui!"
 
-	local LoadTime = LastTime - FirstTime
-
-	print(`// ✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s for {game:GetService("Players").LocalPlayer.DisplayName}({game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
-	PlayNotificationGood(`✅ Successfully loaded ahaGUI in {math.round(LoadTime*1000)/1000}s`,true)
+	print(`// {msg} //`)
+	PlayNotificationGood(`{msg}`,true)
 
 else
 
-	warn("// ❌ Failed to load ahaGUI // : "..loaderr)
-
-	local LastTime = os.clock()
-
-	local LoadTime = (LastTime - FirstTime)
-
-	warn("kein script für dich")
+	warn("// ❌ Failed to load the gui! // : "..loaderr)
+	warn("keine cheats für dich")
 
 end  
