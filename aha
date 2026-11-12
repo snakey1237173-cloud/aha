@@ -164,6 +164,17 @@ local loadsucc, loaderr = pcall(function()
 	TitleText.TextColor3 = useMikuGui and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(255, 85, 0)
 	TitleText.Text = MainGui.Name
 	TitleText.Font = Enum.Font.Montserrat
+	
+	local ResetKeysButton = Instance.new("TextButton", MainFrame)
+	ResetKeysButton.Position = UDim2.fromScale(0.839,0.034)
+	ResetKeysButton.Size = UDim2.fromScale(0.143,0.073)
+	ResetKeysButton.TextScaled = true
+	ResetKeysButton.Text = "Reset Keys"
+	ResetKeysButton.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+	ResetKeysButton.Font = Enum.Font.Montserrat
+	ResetKeysButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+	ResetKeysButton.Visible = false
 
 	local ScrollingHolderHumChanges = Instance.new("ScrollingFrame", MainFrame)
 	ScrollingHolderHumChanges.BackgroundTransparency = 1
@@ -987,7 +998,7 @@ local loadsucc, loaderr = pcall(function()
 							charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
 						end
-						
+
 					elseif ChangerNameString == "FOV" then
 
 						local cam = workspace:FindFirstChild("Camera")
@@ -1026,7 +1037,7 @@ local loadsucc, loaderr = pcall(function()
 						charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
 
 					end
-					
+
 				elseif ChangerNameString == "FOV" then
 
 					local cam = workspace:FindFirstChild("Camera")
@@ -1533,32 +1544,32 @@ local loadsucc, loaderr = pcall(function()
 		char.Humanoid.Health = 0
 
 	end
-	
+
 	local fovpartyactive = false
-	
+
 	fovParty = function()
-		
+
 		if fovpartyactive then return end
-		
+
 		fovpartyactive = true
-		
+
 		local cam = workspace:FindFirstChild("Camera")
 		if cam then
 
 			coroutine.wrap(function()
-				
+
 				while task.wait() do
-					
+
 					local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(.1), {FieldOfView = math.random(10, 100)})
 					tween:Play()
 					tween.Completed:Wait()
-					
+
 				end
-				
+
 			end)()
 
 		end
-		
+
 	end
 
 
@@ -2688,147 +2699,248 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end)
+	
+	SetupTemplates = function()
+		
+		for i = 1, 3  do
 
-	for i = 1, 3  do
+			if i == 1 then
 
-		if i == 1 then
+				CreateInputTemplate("Speed","",100)
 
-			CreateInputTemplate("Speed","",100)
-			
-		elseif i == 2 then
-			
-			CreateInputTemplate("FOV","",120)
+			elseif i == 2 then
 
-		end
+				CreateInputTemplate("FOV","",120)
 
-	end
-
-	for i = 1, 8 do
-
-		if i == 1 then
-
-			CreateTriggerTemplate("ESP", ScrollingHolderDoorsCheats, "G", ESP)
-
-		elseif i == 2 then
-
-			CreateTriggerTemplate("Tp Down", ScrollingHolderDoorsCheats, "Z", TpDown)
-
-		elseif i == 3 then
-
-			CreateTriggerTemplate("Tp Forward", ScrollingHolderDoorsCheats, "T", TpForward)
-
-		elseif i == 4 then
-
-			CreateTriggerTemplate("Qick Height Big", ScrollingHolderDoorsCheats, "O", QickHeightBig)
-
-		elseif i == 5 then
-
-			CreateTriggerTemplate("Qick Height Reset", ScrollingHolderDoorsCheats, "U", QickHeightTiny)
-
-		elseif i == 6 then
-
-			CreateTriggerTemplate("Insta Interact", ScrollingHolderDoorsCheats, "I", InstantInteract)
-
-		elseif i == 7 then
-
-			CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
-
-		elseif i == 8 then
-
-			CreateTriggerTemplate("Do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
+			end
 
 		end
 
-	end
+		for i = 1, 8 do
 
-	for i = 1, 17 do
+			if i == 1 then
 
-		if i == 1 then
+				CreateTriggerTemplate("ESP", ScrollingHolderDoorsCheats, "G", ESP)
 
-			CreateTriggerTemplate("Haleluhahaihahaaiaihai", ScrollingHolderFunny, "", haleluhahaahahaaiaiaahaha)
+			elseif i == 2 then
 
-		elseif i == 2 then
+				CreateTriggerTemplate("Tp Down", ScrollingHolderDoorsCheats, "Z", TpDown)
 
-			CreateTriggerTemplate("Fling", ScrollingHolderFunny, "", fling)
+			elseif i == 3 then
 
-		elseif i == 3 then
+				CreateTriggerTemplate("Tp Forward", ScrollingHolderDoorsCheats, "T", TpForward)
 
-			CreateTriggerTemplate("AHHHHHHHHZERSTÖRIMG", ScrollingHolderFunny, "", ahhhhhhhhZERSTOERUNG)
+			elseif i == 4 then
 
-		elseif i == 4 then
+				CreateTriggerTemplate("Qick Height Big", ScrollingHolderDoorsCheats, "O", QickHeightBig)
 
-			CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
+			elseif i == 5 then
 
-		elseif i == 5 then
+				CreateTriggerTemplate("Qick Height Reset", ScrollingHolderDoorsCheats, "U", QickHeightTiny)
 
-			CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
+			elseif i == 6 then
 
-		elseif i == 6 then
+				CreateTriggerTemplate("Insta Interact", ScrollingHolderDoorsCheats, "I", InstantInteract)
 
-			CreateTriggerTemplate("Willst du geklont werden?", ScrollingHolderFunny, "", clonearmy)
+			elseif i == 7 then
 
-		elseif i == 7 then
+				CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
 
-			CreateTriggerTemplate("RAVE", ScrollingHolderFunny, "", music)
+			elseif i == 8 then
 
-		elseif i == 8 then
+				CreateTriggerTemplate("Do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
 
-			CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
-
-		elseif i == 9 then
-
-			CreateTriggerTemplate("random ahh messages", ScrollingHolderFunny, "", randomAhhMessages)
-
-		elseif i == 10 then
-
-			CreateTriggerTemplate("PARTY MODE 🪩🪩🪩", ScrollingHolderFunny, "", MEINEAUGEN)
-
-		elseif i == 11 then
-
-			CreateTriggerTemplate("Eat Burger", ScrollingHolderFunny, "", eatBURGER)
-
-		elseif i == 12 then
-
-			CreateTriggerTemplate("Mein liebes Part", ScrollingHolderFunny, "", part)
-
-		elseif i == 13 then
-
-			CreateTriggerTemplate("Spin Screen", ScrollingHolderFunny, "", Spinner)
-
-		elseif i == 14 then
-
-			CreateTriggerTemplate("MEIN KpF", ScrollingHolderFunny, "", HILFEMEINKOPFMACHTBUM)
-
-		elseif i == 15 then
-
-			CreateTriggerTemplate("tiny man", ScrollingHolderFunny, "", TinyMan)
-			
-		elseif i == 16 then
-			
-			CreateTriggerTemplate("FOV PARTY", ScrollingHolderFunny, "", fovParty)
+			end
 
 		end
 
-	end
+		for i = 1, 17 do
 
-	for i = 1, 2 do
+			if i == 1 then
 
-		if i == 1 then
+				CreateTriggerTemplate("Haleluhahaihahaaiaihai", ScrollingHolderFunny, "", haleluhahaahahaaiaiaahaha)
 
-			CreateKeyCodeTemplate("Open GUI", ScrollingHolderOtherHotkeys, "F", function()
+			elseif i == 2 then
 
-				HandleGui(true)
+				CreateTriggerTemplate("Fling", ScrollingHolderFunny, "", fling)
 
-			end)
+			elseif i == 3 then
 
-		elseif i == 2 then
+				CreateTriggerTemplate("AHHHHHHHHZERSTÖRIMG", ScrollingHolderFunny, "", ahhhhhhhhZERSTOERUNG)
 
-			CreateKeyCodeTemplate("Mouse Lock", ScrollingHolderOtherHotkeys, "P", HandleMouseLock)
+			elseif i == 4 then
+
+				CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
+
+			elseif i == 5 then
+
+				CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
+
+			elseif i == 6 then
+
+				CreateTriggerTemplate("Willst du geklont werden?", ScrollingHolderFunny, "", clonearmy)
+
+			elseif i == 7 then
+
+				CreateTriggerTemplate("RAVE", ScrollingHolderFunny, "", music)
+
+			elseif i == 8 then
+
+				CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
+
+			elseif i == 9 then
+
+				CreateTriggerTemplate("random ahh messages", ScrollingHolderFunny, "", randomAhhMessages)
+
+			elseif i == 10 then
+
+				CreateTriggerTemplate("PARTY MODE 🪩🪩🪩", ScrollingHolderFunny, "", MEINEAUGEN)
+
+			elseif i == 11 then
+
+				CreateTriggerTemplate("Eat Burger", ScrollingHolderFunny, "", eatBURGER)
+
+			elseif i == 12 then
+
+				CreateTriggerTemplate("Mein liebes Part", ScrollingHolderFunny, "", part)
+
+			elseif i == 13 then
+
+				CreateTriggerTemplate("Spin Screen", ScrollingHolderFunny, "", Spinner)
+
+			elseif i == 14 then
+
+				CreateTriggerTemplate("MEIN KpF", ScrollingHolderFunny, "", HILFEMEINKOPFMACHTBUM)
+
+			elseif i == 15 then
+
+				CreateTriggerTemplate("tiny man", ScrollingHolderFunny, "", TinyMan)
+
+			elseif i == 16 then
+
+				CreateTriggerTemplate("FOV PARTY", ScrollingHolderFunny, "", fovParty)
+
+			end
 
 		end
 
+		for i = 1, 2 do
+
+			if i == 1 then
+
+				CreateKeyCodeTemplate("Open GUI", ScrollingHolderOtherHotkeys, "F", function()
+
+					HandleGui(true)
+
+				end)
+
+			elseif i == 2 then
+
+				CreateKeyCodeTemplate("Mouse Lock", ScrollingHolderOtherHotkeys, "P", HandleMouseLock)
+
+			end
+
+		end
+		
 	end
 	
+	ResetKeys = function()
+		
+		for _, scrollingFrame in MainGui:GetDescendants() do
+			
+			if scrollingFrame:IsA("ScrollingFrame") then
+				
+				for _, child in scrollingFrame:GetChildren() do
+					
+					if child:IsA("Frame") then
+						
+						child:Destroy()
+						
+					end
+					
+				end
+				
+			end
+			
+		end
+		
+		PlayNotificationGood("Resetting keys...", true)
+		
+		for name, _ in keyCodes do
+			
+			if keyCodes[name]  then
+				
+				keyCodes[name] = nil
+				
+			end
+			
+		end
+		
+		SetupKeyCodes()
+		task.wait(0.01)
+		
+		for i, gottenKey in defaultKeyCodes do
+
+			if keyCodes[i] then
+
+				keyCodes[i] = gottenKey
+
+			end
+
+		end
+
+		UserInputService.InputBegan:Connect(function(input, proccessed)
+
+			if proccessed then return end
+
+			for keyName, keyInfo in pairs(keyCodes) do
+
+				if input.KeyCode == keyInfo.KeyCode then
+
+					keyInfo.Input()
+
+				end
+
+			end
+
+		end)
+		
+		SetupTemplates()
+		
+		task.wait(0.5)
+		coroutine.wrap(PlayNotificationGood)("Successfully reset keys!", true)
+		
+	end
+	
+	local ResetKeyDB = false
+	local ResetKeyBtnLoading = false
+	
+	coroutine.wrap(function()
+		
+		task.wait(5)
+		
+		ResetKeysButton.Visible = true
+		
+		ResetKeysButton.Activated:Connect(function()
+
+			if ResetKeyDB == false then
+
+				ResetKeyDB = true
+				
+				ResetKeys()
+
+				task.wait(1)
+
+				ResetKeyDB = false
+
+			end
+
+		end)
+		
+	end)()
+
+	SetupTemplates()
+
 	if ReplicatedStorage:FindFirstChild("GameData") then
 
 		if ReplicatedStorage.GameData:FindFirstChild("FloorSpecific") then
@@ -2846,7 +2958,7 @@ local loadsucc, loaderr = pcall(function()
 	if RunService:IsStudio() then
 
 		PlayNotificationBad("Client running in studio.")
-		
+
 	end
 
 	workspace.DescendantAdded:Connect(function(des)
