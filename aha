@@ -2915,30 +2915,6 @@ local loadsucc, loaderr = pcall(function()
 	local ResetKeyDB = false
 	local ResetKeyBtnLoading = false
 
-	coroutine.wrap(function()
-
-		task.wait(5)
-
-		ResetKeysButton.Visible = true
-
-		ResetKeysButton.Activated:Connect(function()
-
-			if ResetKeyDB == false then
-
-				ResetKeyDB = true
-
-				ResetKeys()
-
-				task.wait(1)
-
-				ResetKeyDB = false
-
-			end
-
-		end)
-
-	end)()
-
 	SetupTemplates()
 
 	if ReplicatedStorage:FindFirstChild("GameData") then
