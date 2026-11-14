@@ -612,7 +612,7 @@ _Gen.generate = function()
 
 	function FlyFuncs.CheckFlight(Tile: Part)
 
-		local Seed = 2
+		local Seed = 3
 
 		local FromSpawn = Tile:GetAttribute("FromSpawn")
 
@@ -623,20 +623,7 @@ _Gen.generate = function()
 
 
 
-		if FromSpawn >= 100 then 
-			
-			task.wait(2)
-			
-			for _, tile in Spaces:GetChildren() do
-
-				task.delay(10, function()
-
-					tile:Destroy()
-
-				end)		
-				task.wait()
-
-			end
+		if FromSpawn >= 25 then 
 
 			return 
 
@@ -729,7 +716,7 @@ _Gen.generate = function()
 	coroutine.wrap(function()
 
 		for i = 1, 1000000000 do
-			
+
 			local char = game.Players.LocalPlayer.CharacterAdded:Wait()
 
 			game.Chat:Chat(char:WaitForChild("Head"),"#getgenerated")
