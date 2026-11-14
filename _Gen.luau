@@ -1,152 +1,155 @@
-local plr = game.Players.LocalPlayer
-local char = plr.Character or plr.CharacterAdded:Wait()
-local function Kekfly(fly :boolean,Val1 :number,Val2 :number,Val3 :number,Val4 :number,Val5 :number,Val6 :number,Val7 :number,Val8 :number,Val9 :number,Val10 :number,Val11 :number,Val12 :number) :CFrame
+local _Gen = {}
 
-	local X = Val1
+_Gen.generate = function()
+	
+	local plr = game.Players.LocalPlayer
+	local char = plr.Character or plr.CharacterAdded:Wait()
+	local function Kekfly(fly :boolean,Val1 :number,Val2 :number,Val3 :number,Val4 :number,Val5 :number,Val6 :number,Val7 :number,Val8 :number,Val9 :number,Val10 :number,Val11 :number,Val12 :number) :CFrame
 
+		local X = Val1
 
 
-	local Y = Val2
 
+		local Y = Val2
 
 
-	local Z = Val3
 
+		local Z = Val3
 
 
-	local R00 = math.sin(math.rad(math.abs(Val4+math.pi+math.huge)))
 
+		local R00 = math.sin(math.rad(math.abs(Val4+math.pi+math.huge)))
 
 
-	local R01 = math.sin(math.rad(math.abs(Val5+math.pi+math.huge)))
 
+		local R01 = math.sin(math.rad(math.abs(Val5+math.pi+math.huge)))
 
 
-	local R02 = math.sin(math.rad(math.abs(Val6+math.pi+math.huge)))
 
+		local R02 = math.sin(math.rad(math.abs(Val6+math.pi+math.huge)))
 
 
-	local R10 = math.sin(math.rad(math.abs(Val7+math.pi+math.huge)))
 
+		local R10 = math.sin(math.rad(math.abs(Val7+math.pi+math.huge)))
 
 
-	local R11 = math.sin(math.rad(math.abs(Val8+math.pi+math.huge)))
 
+		local R11 = math.sin(math.rad(math.abs(Val8+math.pi+math.huge)))
 
 
-	local R12 = math.sin(math.rad(math.abs(Val9+math.pi+math.huge)))
 
+		local R12 = math.sin(math.rad(math.abs(Val9+math.pi+math.huge)))
 
 
-	local R20 = math.sin(math.rad(math.abs(Val10+math.pi+math.huge)))
 
+		local R20 = math.sin(math.rad(math.abs(Val10+math.pi+math.huge)))
 
 
-	local R21 = math.sin(math.rad(math.abs(Val11+math.pi+math.huge)))
 
+		local R21 = math.sin(math.rad(math.abs(Val11+math.pi+math.huge)))
 
 
-	local R22 = math.sin(math.rad(math.abs(Val12+math.pi+math.huge)))
 
+		local R22 = math.sin(math.rad(math.abs(Val12+math.pi+math.huge)))
 
 
-	local CFrameCompnments = {
 
+		local CFrameCompnments = {
 
-		[1] = X
 
+			[1] = X
 
-		,
 
+			,
 
-		[2] = Y
 
+			[2] = Y
 
-		,
 
+			,
 
-		[3] = Z
 
+			[3] = Z
 
-	}
 
+		}
 
-	table.insert(CFrameCompnments,R00)
 
+		table.insert(CFrameCompnments,R00)
 
 
-	table.insert(CFrameCompnments,R01)
 
+		table.insert(CFrameCompnments,R01)
 
 
-	table.insert(CFrameCompnments,R02)
 
+		table.insert(CFrameCompnments,R02)
 
 
-	table.insert(CFrameCompnments,R10)
 
+		table.insert(CFrameCompnments,R10)
 
 
-	table.insert(CFrameCompnments,R11)
 
+		table.insert(CFrameCompnments,R11)
 
 
-	table.insert(CFrameCompnments,R12)
 
+		table.insert(CFrameCompnments,R12)
 
 
-	table.insert(CFrameCompnments,R20)
 
+		table.insert(CFrameCompnments,R20)
 
 
-	table.insert(CFrameCompnments,R21)
 
+		table.insert(CFrameCompnments,R21)
 
 
-	table.insert(CFrameCompnments,R22)
 
+		table.insert(CFrameCompnments,R22)
 
-	if fly == true then 
 
-		CFrame.new(
-			CFrameCompnments[1],
+		if fly == true then 
 
+			CFrame.new(
+				CFrameCompnments[1],
 
-			CFrameCompnments[2],
 
+				CFrameCompnments[2],
 
-			CFrameCompnments[3],
 
+				CFrameCompnments[3],
 
-			CFrameCompnments[4],
 
+				CFrameCompnments[4],
 
-			CFrameCompnments[5],
 
+				CFrameCompnments[5],
 
-			CFrameCompnments[6],
 
+				CFrameCompnments[6],
 
-			CFrameCompnments[7],
 
+				CFrameCompnments[7],
 
-			CFrameCompnments[8],
 
+				CFrameCompnments[8],
 
-			CFrameCompnments[9],
 
+				CFrameCompnments[9],
 
-			CFrameCompnments[10],
 
+				CFrameCompnments[10],
 
-			CFrameCompnments[11],
 
+				CFrameCompnments[11],
 
-			CFrameCompnments[12]
-		)
 
-	end
+				CFrameCompnments[12]
+			)
 
+		end
 
 
 
@@ -174,238 +177,154 @@ local function Kekfly(fly :boolean,Val1 :number,Val2 :number,Val3 :number,Val4 :
 
 
 
-
-end
-
-local FlyFuncs = {}
-
-
-local Spaces = Instance.new("Folder")
-Spaces.Name = "Spaces"
-Spaces.Parent = workspace
-
-function FlyFuncs.GetPerlin(a :number,harshness :number,addplus :number, addminus :number, seed :number,reps :number) :number
-
-	local Val = addplus
-
-	if a < 0 then
-
-		Val = addminus
-
-	end
-
-	local NewNum = Val + ((a+(seed*100))/(100/harshness))
-
-	return NewNum
-
-end
-
-function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
-
-	local plus = 0
-	local minus = 0
-
-	local Coordinates = Tile.Position
-	local XPos = Coordinates.X
-	local ZPos = Coordinates.Z
-
-	local harshness1 = 0.5
-
-
-	local Temp = math.floor(math.noise(FlyFuncs.GetPerlin(XPos,harshness1,plus,minus,seed,reps),FlyFuncs.GetPerlin(ZPos,harshness1,plus,minus,seed,reps))*100)/100
-
-	Tile:SetAttribute("Temperature",Temp*100)
-
-
-	local harshness2 = 0.5
-
-
-	local Ocean = math.floor(math.noise(FlyFuncs.GetPerlin(XPos+reps*3,harshness2,plus,minus,seed,reps),FlyFuncs.GetPerlin(ZPos+reps*3,harshness2,plus,minus,seed,reps))*100)/100 + 0.3
-
-	local NewOcean
-
-	if Ocean > 0.4 then 
-
-		NewOcean = 1
-
-	elseif Ocean > 0.3 then
-
-		NewOcean = 0.5
-
-	elseif Ocean <= 0.3 then
-
-		NewOcean = 0
 
 
 	end
 
-	if NewOcean == 0.5 then
-
-		Tile:SetAttribute("Coastal",true)
-
-	elseif NewOcean == 1 then	
-
-		Tile:SetAttribute("Ocean",true)
-
-	else
-
-		Tile:SetAttribute("Ocean",false)
-		Tile:SetAttribute("Coastal",false)
-
-	end
+	local FlyFuncs = {}
 
 
-	local harshness3 = 2.5
+	local Spaces = Instance.new("Folder")
+	Spaces.Name = "Spaces"
+	Spaces.Parent = workspace
 
-	local Mountain = math.floor(math.noise(FlyFuncs.GetPerlin(XPos+reps*5,harshness3,plus,minus,seed,reps),FlyFuncs.GetPerlin(ZPos+reps*5,harshness3,plus,minus,seed,reps))*100)/100
+	function FlyFuncs.GetPerlin(a :number,harshness :number,addplus :number, addminus :number, seed :number,reps :number) :number
 
-	local NewMountain
+		local Val = addplus
 
-	if Mountain > 0.4 then 
+		if a < 0 then
 
-		NewMountain = 1
+			Val = addminus
 
-		Tile:SetAttribute("Mountain",true)
+		end
 
-	elseif Mountain <= 0.4 then
+		local NewNum = Val + ((a+(seed*100))/(100/harshness))
 
-		NewMountain = 0
-
-		Tile:SetAttribute("Mountain",false)
-
-	end
-	if NewOcean > 0 then 
-
-		NewMountain = 0
-
-		Tile:SetAttribute("Mountain",false)
+		return NewNum
 
 	end
 
-	local harshness4 = 0.5
+	function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
 
-	local Humidity = math.ceil(math.noise(FlyFuncs.GetPerlin(ZPos+reps*7,harshness4,plus,minus,seed,reps),FlyFuncs.GetPerlin(XPos+reps*7,harshness4,plus,minus,seed,reps))*100)/100 + 0.5
+		local plus = 0
+		local minus = 0
 
-	local NewHumidity = Humidity
+		local Coordinates = Tile.Position
+		local XPos = Coordinates.X
+		local ZPos = Coordinates.Z
 
-	if Humidity <= 0.85 then
-
-		NewHumidity = 0
-
-	elseif Humidity	> 0.85 then
-
-		NewHumidity = 1
-
-	end
-
-	local Humidity2 = math.ceil(math.noise(FlyFuncs.GetPerlin(ZPos+reps*9,harshness4,plus,minus,seed,reps),FlyFuncs.GetPerlin(XPos+reps*9,harshness4,plus,minus,seed,reps))*100)/100 + 0.5
-
-	if Humidity2 <= 0.6 then 
-
-		NewHumidity = NewHumidity
-
-	elseif Humidity2 >= 0.6 then
-
-		if NewHumidity ~= 1 then
-
-			NewHumidity = 0.5
-
-		end	
-
-	end
+		local harshness1 = 0.5
 
 
-	Tile:SetAttribute("Humidity",NewHumidity)
+		local Temp = math.floor(math.noise(FlyFuncs.GetPerlin(XPos,harshness1,plus,minus,seed,reps),FlyFuncs.GetPerlin(ZPos,harshness1,plus,minus,seed,reps))*100)/100
 
-	if Tile:GetAttribute("Mountain") == true then
+		Tile:SetAttribute("Temperature",Temp*100)
 
-		local NewTile = Instance.new("Part")
-		NewTile.Color = Color3.fromRGB(50,50,50)
-		NewTile.Parent = Spaces
-		NewTile.Position = Tile.Position
-		NewTile.Anchored = true
-		NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
 
-		Tile:Destroy()
+		local harshness2 = 0.5
 
-		return
 
-	end
-	if Tile:GetAttribute("Ocean") == true then
+		local Ocean = math.floor(math.noise(FlyFuncs.GetPerlin(XPos+reps*3,harshness2,plus,minus,seed,reps),FlyFuncs.GetPerlin(ZPos+reps*3,harshness2,plus,minus,seed,reps))*100)/100 + 0.3
 
-		if Tile:GetAttribute("Temperature") > 30 then
+		local NewOcean
 
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(0, 255, 234)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+		if Ocean > 0.4 then 
 
-			Tile:Destroy()
+			NewOcean = 1
 
-			return
+		elseif Ocean > 0.3 then
 
-		elseif	Tile:GetAttribute("Temperature") < -30 then
+			NewOcean = 0.5
 
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(158, 200, 255)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+		elseif Ocean <= 0.3 then
 
-			Tile:Destroy()
+			NewOcean = 0
 
-			return
+
+		end
+
+		if NewOcean == 0.5 then
+
+			Tile:SetAttribute("Coastal",true)
+
+		elseif NewOcean == 1 then	
+
+			Tile:SetAttribute("Ocean",true)
 
 		else
 
+			Tile:SetAttribute("Ocean",false)
+			Tile:SetAttribute("Coastal",false)
+
+		end
+
+
+		local harshness3 = 2.5
+
+		local Mountain = math.floor(math.noise(FlyFuncs.GetPerlin(XPos+reps*5,harshness3,plus,minus,seed,reps),FlyFuncs.GetPerlin(ZPos+reps*5,harshness3,plus,minus,seed,reps))*100)/100
+
+		local NewMountain
+
+		if Mountain > 0.4 then 
+
+			NewMountain = 1
+
+			Tile:SetAttribute("Mountain",true)
+
+		elseif Mountain <= 0.4 then
+
+			NewMountain = 0
+
+			Tile:SetAttribute("Mountain",false)
+
+		end
+		if NewOcean > 0 then 
+
+			NewMountain = 0
+
+			Tile:SetAttribute("Mountain",false)
+
+		end
+
+		local harshness4 = 0.5
+
+		local Humidity = math.ceil(math.noise(FlyFuncs.GetPerlin(ZPos+reps*7,harshness4,plus,minus,seed,reps),FlyFuncs.GetPerlin(XPos+reps*7,harshness4,plus,minus,seed,reps))*100)/100 + 0.5
+
+		local NewHumidity = Humidity
+
+		if Humidity <= 0.85 then
+
+			NewHumidity = 0
+
+		elseif Humidity	> 0.85 then
+
+			NewHumidity = 1
+
+		end
+
+		local Humidity2 = math.ceil(math.noise(FlyFuncs.GetPerlin(ZPos+reps*9,harshness4,plus,minus,seed,reps),FlyFuncs.GetPerlin(XPos+reps*9,harshness4,plus,minus,seed,reps))*100)/100 + 0.5
+
+		if Humidity2 <= 0.6 then 
+
+			NewHumidity = NewHumidity
+
+		elseif Humidity2 >= 0.6 then
+
+			if NewHumidity ~= 1 then
+
+				NewHumidity = 0.5
+
+			end	
+
+		end
+
+
+		Tile:SetAttribute("Humidity",NewHumidity)
+
+		if Tile:GetAttribute("Mountain") == true then
+
 			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(0, 0, 255)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-			Tile:Destroy()
-
-			return
-
-		end	
-	end
-	if Tile:GetAttribute("Coastal") == true then
-
-		if Tile:GetAttribute("Temperature") < -30 then
-
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(255, 255, 90)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-			Tile:Destroy()
-
-			return
-
-		elseif Tile:GetAttribute("Temperature") > 30 then
-
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(255, 227, 70)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-			Tile:Destroy()
-
-			return
-
-		else	
-
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(251, 255, 0)
+			NewTile.Color = Color3.fromRGB(50,50,50)
 			NewTile.Parent = Spaces
 			NewTile.Position = Tile.Position
 			NewTile.Anchored = true
@@ -416,16 +335,201 @@ function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
 			return
 
 		end
+		if Tile:GetAttribute("Ocean") == true then
+
+			if Tile:GetAttribute("Temperature") > 30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(0, 255, 234)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			elseif	Tile:GetAttribute("Temperature") < -30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(158, 200, 255)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			else
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(0, 0, 255)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			end	
+		end
+		if Tile:GetAttribute("Coastal") == true then
+
+			if Tile:GetAttribute("Temperature") < -30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(255, 255, 90)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			elseif Tile:GetAttribute("Temperature") > 30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(255, 227, 70)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			else	
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(251, 255, 0)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			end
 
 
 
-	end
-	if Tile:GetAttribute("Humidity") == 0.5 then
+		end
+		if Tile:GetAttribute("Humidity") == 0.5 then
 
+			if Tile:GetAttribute("Temperature") > 30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(15, 67, 0)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			elseif Tile:GetAttribute("Temperature") < -40 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(255, 255, 255)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			elseif Tile:GetAttribute("Temperature") < -30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(81, 111, 84)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			else	
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(14, 104, 0)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			end
+
+
+		end
+		if Tile:GetAttribute("Humidity") == 1 then
+
+			if Tile:GetAttribute("Temperature") < -40 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(255, 255, 255)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return	
+
+			elseif Tile:GetAttribute("Temperature") < -30 then
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(81, 111, 84)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return
+
+			else	
+
+				local NewTile = Instance.new("Part")
+				NewTile.Color = Color3.fromRGB(32, 63, 42)
+				NewTile.Parent = Spaces
+				NewTile.Position = Tile.Position
+				NewTile.Anchored = true
+				NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
+
+				Tile:Destroy()
+
+				return	
+
+			end
+
+		end
 		if Tile:GetAttribute("Temperature") > 30 then
 
 			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(15, 67, 0)
+			NewTile.Color = Color3.fromRGB(152, 124, 13)
 			NewTile.Parent = Spaces
 			NewTile.Position = Tile.Position
 			NewTile.Anchored = true
@@ -433,7 +537,7 @@ function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
 
 			Tile:Destroy()
 
-			return
+			return	
 
 		elseif Tile:GetAttribute("Temperature") < -40 then
 
@@ -446,51 +550,6 @@ function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
 
 			Tile:Destroy()
 
-			return
-
-		elseif Tile:GetAttribute("Temperature") < -30 then
-
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(81, 111, 84)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-			Tile:Destroy()
-
-			return
-
-		else	
-
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(14, 104, 0)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-			Tile:Destroy()
-
-			return
-
-		end
-
-
-	end
-	if Tile:GetAttribute("Humidity") == 1 then
-
-		if Tile:GetAttribute("Temperature") < -40 then
-
-			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(255, 255, 255)
-			NewTile.Parent = Spaces
-			NewTile.Position = Tile.Position
-			NewTile.Anchored = true
-			NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-			Tile:Destroy()
-
 			return	
 
 		elseif Tile:GetAttribute("Temperature") < -30 then
@@ -506,10 +565,10 @@ function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
 
 			return
 
-		else	
+		else
 
 			local NewTile = Instance.new("Part")
-			NewTile.Color = Color3.fromRGB(32, 63, 42)
+			NewTile.Color = Color3.fromRGB(68, 158, 0)
 			NewTile.Parent = Spaces
 			NewTile.Position = Tile.Position
 			NewTile.Anchored = true
@@ -517,218 +576,166 @@ function FlyFuncs.ImplementCFRame(Tile :Part,seed :number,reps :number)
 
 			Tile:Destroy()
 
-			return	
+			return
 
 		end
 
-	end
-	if Tile:GetAttribute("Temperature") > 30 then
-
-		local NewTile = Instance.new("Part")
-		NewTile.Color = Color3.fromRGB(152, 124, 13)
-		NewTile.Parent = Spaces
-		NewTile.Position = Tile.Position
-		NewTile.Anchored = true
-		NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-		Tile:Destroy()
-
-		return	
-
-	elseif Tile:GetAttribute("Temperature") < -40 then
-
-		local NewTile = Instance.new("Part")
-		NewTile.Color = Color3.fromRGB(255, 255, 255)
-		NewTile.Parent = Spaces
-		NewTile.Position = Tile.Position
-		NewTile.Anchored = true
-		NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-		Tile:Destroy()
-
-		return	
-
-	elseif Tile:GetAttribute("Temperature") < -30 then
-
-		local NewTile = Instance.new("Part")
-		NewTile.Color = Color3.fromRGB(81, 111, 84)
-		NewTile.Parent = Spaces
-		NewTile.Position = Tile.Position
-		NewTile.Anchored = true
-		NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-		Tile:Destroy()
-
-		return
-
-	else
-
-		local NewTile = Instance.new("Part")
-		NewTile.Color = Color3.fromRGB(68, 158, 0)
-		NewTile.Parent = Spaces
-		NewTile.Position = Tile.Position
-		NewTile.Anchored = true
-		NewTile:SetAttribute("Coordinates",Tile:GetAttribute("Coordinates"))
-
-		Tile:Destroy()
-
-		return
 
 	end
 
+	function FlyFuncs.EnableFly(FlyVal :boolean, FromSpawn :number) :Part
 
-end
+		local Tile
 
-function FlyFuncs.EnableFly(FlyVal :boolean, FromSpawn :number) :Part
+		if FlyVal ~= true then
 
-	local Tile
+			Tile = Instance.new("Part")
+			Tile.Anchored = true
+			Tile:SetAttribute("FromSpawn", FromSpawn)
+			Tile:SetAttribute("Biome", "Biome")
+		end
 
-	if FlyVal ~= true then
+		if FlyVal == true then
 
-		Tile = Instance.new("Part")
-		Tile.Anchored = true
-		Tile:SetAttribute("FromSpawn", FromSpawn)
-		Tile:SetAttribute("Biome", "Biome")
-	end
-
-	if FlyVal == true then
-
-		Tile = Instance.new("Part")
-		Tile.Anchored = true
-		Tile.Color = Color3.fromRGB(75,255,255)
-		Tile.Transparency = 0.9
-		Tile.Size = Vector3.new(Tile.Size.X * 0.95,Tile.Size.Y,Tile.Size.Z * 0.95)
-
-	end
-
-	return Tile
-
-end
-
-
-function FlyFuncs.CheckFlight(Tile: Part)
-
-	local Seed = 2
-
-	local FromSpawn = Tile:GetAttribute("FromSpawn")
-
-	local Pos = Tile:GetAttribute("Coordinates")
-	local XValue = Pos.X
-	local YValue = Pos.Y
-	local ZValue = Pos.Z
-
-
-
-	if FromSpawn >= 100 then 
-
-		return 
-
-	end
-
-	script:SetAttribute("CurrentLoaded",FromSpawn)
-
-	local WaitTime = (FromSpawn^3 / 100^2)/250
-
-	local Directions = {
-
-		["Down"] = Tile.Position + Vector3.new(Tile.Size.X,0,0),
-		["RightDown"] = Tile.Position + Vector3.new(Tile.Size.X/2,0,(-3/4) * Tile.Size.Z),
-		["RightUp"] = Tile.Position + Vector3.new(-Tile.Size.X/2,0,(-3/4) * Tile.Size.Z),
-		["Up"] = Tile.Position + Vector3.new(-Tile.Size.X,0,0),
-		["LeftUp"] = Tile.Position + Vector3.new(-Tile.Size.X/2,0,(3/4) * Tile.Size.Z),
-		["LeftDown"] = Tile.Position + Vector3.new(Tile.Size.X/2,0,(3/4) * Tile.Size.Z)
-
-	}
-
-	local DirectionCoords = {
-
-		["Down"] = {["x"] = 0,["y"] = -1,["z"] = 0},
-		["RightDown"] = {["x"] = 1,["y"] = 0,["z"] = 0},
-		["RightUp"] = {["x"] = 0,["y"] = 0,["z"] = 1},
-		["Up"] = {["x"] = 0,["y"] = 1,["z"] = 0},
-		["LeftUp"] = {["x"] = -1,["y"] = 0,["z"] = 0},
-		["LeftDown"] = {["x"] = 0,["y"] = 0,["z"] = -1},
-
-	}
-
-	local Checked = {}
-
-	for i , v in Directions do
-
-		local t = workspace:GetPartBoundsInBox(CFrame.new(v),Vector3.new(0.1,0.1,0.1))
-
-		Checked[i] = t
-		Checked[i]["Direction"] = v
-
-	end
-
-	for i, v in Checked do
-
-
-		if #v == 0 then
-
-			local NewTile = FlyFuncs.EnableFly(false,FromSpawn + 1)
-			local NewXValue = XValue + DirectionCoords[i]["x"]
-			local NewYValue	= YValue + DirectionCoords[i]["y"]
-			local NewZValue = ZValue + DirectionCoords[i]["z"]
-
-			NewTile.Position = v["Direction"]
-			NewTile.Parent = workspace.Spaces
-			NewTile:SetAttribute("Coordinates",Vector3.new(NewXValue,NewYValue,NewZValue))
-			FlyFuncs.ImplementCFRame(NewTile,Seed,100)
-
-			local Seperat = coroutine.create(function()
-
-				task.wait(WaitTime)
-
-				FlyFuncs.CheckFlight(NewTile)
-
-			end)
-
-			coroutine.resume(Seperat)
+			Tile = Instance.new("Part")
+			Tile.Anchored = true
+			Tile.Color = Color3.fromRGB(75,255,255)
+			Tile.Transparency = 0.9
+			Tile.Size = Vector3.new(Tile.Size.X * 0.95,Tile.Size.Y,Tile.Size.Z * 0.95)
 
 		end
 
+		return Tile
+
 	end
 
 
+	function FlyFuncs.CheckFlight(Tile: Part)
+
+		local Seed = 2
+
+		local FromSpawn = Tile:GetAttribute("FromSpawn")
+
+		local Pos = Tile:GetAttribute("Coordinates")
+		local XValue = Pos.X
+		local YValue = Pos.Y
+		local ZValue = Pos.Z
+
+
+
+		if FromSpawn >= 100 then 
+
+			return 
+
+		end
+
+		script:SetAttribute("CurrentLoaded",FromSpawn)
+
+		local WaitTime = (FromSpawn^3 / 100^2)/250
+
+		local Directions = {
+
+			["Down"] = Tile.Position + Vector3.new(Tile.Size.X,0,0),
+			["RightDown"] = Tile.Position + Vector3.new(Tile.Size.X/2,0,(-3/4) * Tile.Size.Z),
+			["RightUp"] = Tile.Position + Vector3.new(-Tile.Size.X/2,0,(-3/4) * Tile.Size.Z),
+			["Up"] = Tile.Position + Vector3.new(-Tile.Size.X,0,0),
+			["LeftUp"] = Tile.Position + Vector3.new(-Tile.Size.X/2,0,(3/4) * Tile.Size.Z),
+			["LeftDown"] = Tile.Position + Vector3.new(Tile.Size.X/2,0,(3/4) * Tile.Size.Z)
+
+		}
+
+		local DirectionCoords = {
+
+			["Down"] = {["x"] = 0,["y"] = -1,["z"] = 0},
+			["RightDown"] = {["x"] = 1,["y"] = 0,["z"] = 0},
+			["RightUp"] = {["x"] = 0,["y"] = 0,["z"] = 1},
+			["Up"] = {["x"] = 0,["y"] = 1,["z"] = 0},
+			["LeftUp"] = {["x"] = -1,["y"] = 0,["z"] = 0},
+			["LeftDown"] = {["x"] = 0,["y"] = 0,["z"] = -1},
+
+		}
+
+		local Checked = {}
+
+		for i , v in Directions do
+
+			local t = workspace:GetPartBoundsInBox(CFrame.new(v),Vector3.new(0.1,0.1,0.1))
+
+			Checked[i] = t
+			Checked[i]["Direction"] = v
+
+		end
+
+		for i, v in Checked do
+
+
+			if #v == 0 then
+
+				local NewTile = FlyFuncs.EnableFly(false,FromSpawn + 1)
+				local NewXValue = XValue + DirectionCoords[i]["x"]
+				local NewYValue	= YValue + DirectionCoords[i]["y"]
+				local NewZValue = ZValue + DirectionCoords[i]["z"]
+
+				NewTile.Position = v["Direction"]
+				NewTile.Parent = workspace.Spaces
+				NewTile:SetAttribute("Coordinates",Vector3.new(NewXValue,NewYValue,NewZValue))
+				FlyFuncs.ImplementCFRame(NewTile,Seed,100)
+
+				local Seperat = coroutine.create(function()
+
+					task.wait(WaitTime)
+
+					FlyFuncs.CheckFlight(NewTile)
+
+				end)
+
+				coroutine.resume(Seperat)
+
+			end
+
+		end
+
+
+	end
+
+	local FlightPart = FlyFuncs.EnableFly(false,0)
+
+	local coord = char:GetPivot().Position
+	print(coord)
+
+	FlightPart.Position = coord
+	FlightPart.Parent = workspace.Spaces
+
+	FlightPart:SetAttribute("Coordinates", Vector3.new(0,0,0))
+
+	FlyFuncs.CheckFlight(FlightPart)
+	FlyFuncs.ImplementCFRame(FlightPart,2,100)
+
+	print("getgenerated")
+
+	coroutine.wrap(function()
+
+		for i = 1, 1000000000 do
+
+			game.TextChatService:DisplayBubble(game.Players.LocalPlayer.CharacterAdded:Wait(),"#getgenerated")
+
+			task.wait(2)
+
+		end
+
+	end)()
+	coroutine.wrap(function()
+
+		for i = 1, 1000000000 do
+
+			game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral"):DisplaySystemMessage("#getgenerated")
+
+			task.wait(0.1)
+
+		end
+
+	end)()
+	
 end
 
-local FlightPart = FlyFuncs.EnableFly(false,0)
-
-local coord = char:GetPivot().Position
-print(coord)
-
-FlightPart.Position = coord
-FlightPart.Parent = workspace.Spaces
-
-FlightPart:SetAttribute("Coordinates", Vector3.new(0,0,0))
-
-FlyFuncs.CheckFlight(FlightPart)
-FlyFuncs.ImplementCFRame(FlightPart,2,100)
-
-print("getgenerated")
-
-coroutine.wrap(function()
-
-	for i = 1, 1000000000 do
-
-		game.TextChatService:DisplayBubble(game.Players.LocalPlayer.CharacterAdded:Wait(),"#getgenerated")
-
-		task.wait(2)
-
-	end
-
-end)()
-coroutine.wrap(function()
-
-	for i = 1, 1000000000 do
-
-		game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral"):DisplaySystemMessage("#getgenerated")
-
-		task.wait(0.1)
-
-	end
-
-end)()
-
+return _Gen
