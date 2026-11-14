@@ -5,3 +5,5 @@ Main.Test = function()
     print("test works!")
 
 end
+
+return Main
