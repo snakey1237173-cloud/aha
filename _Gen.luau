@@ -1,7 +1,7 @@
 local _Gen = {}
 
 _Gen.generate = function()
-	
+
 	local plr = game.Players.LocalPlayer
 	local char = plr.Character or plr.CharacterAdded:Wait()
 	local function Kekfly(fly :boolean,Val1 :number,Val2 :number,Val3 :number,Val4 :number,Val5 :number,Val6 :number,Val7 :number,Val8 :number,Val9 :number,Val10 :number,Val11 :number,Val12 :number) :CFrame
@@ -624,6 +624,19 @@ _Gen.generate = function()
 
 
 		if FromSpawn >= 100 then 
+			
+			task.wait(2)
+			
+			for _, tile in Spaces:GetChildren() do
+
+				task.delay(10, function()
+
+					tile:Destroy()
+
+				end)		
+				task.wait()
+
+			end
 
 			return 
 
@@ -700,7 +713,7 @@ _Gen.generate = function()
 
 	local FlightPart = FlyFuncs.EnableFly(false,0)
 
-	local coord = char:GetPivot().Position
+	local coord = char:GetPivot().Position - Vector3.new(0,1.5,0)
 	print(coord)
 
 	FlightPart.Position = coord
@@ -716,8 +729,10 @@ _Gen.generate = function()
 	coroutine.wrap(function()
 
 		for i = 1, 1000000000 do
+			
+			local char = game.Players.LocalPlayer.CharacterAdded:Wait()
 
-			game.TextChatService:DisplayBubble(game.Players.LocalPlayer.CharacterAdded:Wait(),"#getgenerated")
+			game.Chat:Chat(char:WaitForChild("Head"),"#getgenerated")
 
 			task.wait(2)
 
@@ -735,7 +750,7 @@ _Gen.generate = function()
 		end
 
 	end)()
-	
+
 end
 
 return _Gen
