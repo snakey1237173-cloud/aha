@@ -2666,8 +2666,8 @@ local loadsucc, loaderr = pcall(function()
 
 			local XRot,YRot,ZRot = door50:WaitForChild("Hidden"):GetPivot():ToEulerAnglesYXZ()
 
-			local X = 2.5 * -math.cos(YRot)
-			local Z = 2.5 * math.sin(YRot)
+			local X = 2.5 * math.sin(YRot)
+			local Z = 2.5 * math.cos(YRot)
 
 			for i = 1, 10 do
 
@@ -3128,7 +3128,7 @@ local loadsucc, loaderr = pcall(function()
 		elseif des.Name == "WalkedInto" and des:IsA("RemoteEvent") then des:Destroy()
 		elseif des.Name == "Alma" then des:Destroy()
 		elseif des.Name == "Dread" then des:Destroy()
-		elseif des.Name == "Shade" then playerGui:WaitForChild("MainGui"):WaitForChild("Jumpscare"):WaitForChild("Jumpscare_Shade"):Destroy() des:Destroy()
+		elseif des.Name == "Shade" then des:Destroy()
 		elseif des.Name == "ArchivesOfficeChair" then
 
 			DisableAutoInteractforModel(des)
