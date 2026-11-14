@@ -3323,6 +3323,7 @@ local loadsucc, loaderr = pcall(function()
 
 	end
 
+	--[[
 	coroutine.wrap(function()
 
 		while KeyGui:FindFirstChild("KeyInputFrame") do
@@ -3336,6 +3337,7 @@ local loadsucc, loaderr = pcall(function()
 		)
 
 	end)()
+	]]
 
 end)
 
