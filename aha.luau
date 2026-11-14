@@ -2666,7 +2666,7 @@ local loadsucc, loaderr = pcall(function()
 
 			for i = 1, 10 do
 
-				plrChar:PivotTo(door50:WaitForChild("Collision").CFrame)
+				plrChar:PivotTo(door50:WaitForChild("Hidden").CFrame)
 				task.wait()
 
 			end
