@@ -40,7 +40,9 @@ local ESPChange = ahaScripts["_ESP"].ESPChange
 local loadsucc, loaderr = pcall(function()
 
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
-
+	
+	task.wait(2)
+	
 	local player = Players.LocalPlayer
 
 	local character = player.Character or player.CharacterAdded:Wait()
@@ -2650,6 +2652,31 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
+	
+	skipGrumble = function()
+		
+		if not workspace:WaitForChild("CurrentRooms"):FindFirstChild("50") then return PlayNotificationBad("You are not in the nest!") end
+
+		if GameData.Floor.Value == "Mines" and GameData.FloorDestination.Value == "Mines" then
+
+			local plrChar =  player.Character or player.CharacterAdded:Wait()
+
+			local door50 = workspace:WaitForChild("CurrentRooms"):WaitForChild("50"):WaitForChild("Door")
+
+			for i = 1, 10 do
+
+				plrChar:PivotTo(door50:WaitForChild("Collision").CFrame)
+				task.wait()
+
+			end
+			
+		else
+			
+			PlayNotificationBad("You are not in the mines!!!!!")
+
+		end
+
+	end
 
 	local defaultKeyCodes = {
 
@@ -2756,7 +2783,7 @@ local loadsucc, loaderr = pcall(function()
 
 		end
 
-		for i = 1, 8 do
+		for i = 1, 9 do
 
 			if i == 1 then
 
@@ -2789,6 +2816,10 @@ local loadsucc, loaderr = pcall(function()
 			elseif i == 8 then
 
 				CreateTriggerTemplate("Do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
+				
+			elseif i == 9 then
+				
+				CreateTriggerTemplate("Skip grumble", ScrollingHolderDoorsCheats, "", skipGrumble)
 
 			end
 
@@ -3320,4 +3351,3 @@ else
 	warn("keine cheats für dich")
 
 end  
-
