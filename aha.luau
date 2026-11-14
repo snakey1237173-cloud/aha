@@ -40,9 +40,9 @@ local ESPChange = ahaScripts["_ESP"].ESPChange
 local loadsucc, loaderr = pcall(function()
 
 	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
-	
+
 	task.wait(2)
-	
+
 	local player = Players.LocalPlayer
 
 	local character = player.Character or player.CharacterAdded:Wait()
@@ -135,7 +135,8 @@ local loadsucc, loaderr = pcall(function()
 	InputFrame.TextScaled = true
 	InputFrame.PlaceholderText = "Enter Key"
 	InputFrame.Text = ""
-
+	
+	local Key = ahaScripts._User.GetKey()
 
 	while InputFrame.Text ~= tostring(Key) do
 
@@ -2652,9 +2653,9 @@ local loadsucc, loaderr = pcall(function()
 		end
 
 	end
-	
+
 	skipGrumble = function()
-		
+
 		if not workspace:WaitForChild("CurrentRooms"):FindFirstChild("50") then return PlayNotificationBad("You are not in the nest!") end
 
 		if GameData.Floor.Value == "Mines" and GameData.FloorDestination.Value == "Mines" then
@@ -2669,9 +2670,9 @@ local loadsucc, loaderr = pcall(function()
 				task.wait()
 
 			end
-			
+
 		else
-			
+
 			PlayNotificationBad("You are not in the mines!!!!!")
 
 		end
@@ -2816,9 +2817,9 @@ local loadsucc, loaderr = pcall(function()
 			elseif i == 8 then
 
 				CreateTriggerTemplate("Do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
-				
+
 			elseif i == 9 then
-				
+
 				CreateTriggerTemplate("Skip grumble", ScrollingHolderDoorsCheats, "", skipGrumble)
 
 			end
