@@ -135,7 +135,7 @@ local loadsucc, loaderr = pcall(function()
 	InputFrame.TextScaled = true
 	InputFrame.PlaceholderText = "Enter Key"
 	InputFrame.Text = ""
-	
+
 	local Key = ahaScripts._User.GetKey()
 
 	while InputFrame.Text ~= tostring(Key) do
@@ -3335,7 +3335,7 @@ local loadsucc, loaderr = pcall(function()
 			"illegale key removung detected!!!!!!"
 		)
 
-	end)
+	end)()
 
 end)
 
