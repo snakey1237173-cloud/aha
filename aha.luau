@@ -1,0 +1,3323 @@
+local TextChatService = game:GetService("TextChatService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+
+local BaseUrl = "https://raw.githubusercontent.com/snakey1237173-cloud/aha/refs/heads/main"
+
+local Main = {}
+Main.ahaGuiScripts = {}
+
+if not RunService:IsStudio() then
+
+	Main.ahaGuiScripts = {
+		_User = loadstring(game:HttpGet(BaseUrl .. "/_User.luau"))(),
+		_ESP = loadstring(game:HttpGet(BaseUrl .. "/_ESP.luau"))(),
+		_Gen = loadstring(game:HttpGet(BaseUrl .. "/_Gen.luau"))(),
+	}
+
+else
+
+	local Modules = script:WaitForChild("Modules")
+
+	Main.ahaGuiScripts = {
+		_User = require(Modules:WaitForChild("_User")),
+		_ESP = require(Modules:WaitForChild("_ESP")),
+		_Gen = require(Modules:WaitForChild("_Gen")),
+	}
+
+end
+
+local ahaScripts = Main.ahaGuiScripts
+
+local ESPMalRoom = ahaScripts["_ESP"].ESPMalRoom
+local ESPMalThing = ahaScripts["_ESP"].ESPMalThing 
+local ESPMalHoncho = ahaScripts["_ESP"].ESPMalHoncho
+local ESPChange = ahaScripts["_ESP"].ESPChange
+
+local loadsucc, loaderr = pcall(function()
+
+	warn(`// 🔄️ Trying to load ahaGUI for user {game:GetService("Players").LocalPlayer.DisplayName}(@{game:GetService("Players").LocalPlayer.Name}).{game:GetService("Players").LocalPlayer.UserId} //`)
+
+	local player = Players.LocalPlayer
+
+	local character = player.Character or player.CharacterAdded:Wait()
+
+	local humanoid = character:WaitForChild("Humanoid")
+
+	local playerGui = player.PlayerGui
+
+	local GameData = ReplicatedStorage:WaitForChild("GameData")
+
+	local LDB = false
+	local useMikuGui = ahaScripts._User.Miku()
+
+	local GameInfos = {
+
+		FloorInfo = {
+
+			Floor = GameData:WaitForChild("Floor"),
+			FloorDestination = GameData:WaitForChild("FloorDestination"),
+			FloorDestinationSpecific = GameData:WaitForChild("FloorDestinationSpecific"),
+			FloorSpecific = GameData:WaitForChild("FloorSpecific"),
+
+		},
+
+		LiveEntites = workspace:WaitForChild("LiveEntities")
+
+	}
+
+	local MainGui = Instance.new("ScreenGui", playerGui)
+	MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	MainGui.Name = "aha Gui"
+	MainGui.IgnoreGuiInset = true
+	MainGui.ResetOnSpawn = false
+
+	if useMikuGui then
+
+		MainGui.Name = "Miku Gui"
+
+	end
+
+	local KeyGui = Instance.new("Frame", MainGui)
+	KeyGui.Size = UDim2.fromScale(0.4,0.4)
+	KeyGui.Position = UDim2.fromScale(0.5,0.5)
+	KeyGui.AnchorPoint = Vector2.new(0.5,0.5)
+	KeyGui.BackgroundColor3 = Color3.new(0.0627451, 0.0627451, 0.0627451)
+	KeyGui.BorderColor3 = Color3.new(0,0,0)
+	KeyGui.BorderSizePixel = 1
+	KeyGui.BorderColor3 = Color3.new(1,1,1)
+	KeyGui.Name = "KeyInputFrame"
+
+	local imgKex = Instance.new("ImageLabel", KeyGui)	
+	imgKex.Size = UDim2.fromScale(1,1)
+	imgKex.BackgroundTransparency = 1
+	imgKex.ImageTransparency = 0.7
+	imgKex.AnchorPoint = Vector2.new(0.5,0.5)
+	imgKex.Position = UDim2.fromScale(0.5,0.5)
+	imgKex.ZIndex = -12
+	imgKex.ScaleType = Enum.ScaleType.Fit
+	imgKex.Image = "rbxassetid://16149081299"
+	imgKex.ImageColor3 = useMikuGui and Color3.new(0, 1, 1) or Color3.new(1, 0.333333, 0)
+
+	local ttText = Instance.new("TextLabel",KeyGui)
+	ttText.AnchorPoint = Vector2.new(0.5,0)
+	ttText.Position = UDim2.fromScale(0.5,0.05)
+	ttText.Size = UDim2.fromScale(.75,0.1)
+	ttText.BorderSizePixel = 0
+	ttText.BackgroundTransparency = 1
+	ttText.TextScaled = true
+	ttText.TextColor3 = Color3.new(1,1,1)
+	ttText.Text = `{MainGui.Name}`
+	ttText.TextColor3 = useMikuGui and Color3.new(0, 1, 1) or Color3.new(1, 0.333333, 0)
+
+	local Text = Instance.new("TextLabel",KeyGui)
+	Text.AnchorPoint = Vector2.new(0.5,0)
+	Text.Position = UDim2.fromScale(0.5,0.2)
+	Text.Size = UDim2.fromScale(.75,0.075)
+	Text.BorderSizePixel = 0
+	Text.BackgroundTransparency = 1
+	Text.TextScaled = true
+	Text.TextColor3 = Color3.new(1,1,1)
+	Text.Text = `Welcome to {MainGui.Name} {player.Name}, please enter your key.`
+	Text.TextColor3 = useMikuGui and Color3.fromRGB(170, 255, 255) or Color3.fromRGB(255, 190, 146)
+
+	local InputFrame = Instance.new("TextBox",KeyGui)
+	InputFrame.AnchorPoint = Vector2.new(0.5,0)
+	InputFrame.Position = UDim2.fromScale(0.5,0.5)
+	InputFrame.Size = UDim2.fromScale(0.5,0.15)
+	InputFrame.BorderSizePixel = 0
+	InputFrame.TextColor3 = Color3.new(1,1,1)
+	InputFrame.TextScaled = true
+	InputFrame.PlaceholderText = "Enter Key"
+	InputFrame.Text = ""
+
+
+	while InputFrame.Text ~= tostring(Key) do
+
+		task.wait()
+
+		if GameInfos.FloorInfo.FloorSpecific.Value == "Daily_Default" and useMikuGui then
+
+			break
+
+		end
+
+		if RunService:IsStudio() then
+
+			break
+
+		end
+
+	end
+
+	KeyGui.Visible = false
+
+	local UIStroke = Instance.new("UIStroke", MainGui)
+	UIStroke.Thickness = 1
+	UIStroke.Color = Color3.new(1, 1, 1)
+	UIStroke.Name = "CloneStroke"
+
+	local MainFrame = Instance.new("Frame", MainGui)
+	MainFrame.Size = UDim2.fromScale(.5,.5)
+	MainFrame.Position = UDim2.fromScale(.5,.5)
+	MainFrame.AnchorPoint = Vector2.new(.5,.5)
+	MainFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+	MainFrame.BackgroundTransparency = 0
+	MainFrame.BorderSizePixel = 1
+	MainFrame.BorderColor3 = Color3.new(1, 1, 1)
+	MainFrame.Visible = false
+	MainFrame.ZIndex = -1000000000
+
+	local TitleHolder = Instance.new("Frame", MainFrame)
+	TitleHolder.BackgroundTransparency = 1
+	TitleHolder.Size = UDim2.fromScale(1,0.127)
+	TitleHolder.BorderSizePixel = 0
+
+	local TitleText = Instance.new("TextLabel", TitleHolder)
+	TitleText.Size = UDim2.fromScale(1,0.673)
+	TitleText.Position = UDim2.fromScale(-0,0.163)
+	TitleText.BackgroundTransparency = 1
+	TitleText.TextScaled = true
+	TitleText.TextColor3 = useMikuGui and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(255, 85, 0)
+	TitleText.Text = MainGui.Name
+	TitleText.Font = Enum.Font.Montserrat
+
+	local ResetKeysButton = Instance.new("TextButton", MainFrame)
+	ResetKeysButton.Position = UDim2.fromScale(0.839,0.034)
+	ResetKeysButton.Size = UDim2.fromScale(0.143,0.073)
+	ResetKeysButton.TextScaled = true
+	ResetKeysButton.Text = "Reset Keys"
+	ResetKeysButton.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+	ResetKeysButton.Font = Enum.Font.Montserrat
+	ResetKeysButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+	ResetKeysButton.Visible = false
+
+	local ScrollingHolderHumChanges = Instance.new("ScrollingFrame", MainFrame)
+	ScrollingHolderHumChanges.BackgroundTransparency = 1
+	ScrollingHolderHumChanges.Size = UDim2.fromScale(0.307,0.764)
+	ScrollingHolderHumChanges.Position = UDim2.fromScale(0.014,0.203)
+	ScrollingHolderHumChanges.BorderSizePixel = 0
+	ScrollingHolderHumChanges.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	ScrollingHolderHumChanges.CanvasSize = UDim2.new(0,0,0,0)
+	ScrollingHolderHumChanges.ScrollBarImageTransparency = 1
+
+	local ScrollingHolderDoorsCheats = Instance.new("ScrollingFrame", MainFrame)
+	ScrollingHolderDoorsCheats.BackgroundTransparency = 1
+	ScrollingHolderDoorsCheats.Size = UDim2.fromScale(0.21,0.761)
+	ScrollingHolderDoorsCheats.Position = UDim2.fromScale(0.352,0.203)
+	ScrollingHolderDoorsCheats.BorderSizePixel = 0
+	ScrollingHolderDoorsCheats.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	ScrollingHolderDoorsCheats.CanvasSize = UDim2.new(0,0,0,0)
+	ScrollingHolderDoorsCheats.ScrollBarImageTransparency = 1
+
+	local ScrollingHolderOtherHotkeys = Instance.new("ScrollingFrame", MainFrame)
+	ScrollingHolderOtherHotkeys.BackgroundTransparency = 1
+	ScrollingHolderOtherHotkeys.Size = UDim2.fromScale(0.21,0.761) -- 0.143,0.761
+	ScrollingHolderOtherHotkeys.Position = UDim2.fromScale(0.598,0.203) -- 0.842,0.203
+	ScrollingHolderOtherHotkeys.BorderSizePixel = 0
+	ScrollingHolderOtherHotkeys.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	ScrollingHolderOtherHotkeys.CanvasSize = UDim2.new(0,0,0,0)
+	ScrollingHolderOtherHotkeys.ScrollBarImageTransparency = 1
+
+	local ScrollingHolderFunny = Instance.new("ScrollingFrame", MainFrame)
+	ScrollingHolderFunny.BackgroundTransparency = 1
+	ScrollingHolderFunny.Size = UDim2.fromScale(0.143,0.761) -- 0.21,0.761
+	ScrollingHolderFunny.Position = UDim2.fromScale(0.842,0.203) -- 0.598,0.203
+	ScrollingHolderFunny.BorderSizePixel = 0
+	ScrollingHolderFunny.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	ScrollingHolderFunny.CanvasSize = UDim2.new(0,0,0,0)
+	ScrollingHolderFunny.ScrollBarImageTransparency = 1
+
+	local UiListLayout1 = Instance.new("UIListLayout", ScrollingHolderHumChanges)
+
+	local UiListLayout2 = Instance.new("UIListLayout", ScrollingHolderDoorsCheats)
+
+	local UiListLayout3 = Instance.new("UIListLayout", ScrollingHolderFunny)
+
+	local UiListLayout4 = Instance.new("UIListLayout", ScrollingHolderOtherHotkeys)
+
+	local newStroke = UIStroke:Clone()
+	newStroke.Parent = ScrollingHolderHumChanges
+	newStroke.Color = Color3.fromRGB(255, 170, 0)
+
+	local newStroke2 = UIStroke:Clone()
+	newStroke2.Parent = ScrollingHolderDoorsCheats
+	newStroke2.Color = Color3.fromRGB(255, 0, 0)
+
+	local newStroke3 = UIStroke:Clone()
+	newStroke3.Parent = ScrollingHolderFunny
+	newStroke3.Color = Color3.fromRGB(0, 255, 0)
+
+	local newStroke4 = UIStroke:Clone()
+	newStroke4.Parent = ScrollingHolderOtherHotkeys
+	newStroke4.Color = Color3.fromRGB(0, 85, 255)
+
+	local TextLabelHum = Instance.new("TextLabel", MainFrame)
+	TextLabelHum.BorderSizePixel = 0
+	TextLabelHum.BackgroundTransparency = 1
+	TextLabelHum.Size = UDim2.fromScale(0.303,0.042)
+	TextLabelHum.Position = UDim2.fromScale(0.018,0.143)
+	TextLabelHum.Text = "Config"
+	TextLabelHum.TextScaled = true
+	TextLabelHum.TextColor3 = Color3.fromRGB(255, 170, 0)
+	TextLabelHum.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabelHum.Font = Enum.Font.Montserrat
+
+	local FunnyImage = Instance.new("ImageLabel", MainFrame)	
+	FunnyImage.Size = UDim2.fromScale(1,1)
+	FunnyImage.BackgroundTransparency = 1
+	FunnyImage.ImageTransparency = 0.7
+	FunnyImage.AnchorPoint = Vector2.new(0.5,0.5)
+	FunnyImage.Position = UDim2.fromScale(0.5,0.5)
+	FunnyImage.ZIndex = -12
+	FunnyImage.ScaleType = Enum.ScaleType.Fit
+
+	local TextLabelDoorsCheats = Instance.new("TextLabel", MainFrame)
+	TextLabelDoorsCheats.BorderSizePixel = 0
+	TextLabelDoorsCheats.BackgroundTransparency = 1
+	TextLabelDoorsCheats.Size = UDim2.fromScale(0.21,0.042)
+	TextLabelDoorsCheats.Position = UDim2.fromScale(0.352,0.143)
+	TextLabelDoorsCheats.Text = "Doors Cheats"
+	TextLabelDoorsCheats.TextScaled = true
+	TextLabelDoorsCheats.TextColor3 = Color3.fromRGB(255, 0, 0)
+	TextLabelDoorsCheats.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabelDoorsCheats.Font = Enum.Font.Montserrat
+
+	local TextLabelOther = Instance.new("TextLabel", MainFrame)
+	TextLabelOther.BorderSizePixel = 0
+	TextLabelOther.BackgroundTransparency = 1
+	TextLabelOther.Size = UDim2.fromScale(0.21,0.042) -- 0.143,0.042
+	TextLabelOther.Position = UDim2.fromScale(0.598,0.143) -- 0.84,0.143
+	TextLabelOther.Text = "Other Hotkeys"
+	TextLabelOther.TextScaled = true
+	TextLabelOther.TextColor3 = Color3.fromRGB(0, 85, 255)
+	TextLabelOther.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabelOther.Font = Enum.Font.Montserrat
+
+	local TextLabelFunny = Instance.new("TextLabel", MainFrame)
+	TextLabelFunny.BorderSizePixel = 0
+	TextLabelFunny.BackgroundTransparency = 1
+	TextLabelFunny.Size = UDim2.fromScale(0.143,0.042) -- 0.21,0.042
+	TextLabelFunny.Position = UDim2.fromScale(0.84,0.143) -- 0.598,0.143
+	TextLabelFunny.Text = "Funny"
+	TextLabelFunny.TextScaled = true
+	TextLabelFunny.TextColor3 = Color3.fromRGB(0, 255, 0)
+	TextLabelFunny.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabelFunny.Font = Enum.Font.Montserrat
+
+	local InputTemplate = Instance.new("Frame", ReplicatedStorage)
+	InputTemplate.Size = UDim2.fromScale(0.9,0.21)
+	InputTemplate.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	InputTemplate.BackgroundTransparency = 1
+	InputTemplate.BorderSizePixel = 0
+	InputTemplate.Name = "InputTemplate"
+	local Trigger = Instance.new("ImageButton", InputTemplate)
+	Trigger.BackgroundColor3 = Color3.fromRGB(54,54,54)
+	Trigger.BackgroundTransparency = 0
+	Trigger.Position = UDim2.fromScale(0.028,0.421)
+	Trigger.Size = UDim2.fromScale(0.167,0.448)
+	Trigger.ScaleType = Enum.ScaleType.Fit
+	Trigger.BorderSizePixel = 0
+	Trigger.Image = "rbxassetid://9728118892"
+	Trigger.Name = "Trigger"
+	local Key = Instance.new("TextBox", InputTemplate)
+	Key.Position = UDim2.fromScale(.232,0.421)
+	Key.Size = UDim2.fromScale(.167,.448)
+	Key.BorderSizePixel = 0
+	Key.PlaceholderColor3 = Color3.fromRGB(112, 112, 112)
+	Key.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Key.PlaceholderText = "Key"
+	Key.Text = ""
+	Key.TextScaled = true
+	Key.BackgroundColor3 = Color3.fromRGB(54,54,54)
+	Key.BackgroundTransparency = 0
+	Key.Name = "Key"
+	local Input = Instance.new("TextBox", InputTemplate)
+	Input.Position = UDim2.fromScale(.432,0.421)
+	Input.Size = UDim2.fromScale(.539,.448)
+	Input.BorderSizePixel = 0
+	Input.PlaceholderColor3 = Color3.fromRGB(112, 112, 112)
+	Input.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Input.PlaceholderText = "Input"
+	Input.Text = ""
+	Input.TextScaled = true
+	Input.BackgroundColor3 = Color3.fromRGB(54,54,54)
+	Input.BackgroundTransparency = 0
+	Input.Name = "Input"
+	local ChangerName = Instance.new("TextLabel", InputTemplate)
+	ChangerName.BorderSizePixel = 0
+	ChangerName.TextScaled = true
+	ChangerName.Text = "Name"
+	ChangerName.BackgroundTransparency = 1
+	ChangerName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ChangerName.Size = UDim2.fromScale(0.8,0.198)
+	ChangerName.Position = UDim2.fromScale(0.028,0.107)
+	ChangerName.Name = "ChangerName"
+	ChangerName.TextXAlignment = Enum.TextXAlignment.Left
+
+	local TriggerTemplate = Instance.new("Frame", ReplicatedStorage)
+	TriggerTemplate.Size = UDim2.fromScale(0.9,0.21)
+	TriggerTemplate.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	TriggerTemplate.BackgroundTransparency = 1
+	TriggerTemplate.BorderSizePixel = 0
+	TriggerTemplate.Name = "TriggerTemplate"
+	local Trigger2 = Instance.new("ImageButton", TriggerTemplate)
+	Trigger2.BackgroundColor3 = Color3.fromRGB(54,54,54)
+	Trigger2.BackgroundTransparency = 0
+	Trigger2.Position = UDim2.fromScale(0.073,0.421)
+	Trigger2.Size = UDim2.fromScale(0.406,0.448)
+	Trigger2.ScaleType = Enum.ScaleType.Fit
+	Trigger2.BorderSizePixel = 0
+	Trigger2.Image = "rbxassetid://9728118892"
+	Trigger2.Name = "Trigger"
+	local Key2 = Instance.new("TextBox", TriggerTemplate)
+	Key2.Position = UDim2.fromScale(.516,0.421)
+	Key2.Size = UDim2.fromScale(.401,.448)
+	Key2.BorderSizePixel = 0
+	Key2.PlaceholderColor3 = Color3.fromRGB(112, 112, 112)
+	Key2.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Key2.PlaceholderText = "Key"
+	Key2.Text = ""
+	Key2.TextScaled = true
+	Key2.BackgroundColor3 = Color3.fromRGB(54,54,54)
+	Key2.BackgroundTransparency = 0
+	Key2.Name = "Key"
+	local ChangerName2 = Instance.new("TextLabel", TriggerTemplate)
+	ChangerName2.BorderSizePixel = 0
+	ChangerName2.TextScaled = true
+	ChangerName2.Text = "Name"
+	ChangerName2.BackgroundTransparency = 1
+	ChangerName2.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ChangerName2.Size = UDim2.fromScale(1,0.198)
+	ChangerName2.Position = UDim2.fromScale(0,0.107)
+	ChangerName2.Name = "ChangerName"
+	ChangerName2.TextXAlignment = Enum.TextXAlignment.Left
+
+	local KeyCodeTemplate = Instance.new("Frame", ReplicatedStorage)
+	KeyCodeTemplate.Size = UDim2.fromScale(0.9,0.21)
+	KeyCodeTemplate.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	KeyCodeTemplate.BackgroundTransparency = 1
+	KeyCodeTemplate.BorderSizePixel = 0
+	KeyCodeTemplate.Name = "KeyCodeTemplate"
+	local Key3 = Instance.new("TextBox", KeyCodeTemplate)
+	Key3.AnchorPoint = Vector2.new(.5,0)
+	Key3.Position = UDim2.fromScale(.5,0.437)
+	Key3.Size = UDim2.fromScale(.75,.448)
+	Key3.BorderSizePixel = 0
+	Key3.PlaceholderColor3 = Color3.fromRGB(112, 112, 112)
+	Key3.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Key3.PlaceholderText = "Key"
+	Key3.Text = ""
+	Key3.TextScaled = true
+	Key3.BackgroundColor3 = Color3.fromRGB(54,54,54)
+	Key3.BackgroundTransparency = 0
+	Key3.Name = "Key"
+	local ChangerName3 = Instance.new("TextLabel", KeyCodeTemplate)
+	ChangerName3.BorderSizePixel = 0
+	ChangerName3.TextScaled = true
+	ChangerName3.Text = "Name"
+	ChangerName3.BackgroundTransparency = 1
+	ChangerName3.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ChangerName3.Size = UDim2.fromScale(1,0.198)
+	ChangerName3.Position = UDim2.fromScale(0,0.107)
+	ChangerName3.Name = "ChangerName"
+	ChangerName3.TextXAlignment = Enum.TextXAlignment.Left
+
+	local WelcomeHolder = Instance.new("Frame", MainFrame)
+	WelcomeHolder.Size = UDim2.fromScale(0.22,0.127)
+	WelcomeHolder.Position = UDim2.fromScale(0,0)
+	WelcomeHolder.BackgroundTransparency = 1
+	WelcomeHolder.BorderSizePixel = 0
+
+	local PlayerIcon = Instance.new("ImageLabel", WelcomeHolder)
+	PlayerIcon.Size = UDim2.fromScale(0.304,0.673)
+	PlayerIcon.Position = UDim2.fromScale(0,0.163)
+	PlayerIcon.ScaleType = Enum.ScaleType.Fit
+	PlayerIcon.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=420&h=420"
+	PlayerIcon.BackgroundTransparency = 1
+	PlayerIcon.BorderSizePixel = 0
+
+	local WelcomeText = Instance.new("TextLabel", WelcomeHolder)
+	WelcomeText.Size = UDim2.fromScale(0.642,0.469)
+	WelcomeText.Position = UDim2.fromScale(0.304,0.265)
+	WelcomeText.BackgroundTransparency = 1
+	WelcomeText.BorderSizePixel = 0
+	WelcomeText.TextScaled = true
+	WelcomeText.TextColor3 = useMikuGui and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(255, 255, 255)
+	WelcomeText.Font = Enum.Font.Montserrat
+	WelcomeText.Text = useMikuGui and `Welcome, {player.DisplayName}(@{player.Name}) (Miku)` or `Welcome, @{player.DisplayName}(@{player.Name})`
+	if player.DisplayName == player.Name then
+
+		WelcomeText.Text = useMikuGui and `Welcome, @{player.DisplayName} (Miku)` or `Welcome, @{player.DisplayName}`
+
+	end
+
+	local OpenButton = Instance.new("ImageButton", MainGui)
+	OpenButton.BackgroundTransparency = 1
+	OpenButton.Position = UDim2.fromScale(0.943, 0.457)
+	OpenButton.Size = UDim2.fromScale(0.057, 0.084)
+	OpenButton.Image = "rbxassetid://8073107221"
+	OpenButton.ScaleType = Enum.ScaleType.Fit
+
+	local EntsperrPart = Instance.new("TextButton")
+	EntsperrPart.Parent = MainGui
+	EntsperrPart.Size = UDim2.fromScale(1,1)
+	EntsperrPart.BackgroundTransparency = 1
+	EntsperrPart.Modal = true
+	EntsperrPart.Interactable = false
+	EntsperrPart.Text = ""
+	EntsperrPart.Visible = false
+
+	local MouseGUI = Instance.new("ScreenGui")
+	MouseGUI.Parent = playerGui
+	MouseGUI.DisplayOrder = 999
+	MouseGUI.ResetOnSpawn = false
+
+	local cursor = Instance.new("ImageLabel")
+	cursor.Size = UDim2.fromOffset(32,32)
+	cursor.BackgroundTransparency = 1
+	cursor.AnchorPoint = Vector2.new(0.5,0.5)
+	cursor.Image = "rbxassetid://129623791058016"
+	cursor.Visible = false
+	cursor.Parent = MouseGUI
+	cursor.Selectable = false
+	cursor.Interactable = false
+
+	local Notificationframe = Instance.new("Frame")
+	Notificationframe.Size = UDim2.fromScale(1,0.075)
+	Notificationframe.BackgroundColor3 = Color3.new(0.239216, 0.239216, 0.239216)
+	Notificationframe.BackgroundTransparency = 0.75
+	Notificationframe.BorderSizePixel = 0
+	local Border = Instance.new("Frame")
+	Border.Size = UDim2.fromScale(1,0.05)
+	Border.Parent = Notificationframe
+	Border.Position = UDim2.fromScale(0,0)
+	Border.AnchorPoint = Vector2.new(0,0)
+	Border.BorderSizePixel = 0
+	Border.BackgroundColor3 = Color3.new(1, 0.415686, 0)
+	local Text = Instance.new("TextLabel")
+	Text.Size = UDim2.fromScale(0.9,0.65)
+	Text.AnchorPoint = Vector2.new(0.5,0.5)
+	Text.Position = UDim2.fromScale(0.5,0.525)
+	Text.Text = "Der catus manus is gespawnt!"
+	Text.TextColor3 = Color3.new(1, 1, 1)
+	Text.TextScaled = true
+	Text.Font = Enum.Font.Montserrat
+	Text.BackgroundTransparency = 1
+	Text.Parent = Notificationframe
+
+	Notificationframe.Parent = game.ReplicatedStorage
+
+	local EndFrame = Notificationframe:Clone()
+	EndFrame.Frame.BackgroundColor3 = Color3.new(0, 1, 0)
+
+	local Frame3 = Instance.new("Frame")
+	local Layout = Instance.new("UIListLayout")
+
+	Frame3.BackgroundTransparency = 1
+	Frame3.Size = UDim2.fromScale(0.142,0.933)
+	Frame3.AnchorPoint = Vector2.new(1,1)
+	Frame3.Position = UDim2.fromScale(1,1)
+	Frame3.Parent = MainGui
+
+	Layout.FillDirection = Enum.FillDirection.Vertical
+	Layout.Padding = UDim.new(0.01,0)
+	Layout.Parent = Frame3
+
+	function PlayNotificationBad(Name, secwet)
+
+		if secwet == "Miku" then
+
+			local EntityFrame = Notificationframe:Clone()
+			EntityFrame.TextLabel.Text = Name
+			EntityFrame.TextLabel.TextColor3 = Color3.new(0, 1, 1)
+			EntityFrame.Parent = Frame3
+
+			EntityFrame.Frame.BackgroundColor3 = Color3.new(0, 1, 1)
+
+			EntityFrame.Frame.Size = UDim2.fromScale(0,0.05)
+			local Tween = game.TweenService:Create(EntityFrame.Frame,TweenInfo.new(5,Enum.EasingStyle.Linear),{Size = UDim2.fromScale(1,0.05)})
+			Tween:Play()
+
+			local Sound = Instance.new("Sound")
+			Sound.SoundId = "rbxassetid://135385226837787"
+			Sound.Parent = game.SoundService
+			Sound:Play()
+
+			task.wait(5)
+			EntityFrame:Destroy()
+			Sound:Destroy()
+
+		elseif secwet == "Alarm" then
+
+			local EntityFrame = Notificationframe:Clone()
+			EntityFrame.TextLabel.Text = Name
+			EntityFrame.TextLabel.TextColor3 = Color3.new(1, 0, 0)
+			EntityFrame.Parent = Frame3
+
+			EntityFrame.Frame.BackgroundColor3 = Color3.new(1, 0, 0)
+
+			local Sound = Instance.new("Sound")
+			Sound.SoundId = "rbxassetid://7084812679"
+			Sound.Parent = game.SoundService
+			Sound:Play()
+
+			EntityFrame.Frame.Size = UDim2.fromScale(0,0.05)
+			local Tween = game.TweenService:Create(EntityFrame.Frame,TweenInfo.new(30,Enum.EasingStyle.Linear),{Size = UDim2.fromScale(1,0.05)})
+			Tween:Play()
+
+			task.wait(30)
+			EntityFrame:Destroy()
+			Sound:Destroy()
+
+		else
+
+			local EntityFrame = Notificationframe:Clone()
+			EntityFrame.TextLabel.Text = Name
+			EntityFrame.Parent = Frame3
+
+			EntityFrame.Frame.Size = UDim2.fromScale(0,0.05)
+			local Tween = game.TweenService:Create(EntityFrame.Frame,TweenInfo.new(5,Enum.EasingStyle.Linear),{Size = UDim2.fromScale(1,0.05)})
+			Tween:Play()
+
+			local Sound = Instance.new("Sound")
+			Sound.SoundId = "rbxassetid://17208361335"
+			Sound.Parent = game.SoundService
+			Sound:Play()
+
+			task.wait(5)
+			EntityFrame:Destroy()
+			Sound:Destroy()
+
+		end
+
+
+	end
+	function PlayNotificationGood(Name, Sound :boolean)
+
+		if not Sound then Sound = false end
+
+		local EntityFrame = EndFrame:Clone()
+		EntityFrame.TextLabel.Text = Name
+		EntityFrame.Parent = Frame3
+
+		EntityFrame.Frame.Size = UDim2.fromScale(0,0.05)
+		local Tween = game.TweenService:Create(EntityFrame.Frame,TweenInfo.new(5,Enum.EasingStyle.Linear),{Size = UDim2.fromScale(1,0.05)})
+		Tween:Play()
+
+		if Sound then
+
+			local Sound = Instance.new("Sound")
+			Sound.SoundId = "rbxassetid://17208361335"
+			Sound.Parent = game.SoundService
+			Sound:Play()
+
+		end
+
+		task.wait(5)
+		EntityFrame:Destroy()
+
+
+	end
+
+	local DeletedDread = false
+	local count = 0
+
+	repeat 
+
+		local Dread = game:FindFirstChild("Dread",true)
+
+		if Dread and Dread:IsA("ModuleScript") then
+
+			Dread:Destroy()
+
+			if count >= 1 then DeletedDread = true end
+
+		end
+
+		count += 1
+
+		if count > 100 then
+
+			local co = coroutine.create(function() 
+
+				if not RunService:IsStudio() then
+
+					PlayNotificationBad("Der Dread wurde nicht entfernt!","Alarm")
+
+				end
+
+			end)
+			coroutine.resume(co)
+
+		end
+
+		task.wait()
+
+	until (DeletedDread and count >= 2) or count > 100
+
+	RunService.RenderStepped:Connect(function()
+
+		local mouse = player:GetMouse()
+		cursor.Position = UDim2.fromOffset(mouse.X,mouse.Y)
+
+		character:SetAttribute("Crouching",true)
+
+		local Remote = workspace:FindFirstChild("LookedAtRemote",true)
+		if Remote and Remote:IsA("RemoteEvent") then
+			Remote:FireServer()
+		end
+
+		local Jam1 = game:FindFirstChild("Jam",true)
+		if Jam1 and Jam1:IsA("Sound") then
+			Jam1:Destroy()
+		end
+
+		local Jam2 = game:FindFirstChild("Jamming",true)
+		if Jam2 and Jam2:IsA("EqualizerSoundEffect") then
+			Jam2:Destroy()
+		end
+
+		for _, Room in game.Workspace.CurrentRooms:GetChildren() do
+
+			if Room:GetAttribute("IsDark") == true and Room:GetAttribute("Ambient") ~= Color3.new(1,1,1) then
+
+				Room:SetAttribute("Ambient",Color3.new(1,1,1))
+
+			end
+
+		end
+
+	end)
+
+	local isOpen = false
+	local keyCodes = {}
+
+	if useMikuGui then
+
+		OpenButton.Image = "rbxassetid://298633257"
+		FunnyImage.Image = "rbxassetid://6280332777"
+
+	else
+
+		OpenButton.Image = "rbxassetid://8073107221"
+		FunnyImage.Image = "rbxassetid://8073107221"
+
+	end
+
+	local EntitiesTabel = {
+
+		["RushMoving"] = "Rush";
+		["AmbushMoving"] = "Ambush";
+		["Eyes"] = "Eyes";
+		["GloombatSwarm"] = "Gloombats";
+		["BackdoorRush"] = "Blitz";
+		["BackdoorLookman"] = "Lookman";
+		["BashMoving"] = "Bash";
+		["Scribbles"] = "Scribbles";
+		["UUGGAABOOGGAA"] = "kajshdjkl";
+
+	}
+
+	if useMikuGui then
+
+		local co = coroutine.create(function() 
+
+			PlayNotificationBad("Injecting miku...")
+			PlayNotificationBad("Successfully injected miku.", "Miku")
+
+		end)
+		coroutine.resume(co)
+
+	end
+
+	workspace.ChildAdded:Connect(function(chil)
+
+		if EntitiesTabel[chil.name] then
+
+			local Main = chil.PrimaryPart
+
+			Main.Material = Enum.Material.Glass
+
+			local Highlight = Instance.new("Highlight",Main)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(255, 0, 0)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(177, 0, 0)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = chil
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(229, 0, 0)
+			Text.BorderColor3 = Color3.fromRGB(173, 0, 0)
+			Text.Text = EntitiesTabel[chil.Name]
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(229, 0, 0)
+			Studs.BorderColor3 = Color3.fromRGB(173, 0, 0)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait()
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-chil:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			chil.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
+
+			PlayNotificationBad(`Der {EntitiesTabel[chil.Name]}us is gespawned!`)
+
+		end
+		if chil.Name == "MonumentEntity" then
+
+			local Main = chil.Top
+
+			local Highlight = Instance.new("Highlight",Main)
+			Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			Highlight.FillColor = Color3.fromRGB(255, 0, 0)
+			Highlight.FillTransparency = 0.75
+			Highlight.OutlineTransparency = 0.25
+			Highlight.OutlineColor = Color3.fromRGB(177, 0, 0)
+
+			local BillboardGui = Instance.new("BillboardGui")
+			BillboardGui.Parent = chil
+			BillboardGui.Size = UDim2.fromScale(2,1)
+			BillboardGui.AlwaysOnTop = true
+			BillboardGui.ClipsDescendants = false
+
+			local Text = Instance.new("TextLabel")
+			Text.Parent = BillboardGui
+			Text.Size = UDim2.fromScale(1,0.75)
+			Text.BackgroundTransparency = 1
+			Text.BorderSizePixel = 0
+			Text.TextColor3 = Color3.fromRGB(229, 0, 0)
+			Text.BorderColor3 = Color3.fromRGB(173, 0, 0)
+			Text.Text = "Monument"
+			Text.TextScaled = true
+			Text.Font = Enum.Font.Highway
+
+			local Studs = Instance.new("TextLabel")
+			Studs.Parent = BillboardGui
+			Studs.Size = UDim2.fromScale(1,0.5)
+			Studs.Position = UDim2.fromScale(0,0.75)
+			Studs.BackgroundTransparency = 1
+			Studs.BorderSizePixel = 0
+			Studs.TextColor3 = Color3.fromRGB(229, 0, 0)
+			Studs.BorderColor3 = Color3.fromRGB(173, 0, 0)
+			Studs.Text = "30"
+			Studs.TextScaled = true
+			Studs.Font = Enum.Font.Highway
+
+			local Running = true
+			local co = coroutine.create(function()
+
+				while Running do
+
+					task.wait()
+					local Distance = math.round((game.Players.LocalPlayer.Character:GetPivot().Position-chil:GetPivot().Position).Magnitude)
+					Studs.Text = "["..tostring(Distance).."]"
+				end
+
+			end)
+			coroutine.resume(co)
+
+			chil.Destroying:Connect(function()
+
+				Running = false
+
+			end)
+
+			local SizeConstraint = Instance.new("UITextSizeConstraint")
+			SizeConstraint.Parent = Text
+			SizeConstraint.MaxTextSize = 1
+
+			local UiStroke = Instance.new("UIStroke")
+			UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UiStroke.Color = Color3.fromRGB(0, 0, 0)
+			UiStroke.Thickness = 1
+
+			PlayNotificationBad(`Der Monumentus is gespawned!`)
+
+		end
+
+	end)
+	workspace.ChildRemoved:Connect(function(chil)
+
+		if EntitiesTabel[chil.name] then
+
+			PlayNotificationGood(`Der {EntitiesTabel[chil.Name]}us is despawned!`)
+
+		end
+
+	end)
+	workspace.CurrentRooms.ChildAdded:Connect(function(chil)
+
+		if chil:GetAttribute("RawName") == "Hotel_HaltHallway" or chil:GetAttribute("RawName") == "Mines_HaltHallway" then
+
+			PlayNotificationBad(`Der Haltus is gespawned!`)
+
+		end
+
+	end)
+
+	DisableAutoInteractforModel = function(TargetModel)
+
+		if not TargetModel then return end
+
+		for _, prox in TargetModel:GetDescendants() do
+
+			if prox:IsA("ProximityPrompt") then
+
+				prox:AddTag("AutoInteractDisabled")
+
+			end
+
+		end
+
+	end
+
+	SetupKeyCodes = function()
+
+		for _, gottenKey in Enum.KeyCode:GetEnumItems() do
+
+			if string.find(gottenKey.Name, "World") then continue end
+			if keyCodes[gottenKey.Name] then continue end
+
+			if not keyCodes[gottenKey.Name] then
+
+				keyCodes[gottenKey.Name] = {
+
+					KeyCode = Enum.KeyCode[gottenKey.Name],
+					Input = function() end,
+
+				}
+
+			end
+
+		end
+
+	end
+
+	CreateInputTemplate = function(ChangerNameString :string, TemplateType :string, limit :number?, defaultKey)
+
+		local newTemplate = InputTemplate:Clone()
+		newTemplate.ChangerName.Text = ChangerNameString
+		newTemplate.Input.PlaceholderText = `Input`
+		newTemplate.Key.Text = defaultKey or ""
+		newTemplate.Parent = ScrollingHolderHumChanges
+
+		newTemplate.Input.FocusLost:Connect(function()
+
+			if newTemplate.Input.Text == "" then return end
+
+			local success, err = pcall(function()
+
+				if limit then 
+
+					if tonumber(newTemplate.Input.Text) > limit then newTemplate.Input.Text = limit end
+
+				end
+
+			end)
+
+			if not success then
+
+				warn(`!! ERROR !! {err}`)
+
+			end
+
+		end)
+
+		newTemplate.Key.FocusLost:Connect(function()
+
+			local success, err = pcall(function()
+
+				local allowed = true
+
+				local setKey = newTemplate.Key.Text
+				if setKey == "" then return end
+				if keyCodes[setKey] == nil then newTemplate.Key.Text = "" allowed = false end
+				if keyCodes[setKey:upper()] then newTemplate.Key.Text = setKey:upper() allowed = true end
+
+				if allowed == false then return end
+
+				if newTemplate.Input.Text == "" then newTemplate.Key.Text = "" return end
+
+				if limit then
+
+					if tonumber(newTemplate.Input.Text) > limit then 
+
+						newTemplate.Input.Text = limit 
+
+					end
+
+				end
+
+				setKey = newTemplate.Key.Text
+
+				for _, otherKeys in MainGui:GetDescendants() do
+
+					if otherKeys:IsA("TextBox") and otherKeys.Name == "Key" and otherKeys.Text == setKey and otherKeys ~= newTemplate.Key then
+
+						otherKeys.Text = ""
+
+					end
+
+				end
+
+				keyCodes[setKey].Input = function()
+
+					if ChangerNameString == "Speed" then
+
+						local charr = player.Character or player.CharacterAdded:Wait()
+
+						if charr:GetAttribute("SpeedBoost") then
+
+							charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
+
+						end
+
+					elseif ChangerNameString == "FOV" then
+
+						local cam = workspace:FindFirstChild("Camera")
+						if cam then
+
+							local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(0.25), {FieldOfView = tonumber(newTemplate.Input.Text)})
+							tween:Play()
+
+						end
+
+					end
+
+				end
+
+			end)
+
+			if not success then
+
+				warn(`!! ERROR !! {err}`)
+
+			end
+
+		end)
+
+		newTemplate.Trigger.Activated:Connect(function()
+
+			local success, err = pcall(function()
+
+				if newTemplate.Input.Text == "" then return end
+				if ChangerNameString == "Speed" then
+
+					local charr = player.Character or player.CharacterAdded:Wait()
+
+					if charr:GetAttribute("SpeedBoost") then
+
+						charr:SetAttribute("SpeedBoost", tonumber(newTemplate.Input.Text))
+
+					end
+
+				elseif ChangerNameString == "FOV" then
+
+					local cam = workspace:FindFirstChild("Camera")
+					if cam then
+
+						local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(0.25), {FieldOfView = tonumber(newTemplate.Input.Text)})
+						tween:Play()
+
+					end
+
+				end
+
+			end)
+
+			if not success then
+
+				warn(`!! ERROR !! {err}`)
+
+			end
+
+		end)
+
+	end
+
+	CreateTriggerTemplate = function(setName :string, parent :Instance, defaultKey :string, callback :() -> ())
+
+		local newTemplate = TriggerTemplate:Clone()
+		newTemplate.ChangerName.Text = setName
+		newTemplate.Key.Text = defaultKey or ""
+		newTemplate.Parent = parent
+
+		newTemplate.Key.FocusLost:Connect(function()
+
+			local success, err = pcall(function()
+
+				local allowed = true
+
+				local setKey = newTemplate.Key.Text
+				if setKey == "" then return end
+				if keyCodes[setKey] == nil then newTemplate.Key.Text = "" allowed = false end
+				if keyCodes[setKey:upper()] then newTemplate.Key.Text = setKey:upper() allowed = true end
+
+				if allowed == false then return end
+
+				setKey = newTemplate.Key.Text
+
+				for _, otherKeys in MainGui:GetDescendants() do
+
+					if otherKeys:IsA("TextBox") and otherKeys.Name == "Key" and otherKeys.Text == setKey and otherKeys ~= newTemplate.Key then
+
+						otherKeys.Text = ""
+
+					end
+
+				end
+
+				keyCodes[setKey].Input = callback
+
+			end)
+
+			if not success then
+
+				warn(`!! ERROR !! {err}`)
+
+			end
+
+		end)
+
+		newTemplate.Trigger.Activated:Connect(function()
+
+			local success, err = pcall(function()
+
+				callback()
+
+			end)
+
+			if not success then
+
+				warn(`!! ERROR !! {err}`)
+
+			end
+
+		end)
+
+	end
+
+	CreateKeyCodeTemplate = function(setName :string, parent :Instance, defaultKey :string, callback :() -> ())
+
+		local newTemplate = KeyCodeTemplate:Clone()
+		newTemplate.ChangerName.Text = setName
+		newTemplate.Key.Text = defaultKey or ""
+		newTemplate.Parent = parent
+
+		newTemplate.Key.FocusLost:Connect(function()
+
+			local success, err = pcall(function()
+
+				local allowed = true
+
+				local setKey = newTemplate.Key.Text
+				if setKey == "" then return end
+				if keyCodes[setKey] == nil then newTemplate.Key.Text = "" allowed = false end
+				if keyCodes[setKey:upper()] then newTemplate.Key.Text = setKey:upper() allowed = true end
+
+				if allowed == false then return end
+
+				setKey = newTemplate.Key.Text
+
+				for _, otherKeys in MainGui:GetDescendants() do
+
+					if otherKeys:IsA("TextBox") and otherKeys.Name == "Key" and otherKeys.Text == setKey and otherKeys ~= newTemplate.Key then
+
+						otherKeys.Text = ""
+
+					end
+
+				end
+
+				keyCodes[setKey].Input = callback
+
+			end)
+
+			if not success then
+
+				warn(`!! ERROR !! {err}`)
+
+			end
+
+		end)
+
+	end
+
+	SetupKeyCodes()
+
+	HandleMouseLock = function()
+
+		if EntsperrPart.Visible == false then
+
+			EntsperrPart.Visible = not EntsperrPart.Visible
+			cursor.Visible = not cursor.Visible
+
+		else
+
+			EntsperrPart.Visible = not EntsperrPart.Visible
+			cursor.Visible = not cursor.Visible
+
+		end
+
+	end
+	HandleGui = function(hotkeyOpen)
+
+		if isOpen then
+
+			MainFrame.Visible = false
+			isOpen = false
+
+			if hotkeyOpen then
+
+				HandleMouseLock()
+
+			end
+
+		else
+
+			MainFrame.Visible = true
+			isOpen = true
+
+			if hotkeyOpen then
+
+				HandleMouseLock()
+
+			end
+
+		end
+
+	end
+
+	OpenButton.Activated:Connect(function()
+
+		HandleGui()
+
+	end)
+
+	QickHeightTiny = function(frame :Frame, player :Player)
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		char.Humanoid.HipHeight = 1.998
+
+	end
+
+	QickHeightBig = function(frame :Frame)
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		char.Humanoid.HipHeight = 15
+
+	end
+
+	local DB = false
+
+	TpForward = function()
+
+		if DB == true then return end
+
+		DB = true
+
+		local cam = workspace.CurrentCamera
+
+		local plr = game.Players.LocalPlayer
+		local char = plr.Character or plr.CharacterAdded:Wait()
+
+		local CFrame = cam.CFrame
+		local Focus = cam.Focus
+
+		local mag = (Focus.Position - CFrame.Position).Unit
+
+		local TpFrame = cam.CFrame +(-mag)*7000
+
+		local i = 0
+
+		while i < 5 do 
+
+			char:PivotTo(TpFrame)
+
+			i +=1
+
+			task.wait(0.1)			
+
+		end
+
+		DB = false
+
+	end
+
+	TpDown = function()
+
+		if DB == true then return end
+
+		DB = true
+
+		local plr = game.Players.LocalPlayer
+		local char = plr.Character or plr.CharacterAdded:Wait()
+
+		local TpFrame = char:GetPivot() + Vector3.new(0,3000,0)
+
+		local i = 0
+
+		while i < 5 do
+
+			char:PivotTo(TpFrame)
+
+			i +=1
+
+			task.wait(0.1)			
+
+		end
+
+		DB = false
+
+	end
+
+	local ESPenabled = false
+	ESP = function()
+
+		ESPenabled = not ESPenabled
+
+		ESPChange(ESPenabled)
+
+		if ESPenabled == true then
+
+			for _, Room in workspace.CurrentRooms:GetChildren() do
+				ESPMalRoom(Room)
+				if Room:FindFirstChild("ArchivesPackageDeposit",true) then
+
+					ESPMalHoncho(Room)
+
+				end
+			end
+			for _, Thing in workspace.CurrentRooms:GetDescendants() do
+				ESPMalThing(Thing)
+			end
+
+			PlayNotificationGood("ESP enabled")
+
+		elseif ESPenabled == false then
+
+
+			PlayNotificationBad("ESP disabled")
+
+		end
+
+	end
+
+	local InstaInteractEnabled = false
+	InstantInteract = function()
+
+		InstaInteractEnabled = not InstaInteractEnabled
+
+		if InstaInteractEnabled == true then
+
+			PlayNotificationGood("Instant Interact enabled")
+
+		elseif InstaInteractEnabled == false then
+
+			PlayNotificationBad("Instant Interact disabled")
+
+		end
+
+	end
+
+	local AutoInteractEnabled = false
+	AutoInteract = function()
+
+		AutoInteractEnabled = not AutoInteractEnabled
+
+		if AutoInteractEnabled == true then
+
+			PlayNotificationGood("Auto Interact enabled")
+
+		elseif AutoInteractEnabled == false then
+
+			PlayNotificationBad("Auto Interact disabled")
+
+		end
+
+	end
+
+	tpToAllPipes = function()
+
+		coroutine.wrap(function()
+
+			local plr = game.Players.LocalPlayer
+			local char = plr.Character or plr.CharacterAdded:Wait()
+
+			local floods = {}
+
+			local root = char:WaitForChild("HumanoidRootPart")
+
+			local currentRooms = workspace:WaitForChild("CurrentRooms")
+			local room100 = currentRooms:WaitForChild("100")
+			local DamHandler = room100:WaitForChild("_DamHandler")
+
+			for _, flood in ipairs(DamHandler:GetChildren()) do
+				if flood:IsA("BasePart") and string.find(flood.Name, "Flood") then
+					local number = tonumber(flood.Name:match("%d+"))
+
+					if number then
+						table.insert(floods, {
+							Name = flood.Name,
+							Number = number,
+							Part = flood
+						})
+					end
+				end
+			end
+
+			table.sort(floods, function(a, b)
+				return a.Number < b.Number
+			end)
+
+			for _, flood in ipairs(floods) do
+				local pumps = flood.Part:WaitForChild("Pumps")
+				local waterPumps = pumps:GetChildren()
+
+				table.sort(waterPumps, function(a, b)
+					return a.Name < b.Name
+				end)
+
+				for _, waterPump in ipairs(waterPumps) do
+					local wheel = waterPump:WaitForChild("Wheel")
+					local prompt = wheel:FindFirstChildOfClass("ProximityPrompt")
+
+					if not prompt:IsA("ProximityPrompt") then
+						continue
+					end
+
+					if not prompt.Enabled then
+						continue
+					end
+
+					char.PrimaryPart.Anchored = true
+					char:PivotTo(CFrame.lookAt(wheel.CFrame * CFrame.new(0, 0, -2).Position,wheel.CFrame.Position))
+					char.PrimaryPart.Anchored = false
+
+					coroutine.wrap(function()
+
+						while task.wait() do
+
+							prompt.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
+
+							prompt:InputHoldBegin()
+							prompt:InputHoldEnd()
+
+						end
+
+					end)()
+
+					task.wait(1)
+				end
+
+				task.wait(8.25)
+			end
+
+		end)()
+
+	end
+
+	haleluhahaahahaaiaiaahaha = function()
+
+		local illegalOP = Instance.new("ScreenGui", playerGui)
+		local illegalOPText = Instance.new("TextLabel", illegalOP)
+
+		illegalOPText.AnchorPoint = Vector2.new(0.5, 0.5)
+		illegalOPText.Position = UDim2.new(0.5, 0, 0.5, 0)
+
+		illegalOPText.Size = UDim2.fromScale(0.5,0.5)
+
+		illegalOPText.BackgroundTransparency = 1
+		illegalOPText.TextStrokeColor3 = Color3.new(0, 0, 0)
+		illegalOPText.TextStrokeTransparency = 0
+		illegalOPText.TextStrokeColor3 = Color3.new(0.372549, 0.34902, 0)
+		illegalOPText.TextColor3 = Color3.new(1, 1, 0)
+		illegalOPText.TextScaled = true
+		illegalOPText.Font = Enum.Font.FredokaOne
+
+		player.Character.Humanoid.Health = 1
+
+		illegalOPText.Text = "WAS PASSIERT MIT MIR????????"
+
+		task.wait(2)
+
+		player.Character.Humanoid.WalkSpeed = 0
+
+		illegalOPText.Text = "WARTE......"
+
+		local velocity = Instance.new("BodyVelocity", player.Character.HumanoidRootPart)
+
+		task.wait(3)
+
+		illegalOPText.Text = "AHHHHHHHHHHHHHHHHHHHHHHHHHHH"
+
+		local sound = Instance.new("Sound", player.Character.HumanoidRootPart)
+		sound.SoundId = "rbxassetid://95470456868782"
+		sound:Play()
+
+		local hrp = player.Character.HumanoidRootPart :: BasePart
+
+		local currentVel = 1000
+		local currentMulti = 1
+
+		local  count = 0
+
+		while task.wait(0.01) do
+
+			currentMulti += 0.000001
+			count += 1
+
+			if count >= 666 then
+
+				break
+
+			end
+
+			hrp:ApplyImpulse(Vector3.new((currentVel * currentMulti)/(currentMulti/1000000), (currentVel * currentMulti)/(currentMulti/1000000), (currentVel * currentMulti)/(currentMulti/1000000)))
+
+		end
+
+		illegalOPText.Text = "Now you are in hell."
+		illegalOPText.Font = Enum.Font.Creepster
+		illegalOPText.TextColor3 = Color3.new(1, 0, 0)
+
+	end
+
+	fling = function()
+
+		local plrChar = player.Character or player.CharacterAdded:Wait()
+
+		local rootPart = plrChar:FindFirstChild("HumanoidRootPart") :: BasePart
+		if not rootPart then return end
+
+		local attachment = Instance.new("Attachment", rootPart)
+		local linearVelocity = Instance.new("LinearVelocity", attachment)
+
+		linearVelocity.MaxForce = 999999
+		linearVelocity.VectorVelocity = Vector3.new(math.random(-100,100), math.random(-100,100), math.random(-100,100))
+		linearVelocity.Attachment0 = attachment
+
+		game.Debris:AddItem(attachment, 0.1)
+
+	end
+
+	ahhhhhhhhZERSTOERUNG = function(frame :Frame)
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		char.Humanoid.HipHeight = -10000000000
+
+	end
+
+	tot = function()
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		char.Humanoid.Health = 0
+
+	end
+
+	local fovpartyactive = false
+
+	fovParty = function()
+
+		if fovpartyactive then return end
+
+		fovpartyactive = true
+
+		local cam = workspace:FindFirstChild("Camera")
+		if cam then
+
+			coroutine.wrap(function()
+
+				while task.wait() do
+
+					local tween = game:GetService("TweenService"):Create(cam, TweenInfo.new(.1), {FieldOfView = math.random(10, 100)})
+					tween:Play()
+					tween.Completed:Wait()
+
+				end
+
+			end)()
+
+		end
+
+	end
+
+
+	local notifyPlaying = false
+
+	clonearmy = function()
+
+		local clonedChars = workspace:FindFirstChild("ClonedChars") or Instance.new("Folder", workspace)
+		clonedChars.Name = "ClonedChars"
+
+		local function createClone(char)
+
+			char.Archivable = true
+			local clone = char:Clone()
+			char.Archivable = false
+
+			return clone
+
+		end
+
+		local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+		local takenPositions = {}
+
+		local function getRandomPositionAroundThePlayer()
+
+			local radius = 10
+
+			local winkel = 15 * math.random(1,24)
+
+			local XAdd = math.cos(math.rad(winkel))*radius
+			local ZAdd = math.sin(math.rad(winkel))*radius
+
+			local charPos = char:GetPivot().Position
+			local Position = Vector3.new(charPos.X+XAdd,charPos.Y,charPos.Z+ZAdd)
+
+			return Position
+
+		end
+
+		local function clonePlayer()
+
+			if #clonedChars:GetChildren() >= 35 then
+
+				if not notifyPlaying then
+
+					notifyPlaying = true
+					PlayNotificationBad("Max Clones reached!")
+					notifyPlaying = false
+
+				end
+
+				return
+
+			end
+
+			local clone = createClone(char)
+			local hum = clone:FindFirstChild("Humanoid")
+			hum.HealthDisplayDistance = 0
+			hum.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+			for _, v in clone:GetDescendants() do
+
+				if v:IsA("BasePart") then
+
+					v.CanCollide = false
+					v.Anchored = true
+					v.Massless = true
+
+				end
+
+			end
+
+			local pos = getRandomPositionAroundThePlayer()
+
+			if table.find(takenPositions, pos) then
+
+				clonePlayer()
+				return
+
+			end
+
+			if not table.find(takenPositions, pos) then
+
+				table.insert(takenPositions, pos)
+
+			end
+
+			clone:PivotTo(CFrame.lookAt(pos,char:GetPivot().Position))
+			clone.Parent = clonedChars
+
+			task.delay(30, function()
+
+				for _, part in clone:GetDescendants() do
+
+					if part:IsA("BasePart") then
+
+						local fade = game.TweenService:Create(part, TweenInfo.new(0.5), {Transparency = 1})
+						fade:Play()
+						fade.Completed:Wait()
+
+						part:Destroy()
+
+					end
+
+				end
+
+				table.remove(takenPositions, table.find(takenPositions, pos))
+				clone:Destroy()
+
+			end)
+
+		end
+
+		for i = 1, math.random(5, 15) do
+
+			clonePlayer()
+			task.wait(0.25)
+
+		end
+
+	end
+
+	local NAME_COLORS =
+		{
+			Color3.new(253/255, 41/255, 67/255),
+			Color3.new(1/255, 162/255, 255/255),
+			Color3.new(2/255, 184/255, 87/255),
+			BrickColor.new("Bright violet").Color,
+			BrickColor.new("Bright orange").Color,
+			BrickColor.new("Bright yellow").Color,
+			BrickColor.new("Bright reddish violet").Color,
+			BrickColor.new("Light brick yellow").Color,
+		}
+
+	local function GetNameValue(pName)
+		local value = 0
+		for index = 1, #pName do
+			local cValue = string.byte(string.sub(pName, index, index))
+			local reverseIndex = #pName - index + 1
+			if #pName%2 == 1 then
+				reverseIndex = reverseIndex - 1
+			end
+			if reverseIndex%4 >= 2 then
+				cValue = -cValue
+			end
+			value = value + cValue
+		end
+		return value
+	end
+
+	local color_offset = 0
+	local function ComputeNameColor(pName)
+		return NAME_COLORS[((GetNameValue(pName) + color_offset) % #NAME_COLORS) + 1]
+	end
+
+	local function getRGBNameColor(pName)
+
+		local predictedColor = ComputeNameColor(pName)
+
+		local r, g, b = predictedColor.R*255, predictedColor.G*255, predictedColor.B*255
+		return string.format("%d, %d, %d", r, g, b)
+
+	end
+
+	progress = function()
+
+		local Chat = game:GetService("Chat")
+		local TextChatService = game:GetService("TextChatService")
+
+		local playerChar = player.Character or player.CharacterAdded:Wait()
+
+		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "Lightning_Splash"
+
+		playerChar.HumanoidRootPart.Anchored = true
+
+		local Sound = Instance.new("Sound")
+		Sound.SoundId = "rbxassetid://129496339606661"
+		Sound.Parent = game.SoundService
+		Sound.Looped = true
+		Sound:Play()
+
+		local t = 0
+
+		Sound.DidLoop:Connect(function()
+			t+=1
+			if t > 15 then
+				Sound:Stop()
+			end
+		end)
+
+		while t <5 do
+			task.wait()
+		end
+
+		local rootPart = playerChar:WaitForChild("HumanoidRootPart")
+
+		local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
+
+		local distance = 5
+
+		local x = -distance * math.sin(Yrot) 
+		local z = -distance * math.cos(Yrot)
+
+		local charpivot = playerChar:GetPivot()
+		local Pos = charpivot.Position
+
+		local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+
+		local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
+		local currentText
+
+		OWNER.Parent = workspace
+		OWNER:PivotTo(CF)
+		task.wait(1)
+
+		currentText = "HEY!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+		task.wait(3)
+		currentText = "I detected progress!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		task.wait(2)
+		currentText = "Now you will die."
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		--Now you will die.
+
+		task.wait(2)
+
+		--/kill .. OWNER.Humanoid.DisplayName
+
+		currentText = "/kill ".. OWNER.Humanoid.DisplayName
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+		OWNER.Humanoid.Health = 0
+		task.wait(2)
+
+		currentText = "Oops wrong command."
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+		task.wait(2)
+		OWNER:Destroy()
+
+		OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "Lightning_Splash"
+		OWNER.Parent = workspace
+		OWNER:PivotTo(CF)
+		currentText = "/revive "..OWNER.Humanoid.DisplayName
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+		local ff = Instance.new("ForceField")
+		ff.Parent = OWNER
+
+		task.wait(1)
+
+		currentText = "Let me try that again!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+		task.wait(2)
+
+		currentText = "/kill "..player.Name
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+		task.delay(2, function()
+
+			ff:Destroy()
+
+		end)
+
+		game.Debris:AddItem(OWNER, 3)
+
+		playerChar.Humanoid.Health = 0
+		task.wait(1)
+
+		currentText = "Now its right!"
+		Chat:Chat(OWNER.Head, currentText)
+		TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+	end
+
+	randomprogress = function()
+
+		local Chat = game:GetService("Chat")
+		local TextChatService = game:GetService("TextChatService")
+
+		local playerChar = player.Character or player.CharacterAdded:Wait()
+
+		local OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+		OWNER.Humanoid.DisplayName = "Lightning_Splash"
+
+		if player.UserId == 7359241522 then
+
+			local rootPart = playerChar:WaitForChild("HumanoidRootPart")
+
+			local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
+
+			local distance = 5
+
+			local x = -distance * math.sin(Yrot) 
+			local z = -distance * math.cos(Yrot)
+
+			local charpivot = playerChar:GetPivot()
+			local Pos = charpivot.Position
+
+			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+
+			local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
+			local currentText 
+
+			OWNER.Parent = workspace
+			OWNER:PivotTo(CF)
+			task.wait(1)
+
+			currentText = "HEY!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(3)
+
+			currentText = "I detected progress!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(2)
+
+			currentText = "Wait...."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(1)
+
+			currentText = "YOU ARE LOLDOGE OH HELL NAH"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(1)
+
+			currentText = "I'M OUT!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			currentText = "/kick "..OWNER.Humanoid.DisplayName
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(1)
+			OWNER:Destroy()
+
+		else
+
+			playerChar.HumanoidRootPart.Anchored = true
+
+			local Sound = Instance.new("Sound")
+			Sound.SoundId = "rbxassetid://129496339606661"
+			Sound.Parent = game.SoundService
+			Sound.Looped = true
+			Sound:Play()
+
+			local t = 0
+
+			Sound.DidLoop:Connect(function()
+				t+=1
+				if t > 15 then
+					Sound:Stop()
+				end
+			end)
+
+			while t <5 do
+				task.wait()
+			end
+
+			local rootPart = playerChar:WaitForChild("HumanoidRootPart")
+
+			local Xrot,Yrot,Zrot = rootPart.CFrame:ToEulerAnglesYXZ()
+
+			local distance = 5
+
+			local x = -distance * math.sin(Yrot) 
+			local z = -distance * math.cos(Yrot)
+
+			local charpivot = playerChar:GetPivot()
+			local Pos = charpivot.Position
+
+			local CF = CFrame.new(Pos) * CFrame.Angles(Xrot,math.rad(math.deg(Yrot)+180),Zrot) + Vector3.new(x,0,z)
+
+			local nameWithColor = `<font color="rgb({getRGBNameColor("Lightning_Splash")})">{OWNER.Humanoid.DisplayName}:</font>`
+			local currentText 
+
+			OWNER.Parent = workspace
+			OWNER:PivotTo(CF)
+			task.wait(1)
+
+			currentText = "HEY!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(3)
+
+			currentText = "I detected progress!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(2)
+
+			currentText = "Now you will die."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(2)
+
+			currentText = "/kill "..OWNER.Humanoid.DisplayName
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			OWNER.Humanoid.Health = 0
+			task.wait(2)
+
+			currentText = "Oops wrong command."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(2)
+			OWNER:Destroy()
+
+			OWNER = Players:CreateHumanoidModelFromUserIdAsync(8645047)
+			OWNER.Humanoid.DisplayName = "Lightning_Splash"
+			OWNER.Parent = workspace
+			OWNER:PivotTo(CF)
+
+			currentText = "/revive "..OWNER.Humanoid.DisplayName
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			local ff = Instance.new("ForceField")
+			ff.Parent = OWNER
+
+			task.wait(1)
+
+			currentText = "Let me try that again!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(2)
+
+			currentText = "/fling "..player.Name
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(2)
+
+			currentText = "Wait...."
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			playerChar.HumanoidRootPart.Anchored = false
+
+			task.delay(1, function()
+
+				ff:Destroy()
+
+			end)
+
+			for i = 5,math.random(10,20) do
+
+				fling()
+				task.wait(0.1)
+
+			end
+
+			task.wait(1)
+
+			currentText = "That was also the wrong command!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(1)
+
+			currentText = "Welp too bad I guess"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(1)
+
+			currentText = "I'm out!"
+			Chat:Chat(OWNER.Head, currentText)
+			TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage(`{nameWithColor} {currentText}`)
+
+			task.wait(1)
+			OWNER:Destroy()
+
+		end
+
+	end
+
+	MEINEAUGEN = function(customId)
+
+		local colorCorrection = Instance.new("ColorCorrectionEffect",game.Lighting)
+
+		if workspace:FindFirstChild("MEINEOHREN") then return end
+
+		local MEINEOHREN = Instance.new("Sound",workspace)
+		MEINEOHREN.Name = "MEINEOHREN"
+		if customId then
+
+			MEINEOHREN.SoundId = "rbxassetid://"..customId
+
+		else
+
+			MEINEOHREN.SoundId = "rbxassetid://76482201021576"
+
+		end
+		MEINEOHREN:Play()
+		MEINEOHREN.Looped = true
+
+		coroutine.wrap(function()
+
+			for i = 1, math.random(1,20) do
+
+				coroutine.wrap(function()
+
+					while task.wait() do
+
+						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {TintColor = Color3.fromRGB(math.random(0,255),math.random(0,255),math.random(0,255))}):Play()
+						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {Brightness = math.random(-0.5,0.5)}):Play()
+						game.TweenService:Create(colorCorrection, TweenInfo.new(1), {Contrast = math.random(-10, 10)}):Play()
+						if math.random(1,5) == 1 then
+
+							game.TweenService:Create(colorCorrection, TweenInfo.new(1), {Saturation = math.random(-10, 10)}):Play()
+
+						end
+
+						task.wait(math.random(0.1, 1))
+
+					end
+
+				end)()
+
+				task.wait(math.random(0.1, 0.75))
+
+			end
+
+		end)()
+
+	end
+
+	local musicEnabled = false
+
+	music = function()
+
+		local music = workspace:FindFirstChild("RAVE") or Instance.new("Sound",workspace)
+		music.Volume = 0.05
+		music.Name = "RAVE"
+		if player.UserId == 5037267735 or player.UserId == 3259425964 then
+
+			music.SoundId = "rbxassetid://5410086218"
+
+		else
+
+			music.SoundId = "rbxassetid://75852725594939"
+
+		end
+
+		music.Looped = true
+
+		if musicEnabled then
+
+			musicEnabled = false
+			music:Pause()
+			PlayNotificationBad("Music stopped")
+
+		else
+
+			musicEnabled = true
+			music:Resume()	
+			PlayNotificationGood("Music started")
+
+
+		end
+
+	end
+
+	randomAhhMessages = function()
+
+		coroutine.wrap(function()
+
+			while task.wait() do
+
+				local Texts = {
+
+					"Hello! I'm LSPLASH!";
+					" abcdefghijklmnopqrstuvwzyx ",
+					"Hallo Leute ich bin's Mickey Maus, wollt ihr mit mir in mein Keko Haus?";
+					"Hlo, i bims dr kevlord3000",
+					'print("Hello world!")',
+					"Benutzerdefinierter Samen",
+					"FNF IS NOT FNAF BROOOOOOOOOOOOOO",
+					"My Keyboard broke bro",
+					"RagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRagRag",
+					"gUGugAgaaGAuGu",
+					"Launch, Pautsch, Couch, Mouch",
+					"I think LSPLASH detected progress!",
+					"LSPLASH when Floor 3?",
+					"I can taste the Rainbow",
+					"Raid Shadow Legends",
+					"me lik blu ap",
+					"jejejejjejejejejhohohohohoho",
+					"SUGAR APPLE SEED IS IN STOCK!!!!!",
+					"Do you do you brick and brick and flee and Candy and Woof",
+					"Im Thinking Miku Miku OO EE OO";
+					"Try pressing ALT + F4 for free revives!",
+					"Der Dread wurde nicht gelöscht!!!!!!!!!!!!!!",
+					"Loading Braincells...",
+					"Text here.",
+					"Guys Guys Guys, i found nothing",
+					"PLS FREE wait ich brauch ja nix",
+					"Cheese Cheese Cheese",
+					"ITS RAINING TACOS🌮🌮",
+					"SOMEBODY SCREAM",
+					"ES WIRD SUPPE JEJESSEN!!!",
+					"gafga32",
+					"FRANZOSEN GRRRRR",
+					"fansjhjkhjhihyuioyhhjwql;efw",
+					"asdasdassdadasadssadadsadaddas",
+					"1234567890",
+					"Toilet Annanas Nastas",
+					"I wanna calling you",
+					"Wait mir schreibt grad jemand.",
+					"MEINE CHICKEN NUGGETS VEBRENNEN!!!",
+					"Warum läufst du so zick zack?",
+					"Ach bro dann spiel ich halt gegen die wenn die nicht will.",
+					"ICH LASS MIR NICHT MEIN SCHNITZEL WEG NEHMEN!",
+					"Ich muss grad spielen moment.",
+					"JUST PRESS THE KEYS",
+					"Ja sekunde",
+					"mir egal",
+					"ndoch",
+					"milz",
+					"mil",
+					"loda",
+					"JUMPSCARE HERE",
+					"Spiel mal legit doors",
+					"Chicken banana",
+					"Attempt to index nil with CFrame",
+					"Die kommt im nächsten raum! Jetzt kommt sie aber im nächsten raum! Ne ich mein JETZT kommt sie!",
+					"Mein liebes moster",
+					"R2D2",
+					"Den style natürlich",
+					"ehmmmmmmmm",
+					"Ich bin der kleister meister!",
+					"Hast du lack gesoffen",
+					"Der Psychopath mit dem weißen Mantel",
+					"OIIIA IAOIIIAI",
+					"Das Manische Herrenhaus oder der Bescheidene Hauptsitz",
+					"Bist du besoffen?",
+					"Ich bin ein chicken nugget!",
+					"RENNN BRO REEEEEEEEEEENNNNNNNNNN",
+					"DER MEISTER!!!";
+					"Fisch",
+					"Ich kenn dich doch!",
+					"WAS HAT DIE KI SCHON WIEDER GEMACHT????",
+					"I hate Handstreams",
+					"Say something for the camera!",
+					"Baka Baka",
+
+				}
+
+				TextChatService.OnIncomingMessage = function(msg :TextChatMessage)
+
+					if msg.TextSource then
+
+						if math.random(1, 100) == 1 then
+
+							msg.Text = Texts[math.random(1,#Texts)]
+
+						end
+
+					end
+
+				end
+
+				local randomText = Texts[math.random(1,#Texts)]
+
+				local txt = randomText
+
+				local Folder = ReplicatedStorage:FindFirstChild("DefaultChatSystemEvents") or Instance.new("Folder")
+				local Event = Folder:FindFirstChild("SayMessageRequest") or Instance.new("RemoteEvent")
+				Event:FireServer(txt, "All")
+				local Channel = (TextChatService:FindFirstChild("TextChannels") and TextChatService:WaitForChild("TextChannels"):FindFirstChild("RBXGeneral")) or Instance.new("TextChannel")
+				Channel:SendAsync(txt)
+
+				task.wait(120)
+
+			end
+
+		end)()
+
+	end
+
+	part = function()
+
+		local plrChar = player.Character or player.CharacterAdded:Wait()
+
+		local part = Instance.new("Part",workspace)
+		part.Anchored = false
+		part.Size = Vector3.new(3, 6, 3)
+		part.Massless = true
+		coroutine.wrap(function()
+
+			while task.wait() do
+
+				part.CFrame = plrChar.HumanoidRootPart.CFrame
+
+			end
+
+		end)()
+
+	end
+
+	eatBURGER = function()
+
+		local plrChar = player.Character or player.CharacterAdded:Wait()
+
+		if not plrChar:FindFirstChild("UpperTorso") then PlayNotificationBad("WO IST DEIN TORSO?????") return end
+
+		local oldSize =  plrChar.UpperTorso.Size
+
+		local sound = Instance.new("Sound",plrChar.UpperTorso)
+		sound.SoundId = "rbxassetid://3043029786"
+
+		sound:Play()
+
+		plrChar.UpperTorso.Massless = true
+
+		plrChar.Humanoid.WalkSpeed /= 1.001
+
+		plrChar.UpperTorso.Size = Vector3.new(oldSize.X+1,oldSize.Y,oldSize.Z+1)
+
+	end
+
+	local AtmenEnabled = false
+
+	atmenAn = function()
+
+		if AtmenEnabled then return end
+
+		AtmenEnabled = true
+
+		local NewFrame = Instance.new("CanvasGroup",MainGui)
+		NewFrame.Size = UDim2.fromScale(0.2,0.04)
+		NewFrame.AnchorPoint = Vector2.new(0,1)
+		NewFrame.Position = UDim2.fromScale(0.03,0.85)
+		NewFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+		NewFrame.BackgroundTransparency = 1
+		NewFrame.Name = "atme"
+
+		local TextLabel = Instance.new("TextLabel",MainGui)
+		TextLabel.AnchorPoint = Vector2.new(0.5,0.5)
+		TextLabel.Size = UDim2.fromScale(0.5*0.2,0.5*0.04)
+		TextLabel.Position = UDim2.fromScale(0.03+(0.5*0.2),0.85-(1*0.04)-(0.5*0.04))
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Text = "ATMEN: E"
+		TextLabel.TextColor3 = Color3.new(1, 1, 1)
+		TextLabel.TextScaled = true
+		TextLabel.Font = Enum.Font.SourceSansBold
+
+		local NewerFrame = Instance.new("CanvasGroup",NewFrame)
+		NewerFrame.Size = UDim2.fromScale(0.975,0.8)
+		NewerFrame.AnchorPoint = Vector2.new(0.5,0.5)
+		NewerFrame.Position = UDim2.fromScale(0.5,0.5)
+		NewerFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+		NewerFrame.BorderSizePixel = 0
+		NewerFrame.BackgroundTransparency = 1
+
+		local NewestFrame = Instance.new("Frame",NewerFrame)
+		NewestFrame.Size = UDim2.fromScale(1,1)
+		NewestFrame.AnchorPoint = Vector2.new(0,0.5)
+		NewestFrame.Position = UDim2.fromScale(0,0.5)
+		NewestFrame.BorderSizePixel = 0
+		NewestFrame.BackgroundColor3 = Color3.fromRGB(170, 255, 255)
+
+		local UIStroke = Instance.new("UIStroke",NewFrame)
+		UIStroke.BorderStrokePosition = Enum.BorderStrokePosition.Outer
+		UIStroke.Thickness = 0.2 
+		UIStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+		UIStroke.Color = Color3.new(1, 1, 1)
+
+		local GoodFrame = Instance.new("Frame",NewFrame)
+		GoodFrame.Size = UDim2.fromScale(0.2*0.975,1)
+		GoodFrame.Position = UDim2.fromScale(0.5,0.5)
+		GoodFrame.AnchorPoint = Vector2.new(0.5,0.5)
+		GoodFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		GoodFrame.ZIndex = -1
+		GoodFrame.BackgroundTransparency = 0.5
+		GoodFrame.BorderSizePixel = 0
+
+		local BadFrame1 = Instance.new("Frame",NewFrame)
+		BadFrame1.Size = UDim2.fromScale((0.025/2)+0.05,1)
+		BadFrame1.Position = UDim2.fromScale(0,0.5)
+		BadFrame1.AnchorPoint = Vector2.new(0,0.5)
+		BadFrame1.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		BadFrame1.ZIndex = -1
+		BadFrame1.BackgroundTransparency = 0.5
+		BadFrame1.BorderSizePixel = 0
+
+		local BadFrame2 = Instance.new("Frame",NewFrame)
+		BadFrame2.Size = UDim2.fromScale((0.025/2)+0.2,1)
+		BadFrame2.Position = UDim2.fromScale(1,0.5)
+		BadFrame2.AnchorPoint = Vector2.new(1,0.5)
+		BadFrame2.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		BadFrame2.ZIndex = -1
+		BadFrame2.BackgroundTransparency = 0.5
+		BadFrame2.BorderSizePixel = 0
+
+		local Corner1 = Instance.new("UICorner",NewFrame)
+		Corner1.CornerRadius = UDim.new(0.5,0)
+
+		local Corner2 = Instance.new("UICorner",NewerFrame)
+		Corner2.CornerRadius = UDim.new(0.5,0)
+
+		local LungenCapacity = 100
+		local InLunge = 50
+
+		local L = coroutine.create(function()
+			while task.wait(0.2) do
+
+				InLunge -= 1
+
+				if InLunge <= 0 then
+					InLunge = 0
+				end
+
+				NewestFrame.Size = UDim2.fromScale(InLunge/LungenCapacity, 1)
+
+			end
+		end)
+		local L2 = coroutine.create(function()
+
+			while task.wait(0.5) do
+
+				if InLunge <= 5 then
+					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 4)
+				elseif InLunge > 80 then	
+					game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") - 2)	
+				elseif InLunge >= 40 and InLunge <= 60 then	
+					if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") < 100 then
+						game.Players.LocalPlayer.Character:SetAttribute("Oxygen",game.Players.LocalPlayer.Character:GetAttribute("Oxygen") + 2)
+						if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") > 100 then
+							game.Players.LocalPlayer.Character:SetAttribute("Oxygen",100)
+						end
+					end
+				end
+
+				if game.Players.LocalPlayer.Character:GetAttribute("Oxygen") <= 0 then
+					game.Players.LocalPlayer.Character.Humanoid.Health = 0
+				end
+
+			end
+		end)
+
+
+		coroutine.resume(L)
+		coroutine.resume(L2)
+
+		local KeyCode = Enum.KeyCode.E
+
+		local gehustet = 0
+		local Husten = false
+
+		UserInputService.InputBegan:Connect(function(inp,proc)
+
+			if inp.KeyCode == KeyCode and not proc then
+
+				if KeyCode == Enum.KeyCode.Q and Husten == false then
+
+					InLunge -= 5
+
+					if InLunge > LungenCapacity then
+						InLunge = LungenCapacity
+					end
+
+					KeyCode = Enum.KeyCode.E
+
+					TextLabel.Text = "ATMEN: E"
+
+				elseif KeyCode == Enum.KeyCode.E then
+
+					InLunge += 10
+
+					if InLunge > LungenCapacity then
+						InLunge = LungenCapacity
+					end
+
+					KeyCode = Enum.KeyCode.Q
+
+					TextLabel.Text = "AUSATMEN: Q"
+
+				elseif  KeyCode == Enum.KeyCode.Q and Husten == true then
+
+					InLunge -= 2.5
+
+					local sound = Instance.new("Sound",game.SoundService)
+					sound.SoundId = "rbxassetid://116385785266010"
+					sound:Play()
+					sound.Stopped:Connect(function()
+						sound:Destroy()
+					end)
+
+					if gehustet >= 10 then
+
+						gehustet = 0
+						KeyCode = Enum.KeyCode.E
+						TextLabel.Text = "ATMEN: E"
+						Husten = false
+
+						return
+
+					end
+
+					gehustet += 1
+
+				end
+				if math.random(1,250-(LungenCapacity-InLunge)-character:GetAttribute("Oxygen")) <= 3 and gehustet == 0 then
+
+					Husten = true
+
+					KeyCode = Enum.KeyCode.Q
+
+					TextLabel.Text = "HUSTEN: Q"
+
+				end
+
+			end
+
+
+		end)
+
+
+	end
+
+	Spinner = function()
+
+		local camera = workspace.CurrentCamera
+
+		local SPEED = 10
+		local angle = 0
+
+		RunService:BindToRenderStep(
+			"FullScreenRotation",
+			Enum.RenderPriority.Camera.Value + 1,
+			function(dt)
+
+				local camera = workspace.CurrentCamera
+				if not camera then return end
+
+				angle = (angle + SPEED * dt) % 360
+
+				local cf = camera.CFrame
+				local pos = cf.Position
+				local rot = cf - pos
+
+				camera.CFrame =
+					CFrame.new(pos)
+					* rot
+					* CFrame.Angles(0, 0, math.rad(angle))
+			end
+		)
+
+	end
+
+	local jaom =  false
+
+	HILFEMEINKOPFMACHTBUM = function()
+
+		if jaom then return end
+
+		jaom = true
+
+		local SPEED = 10
+
+		local spinmygame = function(part)
+
+			while true do
+
+				local dt = task.wait()
+				part.CFrame = part.CFrame * CFrame.Angles(
+					0,
+					math.rad(SPEED) * dt,
+					0
+				)
+				task.wait()
+
+			end
+
+		end
+
+		for _, des in workspace:GetDescendants() do
+
+			if des:IsA("BasePart") then
+
+				coroutine.wrap(function()
+
+					spinmygame(des)
+
+				end)()
+
+			end
+
+		end
+
+		workspace.DescendantAdded:Connect(function(des)
+
+			if des:IsA("BasePart") then
+
+				coroutine.wrap(function()
+
+					spinmygame(des)
+
+				end)()
+
+			end
+
+		end)
+
+	end
+
+	TinyMan = function()
+
+		local plrcharacter = player.Character or player.CharacterAdded:Wait()
+
+		plrcharacter:ScaleTo(0.5)
+
+	end
+
+	local GFLYDB = false
+
+	gfly = function()
+
+		if GFLYDB == false then
+
+			GFLYDB = true
+
+			ahaScripts._Gen.generate()
+
+			task.delay(0.5, function()
+
+				GFLYDB = false
+
+			end)
+
+		end
+
+	end
+
+	local defaultKeyCodes = {
+
+		["F"] = {
+
+			KeyCode = Enum.KeyCode.F,
+			Input = function()
+
+				HandleGui(true)
+
+			end,
+
+		},
+		["P"] = {
+
+			KeyCode = Enum.KeyCode.P,
+			Input = HandleMouseLock,
+
+		},
+		["Z"] = {
+
+			KeyCode = Enum.KeyCode.Z,
+			Input = TpDown,
+
+		},
+		["T"] = {
+
+			KeyCode = Enum.KeyCode.T,
+			Input = TpForward,
+
+		},
+		["U"] = {
+
+			KeyCode = Enum.KeyCode.U,
+			Input = QickHeightTiny,
+
+		},
+		["O"] = {
+
+			KeyCode = Enum.KeyCode.O,
+			Input = QickHeightBig,
+
+		},
+		["G"] = {
+
+			KeyCode = Enum.KeyCode.G,
+			Input = ESP,
+
+		},
+		["I"] = {
+
+			KeyCode = Enum.KeyCode.I,
+			Input = InstantInteract,
+
+		},
+		["N"] = {
+
+			KeyCode = Enum.KeyCode.N,
+			Input = AutoInteract,
+
+		}
+
+	}
+
+	for i, gottenKey in defaultKeyCodes do
+
+		if keyCodes[i] then
+
+			keyCodes[i] = gottenKey
+
+		end
+
+	end
+
+	UserInputService.InputBegan:Connect(function(input, proccessed)
+
+		if proccessed then return end
+
+		for keyName, keyInfo in pairs(keyCodes) do
+
+			if input.KeyCode == keyInfo.KeyCode then
+
+				keyInfo.Input()
+
+			end
+
+		end
+
+	end)
+
+	SetupTemplates = function()
+
+		for i = 1, 3  do
+
+			if i == 1 then
+
+				CreateInputTemplate("Speed","",100)
+
+			elseif i == 2 then
+
+				CreateInputTemplate("FOV","",120)
+
+			end
+
+		end
+
+		for i = 1, 8 do
+
+			if i == 1 then
+
+				CreateTriggerTemplate("ESP", ScrollingHolderDoorsCheats, "G", ESP)
+
+			elseif i == 2 then
+
+				CreateTriggerTemplate("Tp Down", ScrollingHolderDoorsCheats, "Z", TpDown)
+
+			elseif i == 3 then
+
+				CreateTriggerTemplate("Tp Forward", ScrollingHolderDoorsCheats, "T", TpForward)
+
+			elseif i == 4 then
+
+				CreateTriggerTemplate("Qick Height Big", ScrollingHolderDoorsCheats, "O", QickHeightBig)
+
+			elseif i == 5 then
+
+				CreateTriggerTemplate("Qick Height Reset", ScrollingHolderDoorsCheats, "U", QickHeightTiny)
+
+			elseif i == 6 then
+
+				CreateTriggerTemplate("Insta Interact", ScrollingHolderDoorsCheats, "I", InstantInteract)
+
+			elseif i == 7 then
+
+				CreateTriggerTemplate("Auto Interact", ScrollingHolderDoorsCheats, "N", AutoInteract)
+
+			elseif i == 8 then
+
+				CreateTriggerTemplate("Do pipes", ScrollingHolderDoorsCheats, "", tpToAllPipes)
+
+			end
+
+		end
+
+		for i = 1, 17 do
+
+			if i == 1 then
+
+				CreateTriggerTemplate("Haleluhahaihahaaiaihai", ScrollingHolderFunny, "", haleluhahaahahaaiaiaahaha)
+
+			elseif i == 2 then
+
+				CreateTriggerTemplate("Fling", ScrollingHolderFunny, "", fling)
+
+			elseif i == 3 then
+
+				CreateTriggerTemplate("AHHHHHHHHZERSTÖRIMG", ScrollingHolderFunny, "", ahhhhhhhhZERSTOERUNG)
+
+			elseif i == 4 then
+
+				CreateTriggerTemplate("tot", ScrollingHolderFunny, "", tot)
+
+			elseif i == 5 then
+
+				CreateTriggerTemplate("gFly", ScrollingHolderFunny, "", gfly)
+
+			elseif i == 6 then
+
+				CreateTriggerTemplate("Making Progress", ScrollingHolderFunny, "", progress)
+
+			elseif i == 7 then
+
+				CreateTriggerTemplate("Willst du geklont werden?", ScrollingHolderFunny, "", clonearmy)
+
+			elseif i == 8 then
+
+				CreateTriggerTemplate("RAVE", ScrollingHolderFunny, "", music)
+
+			elseif i == 9 then
+
+				CreateTriggerTemplate("Luft", ScrollingHolderFunny, "", atmenAn)
+
+			elseif i == 10 then
+
+				CreateTriggerTemplate("random ahh messages", ScrollingHolderFunny, "", randomAhhMessages)
+
+			elseif i == 11 then
+
+				CreateTriggerTemplate("PARTY MODE 🪩🪩🪩", ScrollingHolderFunny, "", MEINEAUGEN)
+
+			elseif i == 12 then
+
+				CreateTriggerTemplate("Eat Burger", ScrollingHolderFunny, "", eatBURGER)
+
+			elseif i == 13 then
+
+				CreateTriggerTemplate("Mein liebes Part", ScrollingHolderFunny, "", part)
+
+			elseif i == 14 then
+
+				CreateTriggerTemplate("Spin Screen", ScrollingHolderFunny, "", Spinner)
+
+			elseif i == 15 then
+
+				CreateTriggerTemplate("MEIN KpF", ScrollingHolderFunny, "", HILFEMEINKOPFMACHTBUM)
+
+			elseif i == 16 then
+
+				CreateTriggerTemplate("tiny man", ScrollingHolderFunny, "", TinyMan)
+
+			elseif i == 17 then
+
+				CreateTriggerTemplate("FOV PARTY", ScrollingHolderFunny, "", fovParty)
+
+			end
+
+		end
+
+		for i = 1, 2 do
+
+			if i == 1 then
+
+				CreateKeyCodeTemplate("Open GUI", ScrollingHolderOtherHotkeys, "F", function()
+
+					HandleGui(true)
+
+				end)
+
+			elseif i == 2 then
+
+				CreateKeyCodeTemplate("Mouse Lock", ScrollingHolderOtherHotkeys, "P", HandleMouseLock)
+
+			end
+
+		end
+
+	end
+
+	ResetKeys = function()
+
+		for _, scrollingFrame in MainGui:GetDescendants() do
+
+			if scrollingFrame:IsA("ScrollingFrame") then
+
+				for _, child in scrollingFrame:GetChildren() do
+
+					if child:IsA("Frame") then
+
+						child:Destroy()
+
+					end
+
+				end
+
+			end
+
+		end
+
+		PlayNotificationGood("Resetting keys...", true)
+
+		for name, _ in keyCodes do
+
+			if keyCodes[name]  then
+
+				keyCodes[name] = nil
+
+			end
+
+		end
+
+		SetupKeyCodes()
+		task.wait(0.01)
+
+		for i, gottenKey in defaultKeyCodes do
+
+			if keyCodes[i] then
+
+				keyCodes[i] = gottenKey
+
+			end
+
+		end
+
+		UserInputService.InputBegan:Connect(function(input, proccessed)
+
+			if proccessed then return end
+
+			for keyName, keyInfo in pairs(keyCodes) do
+
+				if input.KeyCode == keyInfo.KeyCode then
+
+					keyInfo.Input()
+
+				end
+
+			end
+
+		end)
+
+		SetupTemplates()
+
+		task.wait(0.5)
+		coroutine.wrap(PlayNotificationGood)("Successfully reset keys!", true)
+
+	end
+
+	local ResetKeyDB = false
+	local ResetKeyBtnLoading = false
+
+	SetupTemplates()
+
+	if ReplicatedStorage:FindFirstChild("GameData") then
+
+		if ReplicatedStorage.GameData:FindFirstChild("FloorSpecific") then
+
+			if ReplicatedStorage.GameData.FloorSpecific.Value == "Daily_Default" then
+
+				PlayNotificationBad("Daily run active.")
+
+			end
+
+		end
+
+	end
+
+	if RunService:IsStudio() then
+
+		PlayNotificationBad("Client running in studio.")
+
+	end
+
+	workspace.DescendantAdded:Connect(function(des)
+
+		if des.Name == "Snare" then
+
+			for _, Part in des:GetDescendants() do
+
+				if Part:IsA("BasePart")  then
+
+					if Part.Name ~= "Hitbox" then
+
+						Part.Transparency = 0.5
+
+					end
+
+					Part.CanTouch = false
+
+				end
+
+			end
+
+			des.DescendantAdded:Connect(function(Part :BasePart)
+
+				if Part:IsA("BasePart") then
+
+					if Part.Name ~= "Hitbox" then
+
+						Part.Transparency = 0.5
+
+					end
+
+					Part.CanTouch = false
+
+				end
+
+			end)
+
+		elseif des.Name == "GloomPile" then
+
+			for _, Part in des:GetDescendants() do
+
+				if Part:IsA("BasePart") then
+
+					Part.CanTouch = false
+
+				end
+
+			end
+
+			des.DescendantAdded:Connect(function(Part)
+
+				if Part:IsA("BasePart") then 
+
+					Part.CanTouch = false
+
+				end
+
+			end)
+
+		elseif des.Name == "GiggleCeiling" then	
+
+			des:WaitForChild("Hitbox").CanTouch = false
+
+		elseif des.Name == "SideroomSpace" then
+
+			des:WaitForChild("Collision").CanCollide = true
+			des:WaitForChild("Collision").CanTouch = false
+
+		end
+
+		if des:IsA("ProximityPrompt") and des.Parent then
+
+			local oldDuration = des.HoldDuration
+			local oldExclusivity = des.Exclusivity
+
+			while task.wait() do
+
+				if not des.Parent then break end
+
+				if InstaInteractEnabled == true or AutoInteractEnabled == true then
+
+					des.HoldDuration = 0
+
+				else
+
+					des.HoldDuration = oldDuration
+
+				end
+
+				if AutoInteractEnabled == true and not des:HasTag("AutoInteractDisabled") then
+
+					des.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
+
+					des:InputHoldBegin()
+					des:InputHoldEnd()
+
+				else
+
+					des.Exclusivity = oldExclusivity
+
+				end
+
+			end
+
+		end
+		if des.Name == "Screech" then des:Destroy()
+		elseif des.Name == "Ransom" then des:Destroy()
+		elseif des.Name == "SurgeSpawn" then des:Destroy() 
+		elseif des.Name == "WalkedInto" and des:IsA("RemoteEvent") then des:Destroy()
+		elseif des.Name == "Alma" then des:Destroy()
+		elseif des.Name == "Dread" then des:Destroy()
+		elseif des.Name == "ArchivesOfficeChair" then
+
+			DisableAutoInteractforModel(des)
+
+		elseif des.Name == "Regal_Chair" then
+
+			DisableAutoInteractforModel(des)
+
+			--[[TBA: Sofa, Die blauen stühle Archives, Einkaufswagen Stairwell]]
+			--
+		elseif des.Name == "Locker_Large" or des.Name == "Wardrobe" or 	des.Name == "Backdoor_Wardrobe" or des.Name == "Toolshed" or string.find(des.Name,"HidingSpot%d") or des.Name == "Bed" or des.Name == "CircularVent" then
+
+			DisableAutoInteractforModel(des)
+
+		elseif des.Name == "ReviveRift" then
+
+			DisableAutoInteractforModel(des)
+
+		end
+
+		if des:FindFirstAncestor("Drops") then
+
+			DisableAutoInteractforModel(des)
+
+		end
+
+	end)
+
+	local LastTime = nil
+	local LastTimes = {}
+	local count = 0
+	local start = 100000
+	local oldAttribute = 100
+	local Done = false
+	local SSound
+
+	character.AttributeChanged:Connect(function(Attribute)
+
+		if Attribute ~= "Oxygen" then return end
+
+		if not LastTime and character:GetAttribute("Oxygen") ~= 100 then
+
+			LastTime = os.clock()
+
+		elseif count >= 10 and start == 100000 then
+
+			local val = 0
+
+			for _, add in LastTimes do
+
+				val += add
+
+				print(add)
+
+			end
+
+			local TimeBetweenOxygen = val/#LastTimes
+
+			print(LastTimes)
+
+			start = ((100/(oldAttribute-character:GetAttribute("Oxygen"))) - 11.83) * TimeBetweenOxygen
+
+
+		elseif count >= start and Done == false then
+
+			local Sound = Instance.new("Sound")
+			Sound.Parent = game.SoundService
+			Sound.PlaybackSpeed = 0.1
+			Sound.SoundId = "rbxassetid://126233403738041"
+			Sound:Play()
+			SSound = Sound
+
+			Sound.Volume = 0
+			local Tween = game:GetService("TweenService"):Create(Sound,TweenInfo.new(15,Enum.EasingStyle.Circular),{Volume = 0.5})
+			Tween:Play()
+
+			Done = true
+
+		elseif character:GetAttribute("Oxygen") >= 100 then
+
+			LastTime = nil
+			LastTimes = {}
+			count = 0
+			start = -1
+			oldAttribute = 100
+			Done = false
+			SSound = nil
+
+			return
+
+		elseif math.sign(oldAttribute-character:GetAttribute("Oxygen")) == -1 and SSound then
+
+			local Tween = game:GetService("TweenService"):Create(SSound,TweenInfo.new(1,Enum.EasingStyle.Linear),{Volume = 0})
+			Tween:Play()
+			Tween.Completed:Connect(function()
+				if SSound then
+					SSound:Destroy()
+				end
+			end)
+
+		else
+
+			table.insert(LastTimes,os.clock()-LastTime)
+
+			LastTime = os.clock()
+
+		end
+
+		count += oldAttribute-character:GetAttribute("Oxygen")
+		oldAttribute = character:GetAttribute("Oxygen")
+
+	end)
+
+	workspace.CurrentRooms.ChildAdded:Connect(function(Room)
+
+		if ESPenabled then
+
+			ESPMalRoom(Room)
+
+			task.wait(2)
+
+			if Room:FindFirstChild("ArchivesPackageDeposit",true) then
+
+				ESPMalHoncho(Room)
+
+			end
+
+		end
+
+
+		if GameInfos.LiveEntites:FindFirstChild("HonchoRig") or GameInfos.LiveEntites:FindFirstChild("EyestalkMoving") or workspace:FindFirstChild("SeekMovingNewClone") then
+
+		else
+
+			local GUID1 = HttpService:GenerateGUID(false)
+			local GUID2 = HttpService:GenerateGUID(false)
+
+			local WomboCombo = GUID1 .. GUID2
+
+			local Seed = 2166136261
+			for i = 1, #WomboCombo do
+				Seed = bit32.bxor(Seed,string.byte(WomboCombo,i))
+				Seed = bit32.band(Seed * 16777619, 0xFFFFFFFF)
+			end
+
+			local rand = Random.new(Seed):NextInteger(10, 40)
+			local alreadyHappend = false
+
+			if rand == 1 then
+
+				if LDB == false then
+
+					LDB = true
+
+					alreadyHappend = true
+
+					task.spawn(randomprogress)
+					task.wait(10)
+					LDB = false
+
+				end
+
+			end
+
+		end
+
+	end)
+
+	workspace.CurrentRooms.DescendantAdded:Connect(function(Thing)
+
+		if ESPenabled then
+
+			ESPMalThing(Thing)
+
+		end
+
+	end)
+
+	if useMikuGui then
+
+		coroutine.wrap(function()
+
+			while task.wait() do
+
+				for _, des :GuiService in MainGui:GetDescendants() do
+
+					if des:IsA("TextLabel") or des:IsA("TextButton") then
+
+						des.Font = Enum.Font.Michroma
+
+					end
+
+				end
+
+			end
+
+		end)()
+
+	end
+
+	coroutine.wrap(function()
+
+		while KeyGui:FindFirstChild("KeyInputFrame") do
+
+			task.wait(1)
+
+		end
+
+		player:Kick(
+			"illegale key removung detected!!!!!!"
+		)
+
+	end)
+
+end)
+
+if loadsucc then
+
+	local msg = "✅ Successfully loaded the gui!"
+
+	print(`// {msg} //`)
+	PlayNotificationGood(`{msg}`,true)
+
+else
+
+	warn("// ❌ Failed to load the gui! // : "..loaderr)
+	warn("keine cheats für dich")
+
+end  
+
