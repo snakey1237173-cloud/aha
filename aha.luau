@@ -2664,9 +2664,14 @@ local loadsucc, loaderr = pcall(function()
 
 			local door50 = workspace:WaitForChild("CurrentRooms"):WaitForChild("50"):WaitForChild("Door")
 
+			local XRot,YRot,ZRot = door50:WaitForChild("Hidden"):GetPivot():ToEulerAnglesYXZ()
+
+			local X = 2.5 * -math.cos(YRot)
+			local Z = 2.5 * math.sin(YRot)
+
 			for i = 1, 10 do
 
-				plrChar:PivotTo(door50:WaitForChild("Hidden").CFrame)
+				plrChar:PivotTo(door50:WaitForChild("Hidden").CFrame + Vector3.new(X,0,Z))
 				task.wait()
 
 			end
@@ -3123,6 +3128,7 @@ local loadsucc, loaderr = pcall(function()
 		elseif des.Name == "WalkedInto" and des:IsA("RemoteEvent") then des:Destroy()
 		elseif des.Name == "Alma" then des:Destroy()
 		elseif des.Name == "Dread" then des:Destroy()
+		elseif des.Name == "Shade" then playerGui:WaitForChild("MainGui"):WaitForChild("Jumpscare"):WaitForChild("Jumpscare_Shade"):Destroy() des:Destroy()
 		elseif des.Name == "ArchivesOfficeChair" then
 
 			DisableAutoInteractforModel(des)
@@ -3133,7 +3139,7 @@ local loadsucc, loaderr = pcall(function()
 
 			--[[TBA: Sofa, Die blauen stühle Archives, Einkaufswagen Stairwell]]
 			--
-		elseif des.Name == "Locker_Large" or des.Name == "Wardrobe" or 	des.Name == "Backdoor_Wardrobe" or des.Name == "Toolshed" or string.find(des.Name,"HidingSpot%d") or des.Name == "Bed" or des.Name == "CircularVent" then
+		elseif des.Name == "Locker_Large" or des.Name == "Wardrobe" or 	des.Name == "Backdoor_Wardrobe" or des.Name == "Toolshed" or string.find(des.Name,"HidingSpot%d") or des.Name == "Dumpster" or des.Name == "Bed" or des.Name == "CircularVent" then
 
 			DisableAutoInteractforModel(des)
 
@@ -3330,6 +3336,8 @@ local loadsucc, loaderr = pcall(function()
 			task.wait(1)
 
 		end
+
+		if not MainGui.Parent then return end
 
 		player:Kick(
 			"illegale key removung detected!!!!!!"
